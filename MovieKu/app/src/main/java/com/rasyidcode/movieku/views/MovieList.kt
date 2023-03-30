@@ -18,7 +18,7 @@ import com.rasyidcode.movieku.viewmodels.MovieViewModel
 class MovieList : AppCompatActivity() {
 
     private var _binding: ActivityMovieListBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = _binding
 
     private val adapter by lazy { MovieListAdapter() }
 
@@ -27,7 +27,7 @@ class MovieList : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityMovieListBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(binding?.root)
 
         adapter.onMovieItemClickListener(object : OnMovieItemClickListener {
             override fun onClick(movie: Movie?, genres: String?) {
@@ -38,7 +38,7 @@ class MovieList : AppCompatActivity() {
             }
         })
 
-        binding.apply {
+        binding?.apply {
             movieList.adapter = adapter
             movieList.layoutManager = LinearLayoutManager(this@MovieList, LinearLayoutManager.VERTICAL, false)
             movieList.addOnScrollListener(object : OnScrollListener() {
@@ -90,11 +90,11 @@ class MovieList : AppCompatActivity() {
     }
 
     private fun showLoading() {
-        binding.loading.show()
+        binding?.loading?.show()
     }
 
     private fun hideLoading() {
-        binding.loading.hide()
+        binding?.loading?.hide()
     }
 
     override fun onDestroy() {

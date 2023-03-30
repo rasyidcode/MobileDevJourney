@@ -9,4 +9,13 @@ class MovieDetail : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_detail)
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+    }
+
+    companion object {
+        const val movie = "movie"
+        const val genres = "genres"
+    }
 }

@@ -1,5 +1,6 @@
 package com.rasyidcode.movieku.views
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -8,8 +9,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.rasyidcode.movieku.adapters.MovieListAdapter
+import com.rasyidcode.movieku.adapters.OnMovieItemClickListener
 import com.rasyidcode.movieku.api.RequestState
 import com.rasyidcode.movieku.databinding.ActivityMovieListBinding
+import com.rasyidcode.movieku.models.Movie
 import com.rasyidcode.movieku.viewmodels.MovieViewModel
 
 class MovieList : AppCompatActivity() {
@@ -26,6 +29,14 @@ class MovieList : AppCompatActivity() {
         _binding = ActivityMovieListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        adapter.onMovieItemClickListener(object : OnMovieItemClickListener {
+            override fun onClick(movie: Movie?, genres: String?) {
+                val intent = Intent(this@MovieList, MovieDetail::class.java)
+                intent.putExtra(MovieDetail.movie, movie)
+                intent.putExtra(MovieDetail.genres, genres)
+                startActivity(intent)
+            }
+        })
 
         binding.apply {
             movieList.adapter = adapter

@@ -28,6 +28,10 @@ class MovieListAdapter() : RecyclerView.Adapter<MovieListAdapter.ViewHolder>() {
 
     })
 
+    fun onMovieItemClickListener(onMovieItemClickListener: OnMovieItemClickListener) {
+        this.onMovieItemClickListener = onMovieItemClickListener
+    }
+
     fun setGenreList(list: List<Genre?>) {
         this.genreList.clear()
         this.genreList.addAll(list)
@@ -80,5 +84,5 @@ class MovieListAdapter() : RecyclerView.Adapter<MovieListAdapter.ViewHolder>() {
 }
 
 interface OnMovieItemClickListener {
-    fun onClick(movie: Movie?, genre: String?)
+    fun onClick(movie: Movie?, genres: String?)
 }

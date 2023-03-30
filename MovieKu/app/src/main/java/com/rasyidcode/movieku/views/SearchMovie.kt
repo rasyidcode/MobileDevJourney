@@ -46,7 +46,7 @@ class SearchMovie : AppCompatActivity() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     super.onScrollStateChanged(recyclerView, newState)
 
-                    if (movieList.canScrollVertically(1)) {
+                    if (!movieList.canScrollVertically(1)) {
                         viewModel.searchMovie(binding?.search?.text.toString())
                     }
                 }

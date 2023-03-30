@@ -2,6 +2,7 @@ package com.rasyidcode.movieku.views
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -98,7 +99,8 @@ class MovieList : AppCompatActivity() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     super.onScrollStateChanged(recyclerView, newState)
 
-                    if (movieList.canScrollVertically(1)) {
+                    if (!movieList.canScrollVertically(1)) {
+                        Log.d("MovieList", "scroll")
                         viewModel.getNextPopularMovie()
                     }
                 }

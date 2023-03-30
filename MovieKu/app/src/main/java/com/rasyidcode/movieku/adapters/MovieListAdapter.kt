@@ -58,7 +58,7 @@ class MovieListAdapter() : RecyclerView.Adapter<MovieListAdapter.ViewHolder>() {
                 lang.text = movie?.originalLanguage
                 releaseDate.text = movie?.releaseDate
                 ratingText.text = movie?.voteAverage.toString()
-                ratingBar.rating = movie?.voteAverage ?: 0f
+                ratingBar.rating = movie?.voteAverage?.div(2) ?: 0f
 
                 Glide.with(itemView).load("${BuildConfig.PHOTO_BASE_URL}${movie?.posterPath}")
                     .into(poster)

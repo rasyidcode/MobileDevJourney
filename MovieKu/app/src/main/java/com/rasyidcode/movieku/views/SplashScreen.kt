@@ -13,6 +13,7 @@ class SplashScreen : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        _binding = ActivitySplashScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         Handler(mainLooper).postDelayed({

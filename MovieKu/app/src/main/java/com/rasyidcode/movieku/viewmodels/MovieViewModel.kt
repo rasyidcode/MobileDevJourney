@@ -65,7 +65,7 @@ class MovieViewModel : ViewModel() {
                 }
             }
 
-            RequestState.Success(movieResponse ?: response.body())
+            return RequestState.Success(movieResponse ?: response.body())
         }
 
         return RequestState.Error(
@@ -111,7 +111,7 @@ class MovieViewModel : ViewModel() {
                 }
             }
 
-            RequestState.Success(searchMovieResponse ?: response.body())
+            return RequestState.Success(searchMovieResponse ?: response.body())
         }
 
         return RequestState.Error(

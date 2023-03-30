@@ -33,7 +33,6 @@ class SearchMovie : AppCompatActivity() {
 
         setupAdapter()
         observeGenreList()
-        observeSearchMovieList()
         handleIntentData()
         handleSearchButtonClick()
         handleMovieClick()
@@ -74,6 +73,8 @@ class SearchMovie : AppCompatActivity() {
                         Toast.makeText(this, "Unknown State", Toast.LENGTH_LONG).show()
                     }
                 }
+
+                observeSearchMovieList()
             }
         }
     }

@@ -31,7 +31,6 @@ class MovieList : AppCompatActivity() {
 
         setupAdapter()
         observeGenreList()
-        observeMovieList()
         handleMovieClick()
         handleSearch()
     }
@@ -84,6 +83,8 @@ class MovieList : AppCompatActivity() {
                         Toast.makeText(this, "Unknown State", Toast.LENGTH_LONG).show()
                     }
                 }
+
+                observeMovieList()
             }
         }
     }

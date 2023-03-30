@@ -14,4 +14,6 @@ class MovieRepository {
     suspend fun getPopularMovie(page: Int): Response<MovieResponse> = client.getPopularMovies(BuildConfig.API_KEY, page)
 
     suspend fun getGenres(): GenreResponse = client.getGenres(BuildConfig.API_KEY)
+
+    suspend fun searchMovie(query: String, page: Int) = client.searchMovie(BuildConfig.API_KEY, query, page)
 }

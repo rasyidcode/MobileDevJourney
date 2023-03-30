@@ -20,13 +20,20 @@ class MovieViewModel : ViewModel() {
 
     private var page: Int = 1
 
+    private var pageSearch: Int = 1
+
     private var movieResponse: MovieResponse? = null
+
+    private var searchMovieResponse: MovieResponse? = null
 
     private val _movieList = MutableLiveData<RequestState<MovieResponse?>>()
     val movieList: LiveData<RequestState<MovieResponse?>> = _movieList
 
     private val _genreList = MutableLiveData<RequestState<GenreResponse?>>()
     val genreList: LiveData<RequestState<GenreResponse?>> = _genreList
+
+    private val _searchMovieList = MutableLiveData<RequestState<MovieResponse?>>()
+    val searchMovieList: LiveData<RequestState<MovieResponse?>> = _searchMovieList
 
     init {
         getGenres()
@@ -83,4 +90,38 @@ class MovieViewModel : ViewModel() {
         }
     }
 
+    fun searchMovie(query: String) {
+        viewModelScope.launch {
+            _searchMovieList.postValue(RequestState.Loading)
+            val response = repository.searchMovie(query, pageSearch)
+            _searchMovieList.postValue(handleSearchMovieResponse(response))
+        }
+    }
+
+    private fun handleSearchMovieResponse(response: Response<MovieResponse>): RequestState<MovieResponse?> {
+        if (response.isSuccessful) {
+            response.body()?.let {
+                pageSearch++
+                if (searchMovieResponse == null) searchMovieResponse = it else {
+                    searchMovieResponse?.results?.let { old ->
+                        it.results?.let { new ->
+                            old.addAll(new)
+                        }
+                    }
+                }
+            }
+
+            RequestState.Success(searchMovieResponse ?: response.body())
+        }
+
+        return RequestState.Error(
+            try {
+                response.errorBody()?.string()?.let {
+                    JSONObject(it).get("status_message")
+                }
+            } catch (e: JSONException) {
+                e.localizedMessage
+            } as String
+        )
+    }
 }

@@ -14,6 +14,13 @@ interface ApiService {
         @Query("page") page: Int?
     ) : Response<MovieResponse>
 
+    @GET("search/movie")
+    suspend fun searchMovie(
+        @Query("api_key") key:String?,
+        @Query("query") query: String?,
+        @Query("page") page: Int?
+    ) : Response<MovieResponse>
+
     @GET("genre/movie/list")
     suspend fun getGenres(
         @Query("api_key") key:String?,

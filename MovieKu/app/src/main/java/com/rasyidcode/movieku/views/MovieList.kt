@@ -86,6 +86,18 @@ class MovieList : AppCompatActivity() {
             }
         }
 
+        binding?.searchButton?.setOnClickListener {
+            val query = binding?.search?.text.toString()
+            when {
+                query.isEmpty() -> binding?.search?.error = "Please insert a keyword"
+                else -> {
+                    val intent = Intent(this@MovieList, SearchMovie::class.java)
+                    intent.putExtra(SearchMovie.query, query)
+                    startActivity(intent)
+                }
+            }
+        }
+
 
     }
 

@@ -7,7 +7,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.rasyidcode.movieku.R
 import com.rasyidcode.movieku.adapters.MovieListAdapter
 import com.rasyidcode.movieku.adapters.OnMovieItemClickListener
 import com.rasyidcode.movieku.api.RequestState
@@ -32,6 +31,15 @@ class SearchMovie : AppCompatActivity() {
         _binding = ActivitySearchMovieBinding.inflate(layoutInflater)
         setContentView(_binding?.root)
 
+        setupAdapter()
+        observeGenreList()
+        observeSearchMovieList()
+        handleIntentData()
+        handleSearchButtonClick()
+        handleMovieClick()
+    }
+
+    private fun setupAdapter() {
         binding?.apply {
             movieList.adapter = adapter
             movieList.layoutManager = LinearLayoutManager(this@SearchMovie, LinearLayoutManager.VERTICAL, false)
@@ -45,7 +53,14 @@ class SearchMovie : AppCompatActivity() {
                 }
             })
         }
+    }
 
+    private fun handleIntentData() {
+        binding?.search?.setText(intent.getStringExtra(query))
+        if (!isSearchAgain) viewModel.searchMovie(binding?.search?.text.toString())
+    }
+
+    private fun observeGenreList() {
         viewModel.genreList.observe(this) {
             if (it != null) {
                 when(it) {
@@ -61,7 +76,22 @@ class SearchMovie : AppCompatActivity() {
                 }
             }
         }
+    }
 
+    private fun handleSearchButtonClick() {
+        binding?.searchButton?.setOnClickListener {
+            val query = binding?.search?.text.toString()
+            when {
+                query.isEmpty() -> binding?.search?.error = "Please insert a keyword"
+                else -> {
+                    isSearchAgain = true
+                    viewModel.searchMovie(query)
+                }
+            }
+        }
+    }
+
+    private fun observeSearchMovieList() {
         viewModel.searchMovieList.observe(this) {
             if (it != null) {
                 when(it) {
@@ -79,22 +109,9 @@ class SearchMovie : AppCompatActivity() {
                 }
             }
         }
+    }
 
-        binding?.search?.setText(intent.getStringExtra(query))
-
-        if (!isSearchAgain) viewModel.searchMovie(binding?.search?.text.toString())
-
-        binding?.searchButton?.setOnClickListener {
-            val query = binding?.search?.text.toString()
-            when {
-                query.isEmpty() -> binding?.search?.error = "Please insert a keyword"
-                else -> {
-                    isSearchAgain = true
-                    viewModel.searchMovie(query)
-                }
-            }
-        }
-
+    private fun handleMovieClick() {
         adapter.onMovieItemClickListener(object : OnMovieItemClickListener {
             override fun onClick(movie: Movie?, genres: String?) {
                 val intent = Intent(this@SearchMovie, MovieDetail::class.java)

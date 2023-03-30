@@ -25,6 +25,10 @@ class MovieDetail : AppCompatActivity() {
         _binding = ActivityMovieDetailBinding.inflate(layoutInflater)
         setContentView(binding?.root)
 
+        initData()
+    }
+
+    private fun initData() {
         intent.parcelable<Movie>(movie)?.let { movie ->
             intent.getStringExtra(genres)?.let { genres ->
                 binding?.apply {
@@ -40,7 +44,9 @@ class MovieDetail : AppCompatActivity() {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
+        @Suppress("DEPRECATION")
         super.onBackPressed()
         finish()
     }

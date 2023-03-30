@@ -28,6 +28,18 @@ class MovieListAdapter() : RecyclerView.Adapter<MovieListAdapter.ViewHolder>() {
 
     })
 
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val binding =
+            MovieListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding)
+    }
+
+    override fun getItemCount(): Int = differ.currentList.size
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(differ.currentList[position])
+    }
+
     fun onMovieItemClickListener(onMovieItemClickListener: OnMovieItemClickListener) {
         this.onMovieItemClickListener = onMovieItemClickListener
     }
@@ -68,18 +80,6 @@ class MovieListAdapter() : RecyclerView.Adapter<MovieListAdapter.ViewHolder>() {
             }
         }
 
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding =
-            MovieListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding)
-    }
-
-    override fun getItemCount(): Int = differ.currentList.size
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(differ.currentList[position])
     }
 }
 

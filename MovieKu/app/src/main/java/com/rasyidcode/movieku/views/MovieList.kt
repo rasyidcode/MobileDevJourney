@@ -29,48 +29,31 @@ class MovieList : AppCompatActivity() {
         _binding = ActivityMovieListBinding.inflate(layoutInflater)
         setContentView(binding?.root)
 
-        adapter.onMovieItemClickListener(object : OnMovieItemClickListener {
-            override fun onClick(movie: Movie?, genres: String?) {
-                val intent = Intent(this@MovieList, MovieDetail::class.java)
-                intent.putExtra(MovieDetail.movie, movie)
-                intent.putExtra(MovieDetail.genres, genres)
-                startActivity(intent)
-            }
-        })
+        setupAdapter()
+        observeGenreList()
+        observeMovieList()
+        handleMovieClick()
+        handleSearch()
+    }
 
-        binding?.apply {
-            movieList.adapter = adapter
-            movieList.layoutManager = LinearLayoutManager(this@MovieList, LinearLayoutManager.VERTICAL, false)
-            movieList.addOnScrollListener(object : OnScrollListener() {
-                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                    super.onScrollStateChanged(recyclerView, newState)
-
-                    if (movieList.canScrollVertically(1)) {
-                        viewModel.getNextPopularMovie()
-                    }
-                }
-            })
-        }
-
-        viewModel.genreList.observe(this) {
-            if (it != null) {
-                when(it) {
-                    is RequestState.Success -> {
-                        adapter.setGenreList(it.data?.genres ?: ArrayList())
-                    }
-                    is RequestState.Error -> {
-                        Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
-                    }
-                    else -> {
-                        Toast.makeText(this, "Unknown State", Toast.LENGTH_LONG).show()
-                    }
+    private fun handleSearch() {
+        binding?.searchButton?.setOnClickListener {
+            val query = binding?.search?.text.toString()
+            when {
+                query.isEmpty() -> binding?.search?.error = "Please insert a keyword"
+                else -> {
+                    val intent = Intent(this@MovieList, SearchMovie::class.java)
+                    intent.putExtra(SearchMovie.query, query)
+                    startActivity(intent)
                 }
             }
         }
+    }
 
+    private fun observeMovieList() {
         viewModel.movieList.observe(this) {
             if (it != null) {
-                when(it) {
+                when (it) {
                     is RequestState.Loading -> showLoading()
                     is RequestState.Success -> {
                         hideLoading()
@@ -85,20 +68,52 @@ class MovieList : AppCompatActivity() {
                 }
             }
         }
+    }
 
-        binding?.searchButton?.setOnClickListener {
-            val query = binding?.search?.text.toString()
-            when {
-                query.isEmpty() -> binding?.search?.error = "Please insert a keyword"
-                else -> {
-                    val intent = Intent(this@MovieList, SearchMovie::class.java)
-                    intent.putExtra(SearchMovie.query, query)
-                    startActivity(intent)
+    private fun observeGenreList() {
+        viewModel.genreList.observe(this) {
+            if (it != null) {
+                when (it) {
+                    is RequestState.Success -> {
+                        adapter.setGenreList(it.data?.genres ?: ArrayList())
+                    }
+                    is RequestState.Error -> {
+                        Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
+                    }
+                    else -> {
+                        Toast.makeText(this, "Unknown State", Toast.LENGTH_LONG).show()
+                    }
                 }
             }
         }
+    }
 
+    private fun setupAdapter() {
+        binding?.apply {
+            movieList.adapter = adapter
+            movieList.layoutManager =
+                LinearLayoutManager(this@MovieList, LinearLayoutManager.VERTICAL, false)
+            movieList.addOnScrollListener(object : OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
 
+                    if (movieList.canScrollVertically(1)) {
+                        viewModel.getNextPopularMovie()
+                    }
+                }
+            })
+        }
+    }
+
+    private fun handleMovieClick() {
+        adapter.onMovieItemClickListener(object : OnMovieItemClickListener {
+            override fun onClick(movie: Movie?, genres: String?) {
+                val intent = Intent(this@MovieList, MovieDetail::class.java)
+                intent.putExtra(MovieDetail.movie, movie)
+                intent.putExtra(MovieDetail.genres, genres)
+                startActivity(intent)
+            }
+        })
     }
 
     private fun showLoading() {

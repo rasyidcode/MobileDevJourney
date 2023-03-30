@@ -1,12 +1,28 @@
 package com.rasyidcode.movieku.views
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
-import com.rasyidcode.movieku.R
+import android.os.Handler
+import androidx.appcompat.app.AppCompatActivity
+import com.rasyidcode.movieku.databinding.ActivitySplashScreenBinding
 
 class SplashScreen : AppCompatActivity() {
+
+    private var _binding: ActivitySplashScreenBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash_screen)
+        setContentView(binding.root)
+
+        Handler(mainLooper).postDelayed({
+            startActivity(Intent(this, MovieList::class.java))
+            finish()
+        }, 1000)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

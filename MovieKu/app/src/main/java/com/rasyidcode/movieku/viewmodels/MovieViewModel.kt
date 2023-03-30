@@ -1,41 +1,85 @@
 package com.rasyidcode.movieku.viewmodels
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
 import com.rasyidcode.movieku.api.RequestState
 import com.rasyidcode.movieku.models.GenreResponse
 import com.rasyidcode.movieku.models.MovieResponse
 import com.rasyidcode.movieku.repositories.MovieRepository
+import kotlinx.coroutines.launch
+import org.json.JSONException
+import org.json.JSONObject
 import retrofit2.HttpException
+import retrofit2.Response
 
-class MovieViewModel: ViewModel() {
+class MovieViewModel : ViewModel() {
 
     private val repository: MovieRepository = MovieRepository()
 
     private var page: Int = 1
 
-    fun getPopularMovie(): LiveData<RequestState<MovieResponse>> = liveData {
-        emit(RequestState.Loading)
+    private var movieResponse: MovieResponse? = null
 
-        try {
-            val response: MovieResponse = repository.getPopularMovie(page)
-            emit(RequestState.Success(response))
-        } catch (e: HttpException) {
-            e.response()?.errorBody()?.string()?.let {
-                RequestState.Error(it)
-            }?.let {
-                emit(it)
-            }
+    private val _movieList = MutableLiveData<RequestState<MovieResponse?>>()
+    val movieList: LiveData<RequestState<MovieResponse?>> = _movieList
+
+    private val _genreList = MutableLiveData<RequestState<GenreResponse?>>()
+    val genreList: LiveData<RequestState<GenreResponse?>> = _genreList
+
+    init {
+        getGenres()
+        getPopularMovie()
+    }
+
+    private fun getPopularMovie() {
+        viewModelScope.launch {
+            _movieList.postValue(RequestState.Loading)
+            val response = repository.getPopularMovie(page)
+            _movieList.postValue(handleGetPopularMovieResponse(response))
         }
     }
 
-    fun getGenres(): LiveData<RequestState<GenreResponse>> = liveData {
-        try {
-            val response: GenreResponse = repository.getGenres()
-            emit(RequestState.Success(response))
-        } catch (e: HttpException) {
-            emit(RequestState.Error("Failed loading genres"))
+    fun getNextPopularMovie() {
+        getPopularMovie()
+    }
+
+    private fun handleGetPopularMovieResponse(response: Response<MovieResponse>): RequestState<MovieResponse?> {
+        if (response.isSuccessful) {
+            response.body()?.let {
+                page++
+                if (movieResponse == null) movieResponse = it else {
+                    movieResponse?.results?.let { old ->
+                        it.results?.let { new ->
+                            old.addAll(new)
+                        }
+                    }
+                }
+            }
+
+            RequestState.Success(movieResponse ?: response.body())
+        }
+
+        return RequestState.Error(
+            try {
+                response.errorBody()?.string()?.let {
+                    JSONObject(it).get("status_message")
+                }
+            } catch (e: JSONException) {
+                e.localizedMessage
+            } as String
+        )
+    }
+
+    private fun getGenres() {
+        viewModelScope.launch {
+            try {
+                val response = repository.getGenres()
+                _genreList.postValue(RequestState.Success(response))
+            } catch (e: HttpException) {
+                _genreList.postValue(RequestState.Error(e.localizedMessage ?: "Something went wrong"))
+            }
         }
     }
 

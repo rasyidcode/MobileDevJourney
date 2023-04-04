@@ -6,9 +6,11 @@
     tools:context=".VerticalListActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_dogglers_list"
+        android:id="@+id/vertical_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/vertical_horizontal_list_item" />
+        tools:layoutManger="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/vertical_horizontal_list_item"
+        tools:orientation="vertical" />
 
 </FrameLayout>

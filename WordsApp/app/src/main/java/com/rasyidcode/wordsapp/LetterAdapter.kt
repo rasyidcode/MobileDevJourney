@@ -1,5 +1,6 @@
 package com.rasyidcode.wordsapp
 
+import android.content.Intent
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,11 @@ class LetterAdapter : RecyclerView.Adapter<LetterAdapter.LetterViewHolder>() {
         fun bind(letter: Char) {
             with(binding) {
                 btnItem.text = letter.toString()
+                btnItem.setOnClickListener {
+                    val intent = Intent(itemView.context, DetailActivity::class.java)
+                    intent.putExtra("letter", letter)
+                    itemView.context.startActivity(intent)
+                }
             }
         }
     }

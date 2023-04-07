@@ -17,7 +17,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         with(binding) {
-            recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
+            recyclerView.layoutManager =
+                LinearLayoutManager(this@MainActivity, LinearLayoutManager.VERTICAL, false)
             recyclerView.adapter = LetterAdapter()
         }
     }

@@ -32,6 +32,9 @@ class WordAdapter(
         fun bind(word: String) {
             with(binding) {
                 btnItem.text = word
+                btnItem.setOnClickListener {
+
+                }
             }
         }
     }

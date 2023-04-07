@@ -1,6 +1,8 @@
 package com.rasyidcode.wordsapp
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +10,7 @@ import android.view.ViewGroup
 import android.view.accessibility.AccessibilityNodeInfo
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
-import com.rasyidcode.wordsapp.databinding.ListItemBinding
+import com.rasyidcode.wordsapp.databinding.ListButtonItemBinding
 
 class WordAdapter(
     private val letterId: String,
@@ -27,20 +29,23 @@ class WordAdapter(
             .sorted()
     }
 
-    class WordViewHolder(private val binding: ListItemBinding) :
+    class WordViewHolder(private val binding: ListButtonItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(word: String) {
             with(binding) {
                 btnItem.text = word
                 btnItem.setOnClickListener {
-
+                    val queryUrl: Uri = Uri.parse("${DetailActivity.SEARCH_PREFIX}$word")
+                    val intent = Intent(Intent.ACTION_VIEW, queryUrl)
+                    itemView.context.startActivity(intent)
                 }
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WordViewHolder {
-        val adapterLayout = ListItemBinding.inflate(LayoutInflater.from(context))
+        val adapterLayout =
+            ListButtonItemBinding.inflate(LayoutInflater.from(context), parent, false)
         adapterLayout.root.accessibilityDelegate = Accessibility
 
         return WordViewHolder(adapterLayout)

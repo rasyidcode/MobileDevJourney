@@ -8,20 +8,20 @@ import android.view.ViewGroup
 import android.view.accessibility.AccessibilityNodeInfo
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
-import com.rasyidcode.wordsapp.databinding.ListItemBinding
+import com.rasyidcode.wordsapp.databinding.ListButtonItemBinding
 
 class LetterAdapter : RecyclerView.Adapter<LetterAdapter.LetterViewHolder>() {
 
     private val list = ('A').rangeTo('Z').toList()
 
-    class LetterViewHolder(private val binding: ListItemBinding) :
+    class LetterViewHolder(private val binding: ListButtonItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(letter: Char) {
             with(binding) {
                 btnItem.text = letter.toString()
                 btnItem.setOnClickListener {
                     val intent = Intent(itemView.context, DetailActivity::class.java)
-                    intent.putExtra("letter", letter)
+                    intent.putExtra(DetailActivity.LETTER, letter.toString())
                     itemView.context.startActivity(intent)
                 }
             }
@@ -29,7 +29,8 @@ class LetterAdapter : RecyclerView.Adapter<LetterAdapter.LetterViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LetterViewHolder {
-        val adapterLayout = ListItemBinding.inflate(LayoutInflater.from(parent.context))
+        val adapterLayout =
+            ListButtonItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         adapterLayout.root.accessibilityDelegate = Accessibility
 
         return LetterViewHolder(adapterLayout)

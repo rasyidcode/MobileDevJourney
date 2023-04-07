@@ -15,7 +15,7 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val letterId = "A"
+        val letterId = intent?.extras?.getString(LETTER).toString()
 
         with(binding) {
             recyclerView.layoutManager = LinearLayoutManager(this@DetailActivity)
@@ -29,6 +29,11 @@ class DetailActivity : AppCompatActivity() {
         }
 
         title = getString(R.string.detail_prefix) + " " + letterId
+    }
+
+    companion object {
+        const val LETTER = "letter"
+        const val SEARCH_PREFIX = "https://www.google.com/search?q="
     }
 
 }

@@ -1,20 +1,20 @@
 package com.rasyidcode.unscrambleapp.ui.game
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.rasyidcode.unscrambleapp.R
 import com.rasyidcode.unscrambleapp.databinding.FragmentGameBinding
 
 class GameFragment : Fragment() {
 
-    private var score = 0
-    private var currentWordCount = 0
-    private var currentScrambledWord = "test"
-
     private lateinit var binding: FragmentGameBinding
+
+    private val viewModel: GameViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -22,6 +22,9 @@ class GameFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentGameBinding.inflate(inflater, container, false)
+
+        Log.d("GameFragment", "GameFragment created/re-created!")
+
         return binding.root
     }
 
@@ -33,30 +36,20 @@ class GameFragment : Fragment() {
 
         updateNextWordOnScreen()
 
-        binding.score.text = getString(R.string.score, score)
+        binding.score.text = getString(R.string.score, viewModel.score)
         binding.wordCount.text = getString(R.string.word_count, 0, MAX_NO_OF_WORDS)
     }
 
     private fun updateNextWordOnScreen() {
-        binding.unscrambleWord.text = currentScrambledWord
+        binding.unscrambleWord.text = viewModel.currentScrambledWord
     }
 
     private fun onSkipWord() {
-        currentScrambledWord = getNextScrambledWord()
-        currentWordCount++
-        binding.wordCount.text = getString(R.string.word_count, currentWordCount, MAX_NO_OF_WORDS)
-        setErrorTextField(false)
-        updateNextWordOnScreen()
+
     }
 
     private fun onSubmitWord() {
-        currentScrambledWord = getNextScrambledWord()
-        currentWordCount++
-        score += SCORE_INCREASE
-        binding.wordCount.text = getString(R.string.word_count, currentWordCount, MAX_NO_OF_WORDS)
-        binding.score.text = getString(R.string.score, score)
-        setErrorTextField(false)
-        updateNextWordOnScreen()
+
     }
 
     private fun setErrorTextField(error: Boolean) {
@@ -82,6 +75,12 @@ class GameFragment : Fragment() {
 
     private fun exitGame() {
         activity?.finish()
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+
+        Log.d("GameFragment", "GameFragment destroyed!")
     }
 
 }

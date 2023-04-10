@@ -41,13 +41,11 @@ class GameViewModel : ViewModel() {
     private lateinit var currentWord: String
 
     init {
-        Log.d("GameFragment", "GameViewModel created!")
-
         getNextWord()
     }
 
     fun nextWord(): Boolean {
-        return if (currentWordCount.value!! < MAX_NO_OF_WORDS) {
+        return if (_currentWordCount.value!! < MAX_NO_OF_WORDS) {
             getNextWord()
             true
         } else false

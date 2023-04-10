@@ -40,13 +40,18 @@ class GameFragment : Fragment() {
         binding.skip.setOnClickListener { onSkipWord() }
 
         updateNextWordOnScreen()
-
-        binding.score.text = getString(R.string.score, viewModel.score)
-        binding.wordCount.text = getString(R.string.word_count, 0, MAX_NO_OF_WORDS)
     }
 
     private fun updateNextWordOnScreen() {
         binding.unscrambleWord.text = viewModel.currentScrambledWord
+
+        updateScoreAndWordCountOnScreen()
+    }
+
+    private fun updateScoreAndWordCountOnScreen() {
+        binding.score.text = getString(R.string.score, viewModel.score)
+        binding.wordCount.text =
+            getString(R.string.word_count, viewModel.currentWordCount, MAX_NO_OF_WORDS)
     }
 
     private fun onSkipWord() {

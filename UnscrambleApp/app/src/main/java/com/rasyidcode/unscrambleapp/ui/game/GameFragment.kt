@@ -24,13 +24,6 @@ class GameFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_game, container, false)
-
-        Log.d("GameFragment", "GameFragment created/re-created!")
-        Log.d(
-            "GameFragment", "Word: ${viewModel.currentScrambledWord} " +
-                    "Score: ${viewModel.score} WordCount: ${viewModel.currentWordCount}"
-        )
-
         return binding.root
     }
 
@@ -43,16 +36,6 @@ class GameFragment : Fragment() {
 
         binding.submit.setOnClickListener { onSubmitWord() }
         binding.skip.setOnClickListener { onSkipWord() }
-
-//        viewModel.currentScrambledWord.observe(viewLifecycleOwner) { newWord ->
-//            binding.unscrambleWord.text = newWord
-//        }
-//        viewModel.score.observe(viewLifecycleOwner) { newScore ->
-//            binding.score.text = getString(R.string.score, newScore)
-//        }
-//        viewModel.currentWordCount.observe(viewLifecycleOwner) { newWordCount ->
-//            binding.wordCount.text = getString(R.string.word_count, newWordCount, MAX_NO_OF_WORDS)
-//        }
     }
 
     private fun onSkipWord() {
@@ -109,11 +92,4 @@ class GameFragment : Fragment() {
             }
             .show()
     }
-
-    override fun onDetach() {
-        super.onDetach()
-
-        Log.d("GameFragment", "GameFragment destroyed!")
-    }
-
 }

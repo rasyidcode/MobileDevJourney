@@ -6,11 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.rasyidcode.cupcakeapp.databinding.FragmentFlavorBinding
+import com.rasyidcode.cupcakeapp.model.OrderViewModel
 
 class FlavorFragment : Fragment() {
 
     private var binding: FragmentFlavorBinding? = null
+
+    private val sharedViewModel by activityViewModels<OrderViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,12 +30,14 @@ class FlavorFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding?.apply {
+            viewModel = sharedViewModel
+            lifecycleOwner = viewLifecycleOwner
             nextButton.setOnClickListener { goToNextScreen() }
         }
     }
 
     private fun goToNextScreen() {
-        Toast.makeText(activity, "Next", Toast.LENGTH_SHORT).show()
+        findNavController().navigate(R.id.action_flavorFragment_to_pickupFragment)
     }
 
     override fun onDestroyView() {

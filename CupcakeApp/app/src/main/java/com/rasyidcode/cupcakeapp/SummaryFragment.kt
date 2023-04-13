@@ -6,12 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.rasyidcode.cupcakeapp.databinding.FragmentSummaryBinding
+import com.rasyidcode.cupcakeapp.model.OrderViewModel
 
 class SummaryFragment : Fragment() {
 
     private var binding: FragmentSummaryBinding? = null
 
+    private val sharedViewModel by activityViewModels<OrderViewModel>()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -25,6 +28,8 @@ class SummaryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding?.apply {
+            viewModel = sharedViewModel
+            lifecycleOwner = viewLifecycleOwner
             sendButton.setOnClickListener { sendOrder() }
         }
     }

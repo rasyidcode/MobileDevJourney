@@ -3,25 +3,38 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
+    android:label="@string/app_name"
     app:startDestination="@id/startFragment">
 
     <fragment
         android:id="@+id/startFragment"
         android:name="com.rasyidcode.cupcakeapp.StartFragment"
-        android:label="fragment_start"
-        tools:layout="@layout/fragment_start" />
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_start">
+        <action
+            android:id="@+id/action_startFragment_to_flavorFragment"
+            app:destination="@id/flavorFragment" />
+    </fragment>
     <fragment
         android:id="@+id/flavorFragment"
         android:name="com.rasyidcode.cupcakeapp.FlavorFragment"
-        android:label="fragment_flavor"
-        tools:layout="@layout/fragment_flavor" />
+        android:label="@string/choose_flavor"
+        tools:layout="@layout/fragment_flavor">
+        <action
+            android:id="@+id/action_flavorFragment_to_pickupFragment"
+            app:destination="@id/pickupFragment" />
+    </fragment>
     <fragment
         android:id="@+id/pickupFragment"
         android:name="com.rasyidcode.cupcakeapp.PickupFragment"
-        android:label="PickupFragment" />
+        android:label="@string/choose_pickup_date">
+        <action
+            android:id="@+id/action_pickupFragment_to_summaryFragment"
+            app:destination="@id/summaryFragment" />
+    </fragment>
     <fragment
         android:id="@+id/summaryFragment"
         android:name="com.rasyidcode.cupcakeapp.SummaryFragment"
-        android:label="fragment_summary"
+        android:label="@string/order_summary"
         tools:layout="@layout/fragment_summary" />
 </navigation>

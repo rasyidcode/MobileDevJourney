@@ -46,7 +46,7 @@ class FlavorFragment : Fragment() {
 
     fun handleSpecialFlavor() {
         sharedViewModel.setFlavor(getString(R.string.special_flavor))
-        if (sharedViewModel.flavor.equals(R.string.special_flavor)) {
+        if (sharedViewModel.flavor.equals(R.string.special_flavor) || sharedViewModel.isFlavorsContain(getString(R.string.special_flavor))) {
             sharedViewModel.updateDateToTomorrow()
         }
     }

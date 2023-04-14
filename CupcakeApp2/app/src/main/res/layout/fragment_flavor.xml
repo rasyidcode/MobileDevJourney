@@ -6,6 +6,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.rasyidcode.cupcakeapp2.model.OrderViewModel" />
@@ -25,71 +27,145 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/side_padding">
 
-            <RadioGroup
+            <LinearLayout
                 android:id="@+id/flavor_options"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <RadioButton
-                    android:id="@+id/vanilla"
+                <RadioGroup
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="@{viewModel.flavor.equals(@string/vanilla)}"
-                    android:onClick="@{ () -> viewModel.setFlavor(@string/vanilla) }"
-                    android:text="@string/vanilla" />
+                    android:orientation="vertical"
+                    android:visibility="@{viewModel.isQuantityMoreThanOne() ? View.GONE : View.VISIBLE}"
+                    tools:visibility="visible">
 
-                <RadioButton
-                    android:id="@+id/chocolate"
-                    android:layout_width="wrap_content"
+                    <RadioButton
+                        android:id="@+id/vanilla"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@{viewModel.flavor.equals(@string/vanilla)}"
+                        android:onClick="@{ () -> viewModel.setFlavor(@string/vanilla) }"
+                        android:text="@string/vanilla" />
+
+                    <RadioButton
+                        android:id="@+id/chocolate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@{viewModel.flavor.equals(@string/chocolate)}"
+                        android:onClick="@{ () -> viewModel.setFlavor(@string/chocolate) }"
+                        android:text="@string/chocolate" />
+
+                    <RadioButton
+                        android:id="@+id/red_velvet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@{viewModel.flavor.equals(@string/red_velvet)}"
+                        android:onClick="@{ () -> viewModel.setFlavor(@string/red_velvet) }"
+                        android:text="@string/red_velvet" />
+
+                    <RadioButton
+                        android:id="@+id/salted_caramel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@{viewModel.flavor.equals(@string/salted_caramel)}"
+                        android:onClick="@{ () -> viewModel.setFlavor(@string/salted_caramel) }"
+                        android:text="@string/salted_caramel" />
+
+                    <RadioButton
+                        android:id="@+id/coffee"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@{viewModel.flavor.equals(@string/coffee)}"
+                        android:onClick="@{ () -> viewModel.setFlavor(@string/coffee) }"
+                        android:text="@string/coffee" />
+
+                    <RadioButton
+                        android:id="@+id/coconut"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@{viewModel.flavor.equals(@string/coconut)}"
+                        android:onClick="@{ () -> viewModel.setFlavor(@string/coconut) }"
+                        android:text="@string/coconut" />
+
+                    <RadioButton
+                        android:id="@+id/special_flavor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@{viewModel.flavor.equals(@string/special_flavor)}"
+                        android:onClick="@{ () -> flavorFragment.handleSpecialFlavor() }"
+                        android:text="@string/special_flavor" />
+
+                </RadioGroup>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:checked="@{viewModel.flavor.equals(@string/chocolate)}"
-                    android:onClick="@{ () -> viewModel.setFlavor(@string/chocolate) }"
-                    android:text="@string/chocolate" />
+                    android:orientation="vertical"
+                    android:visibility="@{viewModel.isQuantityMoreThanOne() ? View.VISIBLE : View.GONE}"
+                    tools:visibility="gone">
 
-                <RadioButton
-                    android:id="@+id/red_velvet"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="@{viewModel.flavor.equals(@string/red_velvet)}"
-                    android:onClick="@{ () -> viewModel.setFlavor(@string/red_velvet) }"
-                    android:text="@string/red_velvet" />
+                    <com.google.android.material.checkbox.MaterialCheckBox
+                        android:id="@+id/vanilla_cb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@{viewModel.isFlavorsContain(@string/vanilla)}"
+                        android:onClick="@{ () -> viewModel.setFlavors(@string/vanilla) }"
+                        android:text="@string/vanilla" />
 
-                <RadioButton
-                    android:id="@+id/salted_caramel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="@{viewModel.flavor.equals(@string/salted_caramel)}"
-                    android:onClick="@{ () -> viewModel.setFlavor(@string/salted_caramel) }"
-                    android:text="@string/salted_caramel" />
+                    <com.google.android.material.checkbox.MaterialCheckBox
+                        android:id="@+id/chocolate_cb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@{viewModel.isFlavorsContain(@string/chocolate)}"
+                        android:onClick="@{ () -> viewModel.setFlavors(@string/chocolate) }"
+                        android:text="@string/chocolate" />
 
-                <RadioButton
-                    android:id="@+id/coffee"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="@{viewModel.flavor.equals(@string/coffee)}"
-                    android:onClick="@{ () -> viewModel.setFlavor(@string/coffee) }"
-                    android:text="@string/coffee" />
+                    <com.google.android.material.checkbox.MaterialCheckBox
+                        android:id="@+id/red_velvet_cb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@{viewModel.isFlavorsContain(@string/red_velvet)}"
+                        android:onClick="@{ () -> viewModel.setFlavors(@string/red_velvet) }"
+                        android:text="@string/red_velvet" />
 
-                <RadioButton
-                    android:id="@+id/coconut"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="@{viewModel.flavor.equals(@string/coconut)}"
-                    android:onClick="@{ () -> viewModel.setFlavor(@string/coconut) }"
-                    android:text="@string/coconut" />
+                    <com.google.android.material.checkbox.MaterialCheckBox
+                        android:id="@+id/salted_caramel_cb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@{viewModel.isFlavorsContain(@string/salted_caramel)}"
+                        android:onClick="@{ () -> viewModel.setFlavors(@string/salted_caramel) }"
+                        android:text="@string/salted_caramel" />
 
-                <RadioButton
-                    android:id="@+id/special_flavor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="@{viewModel.flavor.equals(@string/special_flavor)}"
-                    android:onClick="@{ () -> flavorFragment.handleSpecialFlavor() }"
-                    android:text="@string/special_flavor" />
+                    <com.google.android.material.checkbox.MaterialCheckBox
+                        android:id="@+id/coffee_cb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@{viewModel.isFlavorsContain(@string/coffee)}"
+                        android:onClick="@{ () -> viewModel.setFlavors(@string/coffee) }"
+                        android:text="@string/coffee" />
 
-            </RadioGroup>
+                    <com.google.android.material.checkbox.MaterialCheckBox
+                        android:id="@+id/coconut_cb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@{viewModel.isFlavorsContain(@string/coconut)}"
+                        android:onClick="@{ () -> viewModel.setFlavors(@string/coconut) }"
+                        android:text="@string/coconut" />
+
+                    <com.google.android.material.checkbox.MaterialCheckBox
+                        android:id="@+id/special_flavor_cb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@{viewModel.isFlavorsContain(@string/special_flavor)}"
+                        android:onClick="@{ () -> flavorFragment.handleSpecialFlavor() }"
+                        android:text="@string/special_flavor" />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
             <View
                 android:id="@+id/divider"

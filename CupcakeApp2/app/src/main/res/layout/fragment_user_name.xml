@@ -48,7 +48,9 @@
                     android:id="@+id/user_name_edittext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="numberDecimal" />
+                    android:inputType="textPersonName"
+                    android:onTextChanged="@{(text, s, b, c) -> viewModel.setUserName(text.toString())}"
+                    android:text="@{viewModel.userName}" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

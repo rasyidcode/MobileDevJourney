@@ -38,10 +38,16 @@ class SummaryFragment : Fragment() {
 
     fun sendOrder() {
         val numberOfCupcakes = sharedViewModel.quantity.value ?: 0
+        val flavor = if (sharedViewModel.isMultipleFlavors()) {
+            sharedViewModel.flavors.value.toString()
+        } else {
+            sharedViewModel.flavor.value.toString()
+        }
         val orderSummary = getString(
             R.string.order_details,
+            sharedViewModel.userName.value.toString(),
             resources.getQuantityString(R.plurals.cupcakes, numberOfCupcakes, numberOfCupcakes),
-            sharedViewModel.flavor.value.toString(),
+            flavor,
             sharedViewModel.date.value.toString(),
             sharedViewModel.price.value.toString()
         )
@@ -54,6 +60,14 @@ class SummaryFragment : Fragment() {
             startActivity(intent)
         } else {
             Toast.makeText(requireContext(), "Something went wrong!", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    fun getOrderFlavor(): String {
+        return if (sharedViewModel.isMultipleFlavors()) {
+            sharedViewModel.flavors.value.toString()
+        } else {
+            sharedViewModel.flavor.value.toString()
         }
     }
 

@@ -36,7 +36,7 @@ class PickupFragment : Fragment() {
     }
 
     fun goToNextScreen() {
-        findNavController().navigate(R.id.action_pickupFragment_to_summaryFragment)
+        findNavController().navigate(R.id.action_pickupFragment_to_userNameFragment)
     }
 
     fun cancelOrder() {

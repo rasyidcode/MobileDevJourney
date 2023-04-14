@@ -31,17 +31,18 @@ class UserNameFragment : Fragment() {
 
         binding?.apply {
             viewModel = sharedViewModel
+            lifecycleOwner = viewLifecycleOwner
             userNameFragment = this@UserNameFragment
         }
     }
 
     fun goToNextScreen() {
-        findNavController().navigate(R.id.action_flavorFragment_to_pickupFragment)
+        findNavController().navigate(R.id.action_userNameFragment_to_summaryFragment)
     }
 
     fun cancelOrder() {
         sharedViewModel.resetOrder()
-        findNavController().navigate(R.id.action_flavorFragment_to_startFragment)
+        findNavController().navigate(R.id.action_userNameFragment_to_startFragment)
     }
 
     override fun onDestroyView() {

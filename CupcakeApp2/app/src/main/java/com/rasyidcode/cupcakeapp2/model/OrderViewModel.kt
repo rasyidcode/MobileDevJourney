@@ -7,6 +7,7 @@ import androidx.lifecycle.map
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 private const val PRICE_PER_CUPCAKE = 2.00
 private const val PRICE_FOR_SAME_DAY_PICKUP = 3.00
@@ -18,6 +19,11 @@ class OrderViewModel : ViewModel() {
 
     private val _flavor = MutableLiveData<String>()
     val flavor: LiveData<String> = _flavor
+
+    private val _flavors = MutableLiveData<MutableList<String>>()
+    val flavors: LiveData<String> = _flavors.map { flavorList ->
+        flavorList.joinToString { "$it, " }.dropLast(2)
+    }
 
     private val _date = MutableLiveData<String>()
     val date: LiveData<String> = _date
@@ -45,20 +51,49 @@ class OrderViewModel : ViewModel() {
         _flavor.value = desiredFlavor
     }
 
+    fun setFlavors(desiredFlavor: String) {
+        _flavors.value?.let {
+            if (!it.contains(desiredFlavor)) {
+                _flavors.value?.add(desiredFlavor)
+            } else {
+                _flavors.value?.remove(desiredFlavor)
+            }
+        }
+    }
+
     fun setDate(pickupDate: String) {
         _date.value = pickupDate
         updatePrice()
+    }
+
+    fun setUserName(customerName: String) {
+        _userName.value = customerName
     }
 
     fun hasNoFlavorSet(): Boolean {
         return _flavor.value.isNullOrEmpty()
     }
 
+    fun isMultipleFlavors(): Boolean {
+        return _flavors.value?.isNotEmpty() ?: false
+    }
+
+    fun isQuantityMoreThanOne(): Boolean {
+        val qty = _quantity.value ?: 0
+        return qty > 1
+    }
+
+    fun isFlavorsContain(desiredFlavor: String): Boolean {
+        return _flavors.value?.contains(desiredFlavor) ?: false
+    }
+
     fun resetOrder() {
         _quantity.value = 0
         _flavor.value = ""
+        _flavors.value = mutableListOf()
         _date.value = dateOptions[0]
         _price.value = 0.0
+        _userName.value = ""
     }
 
     fun updateDateToTomorrow() {

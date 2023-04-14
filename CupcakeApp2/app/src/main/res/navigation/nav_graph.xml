@@ -53,4 +53,9 @@
             app:popUpTo="@+id/startFragment"
             app:popUpToInclusive="true" />
     </fragment>
+    <fragment
+        android:id="@+id/userNameFragment"
+        android:name="com.rasyidcode.cupcakeapp2.UserNameFragment"
+        android:label="fragment_user_name"
+        tools:layout="@layout/fragment_user_name" />
 </navigation>

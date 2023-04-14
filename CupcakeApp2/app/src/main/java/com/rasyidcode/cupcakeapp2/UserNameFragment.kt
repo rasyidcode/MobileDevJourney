@@ -8,11 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.rasyidcode.cupcakeapp2.databinding.FragmentFlavorBinding
+import com.rasyidcode.cupcakeapp2.databinding.FragmentUserNameBinding
 import com.rasyidcode.cupcakeapp2.model.OrderViewModel
 
-class FlavorFragment : Fragment() {
+class UserNameFragment : Fragment() {
 
-    private var binding: FragmentFlavorBinding? = null
+    private var binding: FragmentUserNameBinding? = null
 
     private val sharedViewModel by activityViewModels<OrderViewModel>()
 
@@ -21,7 +22,7 @@ class FlavorFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentFlavorBinding.inflate(inflater, container, false)
+        binding = FragmentUserNameBinding.inflate(inflater, container, false)
         return binding?.root
     }
 
@@ -30,8 +31,7 @@ class FlavorFragment : Fragment() {
 
         binding?.apply {
             viewModel = sharedViewModel
-            lifecycleOwner = viewLifecycleOwner
-            flavorFragment = this@FlavorFragment
+            userNameFragment = this@UserNameFragment
         }
     }
 
@@ -42,13 +42,6 @@ class FlavorFragment : Fragment() {
     fun cancelOrder() {
         sharedViewModel.resetOrder()
         findNavController().navigate(R.id.action_flavorFragment_to_startFragment)
-    }
-
-    fun handleSpecialFlavor() {
-        sharedViewModel.setFlavor(getString(R.string.special_flavor))
-        if (sharedViewModel.flavor.equals(R.string.special_flavor)) {
-            sharedViewModel.updateDateToTomorrow()
-        }
     }
 
     override fun onDestroyView() {

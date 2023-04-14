@@ -27,6 +27,9 @@ class OrderViewModel : ViewModel() {
         NumberFormat.getCurrencyInstance().format(it)
     }
 
+    private val _userName = MutableLiveData<String>()
+    val userName: LiveData<String> = _userName
+
     val dateOptions = getPickupOptions()
 
     init {
@@ -56,6 +59,10 @@ class OrderViewModel : ViewModel() {
         _flavor.value = ""
         _date.value = dateOptions[0]
         _price.value = 0.0
+    }
+
+    fun updateDateToTomorrow() {
+        _date.value = dateOptions[1]
     }
 
     private fun getPickupOptions(): List<String> {

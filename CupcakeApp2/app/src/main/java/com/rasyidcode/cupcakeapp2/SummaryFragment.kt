@@ -40,7 +40,7 @@ class SummaryFragment : Fragment() {
     fun sendOrder() {
         val numberOfCupcakes = sharedViewModel.quantity.value ?: 0
         val flavor = if (sharedViewModel.isMultipleFlavors()) {
-            sharedViewModel.flavors.value?.joinToString().toString()
+            sharedViewModel.flavors.value.toString()
         } else {
             sharedViewModel.flavor.value.toString()
         }
@@ -64,13 +64,13 @@ class SummaryFragment : Fragment() {
         }
     }
 
-    fun getOrderFlavor(): String {
-        return if (sharedViewModel.isMultipleFlavors()) {
-            sharedViewModel.flavors.value?.joinToString().toString()
-        } else {
-            sharedViewModel.flavor.value.toString()
-        }
-    }
+//    fun getOrderFlavor(): String {
+//        return if (sharedViewModel.isMultipleFlavors()) {
+//            sharedViewModel.flavors.value?.joinToString().toString()
+//        } else {
+//            sharedViewModel.flavor.value.toString()
+//        }
+//    }
 
     fun cancelOrder() {
         sharedViewModel.resetOrder()

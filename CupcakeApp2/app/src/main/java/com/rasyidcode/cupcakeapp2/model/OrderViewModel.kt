@@ -21,13 +21,13 @@ class OrderViewModel : ViewModel() {
     private val _flavors = MutableLiveData<MutableList<String>>()
 
     //    Bug: returns null
-//    val flavors: LiveData<String> = _flavors.map {
-//        it.toList().joinToString()
-//    }
+    val flavors: LiveData<String> = _flavors.map {
+        it.toList().joinToString()
+    }
 //    val flavors: LiveData<List<String>> = _flavors.map {
 //        it.toList()
 //    }
-    val flavors: LiveData<MutableList<String>> = _flavors
+//    val flavors: LiveData<MutableList<String>> = _flavors
 
     private val _date = MutableLiveData<String>()
     val date: LiveData<String> = _date

@@ -1,6 +1,7 @@
 package com.rasyidcode.cupcakeapp2
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,16 +45,33 @@ class FlavorFragment : Fragment() {
         findNavController().navigate(R.id.action_flavorFragment_to_startFragment)
     }
 
-    fun handleSpecialFlavor() {
+    fun handleSetFlavor() {
         sharedViewModel.setFlavor(getString(R.string.special_flavor))
-        if (sharedViewModel.flavor.equals(R.string.special_flavor) || sharedViewModel.isFlavorsContain(getString(R.string.special_flavor))) {
+
+        if (sharedViewModel.flavor.value.equals(getString(R.string.special_flavor))) {
             sharedViewModel.updateDateToTomorrow()
+        } else {
+            sharedViewModel.updateDateToToday()
+        }
+    }
+
+    fun handleSetFlavors() {
+        sharedViewModel.setFlavors(getString(R.string.special_flavor))
+
+        if (sharedViewModel.isFlavorsContain(getString(R.string.special_flavor))) {
+            sharedViewModel.updateDateToTomorrow()
+        } else {
+            sharedViewModel.updateDateToToday()
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
+    }
+
+    companion object {
+        const val TAG = "FlavorFragment"
     }
 
 }

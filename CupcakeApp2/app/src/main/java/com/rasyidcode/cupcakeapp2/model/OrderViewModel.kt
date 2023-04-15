@@ -1,9 +1,7 @@
 package com.rasyidcode.cupcakeapp2.model
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.map
+import android.util.Log
+import androidx.lifecycle.*
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -21,9 +19,15 @@ class OrderViewModel : ViewModel() {
     val flavor: LiveData<String> = _flavor
 
     private val _flavors = MutableLiveData<MutableList<String>>()
-    val flavors: LiveData<String> = _flavors.map { flavorList ->
-        flavorList.joinToString { "$it, " }.dropLast(2)
-    }
+
+    //    Bug: returns null
+//    val flavors: LiveData<String> = _flavors.map {
+//        it.toList().joinToString()
+//    }
+//    val flavors: LiveData<List<String>> = _flavors.map {
+//        it.toList()
+//    }
+    val flavors: LiveData<MutableList<String>> = _flavors
 
     private val _date = MutableLiveData<String>()
     val date: LiveData<String> = _date
@@ -98,6 +102,10 @@ class OrderViewModel : ViewModel() {
 
     fun updateDateToTomorrow() {
         _date.value = dateOptions[1]
+    }
+
+    fun updateDateToToday() {
+        _date.value = dateOptions[0]
     }
 
     private fun getPickupOptions(): List<String> {

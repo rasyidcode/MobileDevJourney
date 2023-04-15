@@ -95,7 +95,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="@{viewModel.flavor.equals(@string/special_flavor)}"
-                        android:onClick="@{ () -> flavorFragment.handleSpecialFlavor() }"
+                        android:onClick="@{ () -> flavorFragment.handleSetFlavor() }"
                         android:text="@string/special_flavor" />
 
                 </RadioGroup>
@@ -160,7 +160,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="@{viewModel.isFlavorsContain(@string/special_flavor)}"
-                        android:onClick="@{ () -> flavorFragment.handleSpecialFlavor() }"
+                        android:onClick="@{ () -> flavorFragment.handleSetFlavors() }"
                         android:text="@string/special_flavor" />
 
                 </LinearLayout>

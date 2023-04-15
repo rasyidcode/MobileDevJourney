@@ -2,6 +2,7 @@ package com.rasyidcode.cupcakeapp2
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,7 +40,7 @@ class SummaryFragment : Fragment() {
     fun sendOrder() {
         val numberOfCupcakes = sharedViewModel.quantity.value ?: 0
         val flavor = if (sharedViewModel.isMultipleFlavors()) {
-            sharedViewModel.flavors.value.toString()
+            sharedViewModel.flavors.value?.joinToString().toString()
         } else {
             sharedViewModel.flavor.value.toString()
         }
@@ -65,7 +66,7 @@ class SummaryFragment : Fragment() {
 
     fun getOrderFlavor(): String {
         return if (sharedViewModel.isMultipleFlavors()) {
-            sharedViewModel.flavors.value.toString()
+            sharedViewModel.flavors.value?.joinToString().toString()
         } else {
             sharedViewModel.flavor.value.toString()
         }
@@ -79,6 +80,10 @@ class SummaryFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
+    }
+
+    companion object {
+        const val LOG = "SummaryFragment"
     }
 
 }

@@ -1,6 +1,7 @@
 package com.rasyidcode.cupcakeapp2
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,9 +45,22 @@ class PickupFragment : Fragment() {
         findNavController().navigate(R.id.action_pickupFragment_to_startFragment)
     }
 
+    fun isFlavorCanBeSameDay(): Boolean {
+        Log.d(TAG, "${sharedViewModel.isFlavorsContain(getString(R.string.special_flavor))}")
+        return if (sharedViewModel.isQuantityMoreThanOne()) {
+            sharedViewModel.isFlavorsContain(getString(R.string.special_flavor))
+        } else {
+            sharedViewModel.flavor.value?.equals(getString(R.string.special_flavor)) ?: false
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
+    }
+
+    companion object {
+        const val TAG = "PickupFragment"
     }
 
 }

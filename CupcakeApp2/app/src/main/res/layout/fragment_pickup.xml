@@ -40,8 +40,8 @@
                     android:checked="@{viewModel.date.equals(viewModel.dateOptions[0])}"
                     android:onClick="@{ () -> viewModel.setDate(viewModel.dateOptions[0]) }"
                     android:text="@{viewModel.dateOptions[0]}"
-                    android:enabled="@{!viewModel.flavor.equals(@string/special_flavor)}"
-                    android:clickable="@{!viewModel.flavor.equals(@string/special_flavor)}"
+                    android:enabled="@{!pickupFragment.isFlavorCanBeSameDay()}"
+                    android:clickable="@{!pickupFragment.isFlavorCanBeSameDay()}"
                     tools:text="Thursday" />
 
                 <RadioButton

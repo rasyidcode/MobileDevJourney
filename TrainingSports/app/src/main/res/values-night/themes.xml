@@ -13,8 +13,4 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
-
-    <style name="Theme.TrainingSports.DetailText" parent="TextAppearance.AppCompat.Subhead" />
-
-    <style name="Theme.TrainingSports.Title" parent="TextAppearance.AppCompat.Headline" />
 </resources>

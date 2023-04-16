@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
+import com.rasyidcode.lunchtray.R
 import com.rasyidcode.lunchtray.databinding.FragmentSideMenuBinding
 import com.rasyidcode.lunchtray.model.OrderViewModel
 
@@ -27,7 +29,7 @@ class SideMenuFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentSideMenuBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -38,7 +40,8 @@ class SideMenuFragment : Fragment() {
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = orderViewModel
-            // TODO: initialize the EntreeMenuFragment variables
+            // initialize the EntreeMenuFragment variables
+            sideMenuFragment = this@SideMenuFragment
         }
     }
 
@@ -46,15 +49,18 @@ class SideMenuFragment : Fragment() {
      * Navigate to the side menu fragment.
      */
     fun goToNextScreen() {
-        // TODO: Navigate to the SideMenuFragment
+        // Navigate to the SideMenuFragment
+        findNavController().navigate(R.id.action_sideMenuFragment_to_accompanimentMenuFragment)
     }
 
     /**
      * Cancel the order and start over.
      */
     fun cancelOrder() {
-        // TODO: Reset order in the view model
-        // TODO: Navigate back to the [StartOrderFragment] to start over
+        // Reset order in the view model
+        orderViewModel.resetOrder()
+        // Navigate back to the [StartOrderFragment] to start over
+        findNavController().navigate(R.id.action_sideMenuFragment_to_startOrderFragment)
     }
 
     /**

@@ -2,10 +2,22 @@ package com.rasyidcode.lunchtray
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.navigation.NavController
+import com.rasyidcode.lunchtray.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+    // Binding object instance corresponding to the activity_main.xml layout
+    // when the view hierarchy is attached to the fragment
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var navController: NavController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        // TODO: Retrieve NavController from the NavHostFragment
     }
 }

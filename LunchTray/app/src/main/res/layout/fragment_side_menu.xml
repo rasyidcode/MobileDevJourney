@@ -105,13 +105,13 @@
                     tools:text="Side 3" />
 
                 <TextView
-                    android:id="@+id/potatoes_description"
+                    android:id="@+id/potato_description"
                     style="@style/Widget.LunchTray.MenuItem.TextView.Info"
                     android:text='@{viewModel.menuItems["potatoes"].description}'
                     tools:text="Side 3 description" />
 
                 <TextView
-                    android:id="@+id/potatoes_price"
+                    android:id="@+id/potato_price"
                     style="@style/Widget.LunchTray.MenuItem.TextView.Info"
                     android:paddingTop="@dimen/base_margin"
                     android:text='@{viewModel.menuItems["potatoes"].getFormattedPrice()}'

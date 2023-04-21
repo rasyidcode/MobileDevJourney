@@ -8,8 +8,8 @@
     <fragment
         android:id="@+id/amphibianListFragment"
         android:name="com.rasyidcode.amphibians.ui.AmphibianListFragment"
-        android:label="AmphibianListFragment"
-        tools:layout="@layout/fragment_amphibian_list" >
+        android:label="Amphibian List"
+        tools:layout="@layout/fragment_amphibian_list">
         <action
             android:id="@+id/action_amphibianListFragment_to_amphibianDetailFragment"
             app:destination="@id/amphibianDetailFragment" />
@@ -17,6 +17,6 @@
     <fragment
         android:id="@+id/amphibianDetailFragment"
         android:name="com.rasyidcode.amphibians.ui.AmphibianDetailFragment"
-        android:label="fragment_amphibian_detail"
+        android:label="Amphibian Detail"
         tools:layout="@layout/fragment_amphibian_detail" />
 </navigation>

@@ -16,9 +16,10 @@ class AmphibianDetailFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val binding = FragmentAmphibianDetailBinding.inflate(inflater)
-        // TODO: call the view model method that calls the amphibians api
+
+        // call the view model method that calls the amphibians api
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 

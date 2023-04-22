@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Sql Basic</string>
+    <string name="instruction">The database is ready!\n\nUse the database inspector in Android Studio to run SQL commands.</string>
+</resources>

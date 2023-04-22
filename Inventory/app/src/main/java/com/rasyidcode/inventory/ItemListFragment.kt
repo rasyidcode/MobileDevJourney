@@ -5,11 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rasyidcode.inventory.databinding.FragmentItemListBinding
 
 class ItemListFragment : Fragment() {
+
+    private val viewModel by activityViewModels<InventoryViewModel> {
+        InventoryViewModelFactory(
+            (activity?.application as InventoryApplication).database.itemDao()
+        )
+    }
+
 
     private var _binding: FragmentItemListBinding? = null
 
@@ -27,6 +35,15 @@ class ItemListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val adapter = ItemListAdapter {}
+
+        viewModel.allItems.observe(this.viewLifecycleOwner) { items ->
+            items?.let {
+                adapter.submitList(it)
+            }
+        }
+
+        binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.fab.setOnClickListener {
             val action = ItemListFragmentDirections.actionItemListFragmentToAddItemFragment(

@@ -1,4 +1,10 @@
 package com.rasyidcode.inventory
 
-class InventoryApplication {
+import android.app.Application
+import com.rasyidcode.inventory.data.ItemRoomDatabase
+
+class InventoryApplication : Application() {
+
+    val database: ItemRoomDatabase by lazy { ItemRoomDatabase.getDatabase(this) }
+
 }

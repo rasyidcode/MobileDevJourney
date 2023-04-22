@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/itemListFragment">
+
+    <fragment
+        android:id="@+id/itemListFragment"
+        android:name="com.rasyidcode.inventory.ItemListFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_item_list">
+        <action
+            android:id="@+id/action_itemListFragment_to_itemDetailFragment"
+            app:destination="@id/itemDetailFragment" />
+        <action
+            android:id="@+id/action_itemListFragment_to_addItemFragment"
+            app:destination="@id/addItemFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/itemDetailFragment"
+        android:name="com.rasyidcode.inventory.ItemDetailFragment"
+        android:label="@string/item_detail_fragment_title"
+        tools:layout="@layout/fragment_item_detail">
+        <argument
+            android:name="item_id"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/addItemFragment"
+        android:name="com.rasyidcode.inventory.AddItemFragment"
+        android:label="{title}"
+        tools:layout="@layout/fragment_add_item" >
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="item_id"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
+</navigation>

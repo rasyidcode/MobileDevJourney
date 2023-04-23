@@ -36,6 +36,10 @@ class InventoryViewModel(
         return true
     }
 
+    fun retrieveItem(id: Int): LiveData<Item> {
+        return itemDao.getItem(id).asLiveData()
+    }
+
     private fun insertItem(item: Item) {
         viewModelScope.launch {
             itemDao.insert(item)

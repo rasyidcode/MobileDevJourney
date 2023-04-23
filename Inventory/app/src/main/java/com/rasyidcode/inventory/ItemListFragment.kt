@@ -18,7 +18,6 @@ class ItemListFragment : Fragment() {
         )
     }
 
-
     private var _binding: FragmentItemListBinding? = null
 
     private val binding get() = _binding!!
@@ -35,7 +34,12 @@ class ItemListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = ItemListAdapter {}
+        val adapter = ItemListAdapter {
+            val action = ItemListFragmentDirections.actionItemListFragmentToItemDetailFragment(
+                itemId = it.id
+            )
+            findNavController().navigate(action)
+        }
 
         viewModel.allItems.observe(this.viewLifecycleOwner) { items ->
             items?.let {

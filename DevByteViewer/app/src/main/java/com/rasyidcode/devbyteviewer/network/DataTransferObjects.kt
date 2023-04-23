@@ -19,7 +19,7 @@ data class NetworkVideo(
     val url: String,
     val updated: String,
     val thumbnail: String,
-    val closedCaptions: String?
+//    val closedCaptions: String?
 )
 
 
@@ -41,7 +41,7 @@ fun NetworkVideoContainer.asDomainModel(): List<DevByteVideo> {
 /**
  * Convert Network results to database objects
  */
-fun NetworkVideoContainer.asEntity(): List<DatabaseVideo> {
+fun NetworkVideoContainer.asDatabaseModel(): List<DatabaseVideo> {
     return videos.map {
         DatabaseVideo(
             title = it.title,

@@ -119,7 +119,7 @@ class DevByteFragment : Fragment() {
             if (isNetworkError) onNetworkError()
         }
 
-        return super.onCreateView(inflater, container, savedInstanceState)
+        return binding.root
     }
 
     /**

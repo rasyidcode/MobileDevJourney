@@ -7,12 +7,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.rasyidcode.devbyteviewer.domain.DevByteVideo
-import com.rasyidcode.devbyteviewer.network.DevByteNetwork
-import com.rasyidcode.devbyteviewer.network.asDomainModel
+import com.rasyidcode.devbyteviewer.database.getDatabase
+import com.rasyidcode.devbyteviewer.repository.VideosRepository
 import kotlinx.coroutines.launch
 import java.io.IOException
-import java.lang.IllegalArgumentException
 
 /**
  * DevByteViewModel designed to store and manage UI-related data in a lifecycle conscious way. This
@@ -29,32 +27,21 @@ class DevByteViewModel(application: Application) : AndroidViewModel(application)
     /**
      * The data source this viewModel will fetch result from.
      */
-    // TODO: Add a reference to the VideosRepository class
+    // Add a reference to the VideosRepository class
+    private val videosRepository = VideosRepository(getDatabase(application))
 
     /**
      * A playlist of videos displayed on the screen.
      */
-    // TODO: Replace the MutableLiveData and backing property below a reference to the 'videos'
+    // Replace the MutableLiveData and backing property below a reference to the 'videos'
     //  from the VideosRepository
-
-    /**
-     * A playlist of videos that can be shown on the screen. This is private to avoid exposing a
-     * way to set this value to observers.
-     */
-    private val _playlist = MutableLiveData<List<DevByteVideo>>()
-
-    /**
-     * A playlist of videos that can be shown on the screen. Views should use this to get access
-     * to the data.
-     */
-    val playlist: LiveData<List<DevByteVideo>>
-        get() = _playlist
+    val playlist = videosRepository.videos
 
     /**
      * Event triggered for network error. This is private to avoid exposing a
      * way to set this value to observers.
      */
-    private var _eventNetworkError = MutableLiveData<Boolean>(false)
+    private var _eventNetworkError = MutableLiveData(false)
 
     /**
      * Event triggered for network error. Views should use this to get access
@@ -80,25 +67,25 @@ class DevByteViewModel(application: Application) : AndroidViewModel(application)
      * init{} is called immediately when this ViewModel is created.
      */
     init {
-        // TODO: Replace with a call to the refreshDataFromRepository() method
-        refreshDataFromNetwork()
+        // Replace with a call to the refreshDataFromRepository() method
+        refreshDataFromRepository()
     }
 
     /**
      * Refresh data from the repository. Use a coroutine launch to run in a
      * background thread.
      */
-    // TODO: Replace with refreshDataFromRepository() method
-    private fun refreshDataFromNetwork() = viewModelScope.launch {
+    // Replace with refreshDataFromRepository() method
+    private fun refreshDataFromRepository() = viewModelScope.launch {
         try {
-            val playlist = DevByteNetwork.devBytes.getPlaylist()
-            _playlist.postValue(playlist.asDomainModel())
-
+            videosRepository.refreshVideos()
             _eventNetworkError.value = false
             _isNetworkErrorShown.value = false
         } catch (networkError: IOException) {
             // Show a Toast error message and hide the progress bar.
-            _eventNetworkError.value = true
+            if (playlist.value.isNullOrEmpty()) {
+                _eventNetworkError.value = true
+            }
         }
     }
 

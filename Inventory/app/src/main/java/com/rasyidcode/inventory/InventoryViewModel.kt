@@ -40,6 +40,40 @@ class InventoryViewModel(
         return itemDao.getItem(id).asLiveData()
     }
 
+    fun sellItem(item: Item) {
+        if (item.quantityInStock > 0) {
+            val newItem = item.copy(
+                quantityInStock = item.quantityInStock - 1
+            )
+            updateItem(newItem)
+        }
+    }
+
+    fun isStockAvailable(item: Item): Boolean {
+        return (item.quantityInStock > 0)
+    }
+
+    fun deleteItem(item: Item) {
+        viewModelScope.launch {
+            itemDao.delete(item)
+        }
+    }
+
+    fun editItem(
+        itemId: Int,
+        itemName: String,
+        itemPrice: String,
+        itemCount: String
+    ) {
+        val updatedItem = getUpdatedItemEntry(
+            itemId,
+            itemName,
+            itemPrice,
+            itemCount
+        )
+        updateItem(updatedItem)
+    }
+
     private fun insertItem(item: Item) {
         viewModelScope.launch {
             itemDao.insert(item)
@@ -56,5 +90,25 @@ class InventoryViewModel(
             itemPrice = itemPrice.toDouble(),
             quantityInStock = itemCount.toInt()
         )
+    }
+
+    private fun getUpdatedItemEntry(
+        itemId: Int,
+        itemName: String,
+        itemPrice: String,
+        itemCount: String
+    ): Item {
+        return Item(
+            id = itemId,
+            itemName = itemName,
+            itemPrice = itemPrice.toDouble(),
+            quantityInStock = itemCount.toInt()
+        )
+    }
+
+    private fun updateItem(item: Item) {
+        viewModelScope.launch {
+            itemDao.update(item)
+        }
     }
 }

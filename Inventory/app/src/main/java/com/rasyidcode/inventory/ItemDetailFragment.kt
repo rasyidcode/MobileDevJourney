@@ -60,20 +60,35 @@ class ItemDetailFragment : Fragment() {
             .setPositiveButton(getString(R.string.yes)) { _, _ ->
                 deleteItem()
             }
+            .show()
     }
 
     /**
      * Deletes the current item and navigate to the list fragment
      */
     private fun deleteItem() {
+        viewModel.deleteItem(item)
         findNavController().navigateUp()
     }
+
+    private fun editItem() {
+        val action = ItemDetailFragmentDirections.actionItemDetailFragmentToAddItemFragment(
+            getString(R.string.edit_fragment_title),
+            item.id
+        )
+        findNavController().navigate(action)
+    }
+
 
     private fun bind(item: Item) {
         binding.apply {
             itemName.text = item.itemName
             itemPrice.text = item.getFormattedPrice()
             itemCount.text = item.quantityInStock.toString()
+            btnSellItem.isEnabled = viewModel.isStockAvailable(item)
+            btnSellItem.setOnClickListener { viewModel.sellItem(item) }
+            btnDeleteItem.setOnClickListener { showConfirmationDialog() }
+            fabEdit.setOnClickListener { editItem() }
         }
     }
 

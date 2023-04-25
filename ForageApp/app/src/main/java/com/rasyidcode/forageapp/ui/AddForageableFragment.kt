@@ -9,10 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.rasyidcode.forageapp.BaseApplication
 import com.rasyidcode.forageapp.R
 import com.rasyidcode.forageapp.databinding.FragmentAddForageableBinding
 import com.rasyidcode.forageapp.model.Forageable
 import com.rasyidcode.forageapp.ui.viewmodel.ForageableViewModel
+import com.rasyidcode.forageapp.ui.viewmodel.ForageableViewModelFactory
 
 /**
  * A fragment to enter data for a new [Forageable] or edit data for an existing [Forageable].
@@ -30,10 +32,15 @@ class AddForageableFragment : Fragment() {
     // onDestroyView
     private val binding get() = _binding!!
 
-    // TODO: Refactor the creation of the view model to take an instance of
+    // Refactor the creation of the view model to take an instance of
     //  ForageableViewModelFactory. The factory should take an instance of the Database retreieved
     //  from BaseApplication
-    private val viewModel by activityViewModels<ForageableViewModel>()
+//    private val viewModel by activityViewModels<ForageableViewModel>()
+    private val viewModel: ForageableViewModel by activityViewModels {
+        ForageableViewModelFactory(
+            (activity?.application as BaseApplication).database.forageableDao()
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,8 +56,12 @@ class AddForageableFragment : Fragment() {
 
         val id = navArgs.id
         if (id > 0) {
-            // TODO: Observe a Forageable that is retrieved by id, set the forageable variable,
+            // Observe a Forageable that is retrieved by id, set the forageable variable,
             //  and call the bindForageable method
+            viewModel.getForageable(id).observe(viewLifecycleOwner) {
+                forageable = it
+                bindForageable(forageable)
+            }
 
             binding.btnDelete.visibility = View.VISIBLE
             binding.btnDelete.setOnClickListener { deleteForageable(forageable) }
@@ -78,7 +89,7 @@ class AddForageableFragment : Fragment() {
         }
     }
 
-    private fun updateForageable(forageable: Forageable) {
+    private fun updateForageable() {
         if (isValidEntry()) {
             viewModel.updateForageable(
                 id = navArgs.id,
@@ -99,7 +110,7 @@ class AddForageableFragment : Fragment() {
             locationAddressInput.setText(forageable.address, TextView.BufferType.SPANNABLE)
             inSeasonCheckbox.isChecked = forageable.inSeason
             notesInput.setText(forageable.notes, TextView.BufferType.SPANNABLE)
-            btnSave.setOnClickListener { updateForageable(forageable) }
+            btnSave.setOnClickListener { updateForageable() }
         }
     }
 

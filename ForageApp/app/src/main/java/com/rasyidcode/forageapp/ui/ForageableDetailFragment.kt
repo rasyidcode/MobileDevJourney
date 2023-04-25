@@ -7,11 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.rasyidcode.forageapp.BaseApplication
 import com.rasyidcode.forageapp.R
 import com.rasyidcode.forageapp.databinding.FragmentForageableDetailBinding
 import com.rasyidcode.forageapp.model.Forageable
+import com.rasyidcode.forageapp.ui.viewmodel.ForageableViewModel
+import com.rasyidcode.forageapp.ui.viewmodel.ForageableViewModelFactory
 
 /**
  * A fragment to display the details of a [Forageable] currently stored in the database.
@@ -21,9 +25,15 @@ class ForageableDetailFragment : Fragment() {
 
     private val navigationArgs: ForageableDetailFragmentArgs by navArgs()
 
-    // TODO: Refactor the create of the view model to take an instance of
+    // Refactor the create of the view model to take an instance of
     //  ForageableViewModelFactory. The factory should take an instance of the Database retrieved
     //  from BaseApplication
+    private val viewModel: ForageableViewModel by activityViewModels {
+        ForageableViewModelFactory(
+            (activity?.application as BaseApplication).database.forageableDao()
+        )
+    }
+
     private var _binding: FragmentForageableDetailBinding? = null
     private val binding get() = _binding!!
 
@@ -43,8 +53,12 @@ class ForageableDetailFragment : Fragment() {
 
         val id = navigationArgs.id
 
-        // TODO: Observe a forageable that is retrieved by id, set the forageable variable
+        // Observe a forageable that is retrieved by id, set the forageable variable
         //  and call the bind forageable method
+        viewModel.getForageable(id).observe(viewLifecycleOwner) {
+            forageable = it
+            bindForageable()
+        }
     }
 
     private fun bindForageable() {

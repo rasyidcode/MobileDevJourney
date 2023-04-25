@@ -88,7 +88,7 @@ class ForageableDetailFragment : Fragment() {
             it.replace(".", "")
             it.replace(" ", "+")
         }
-        val gmmIntentUri = Uri.parse("geo:0,0?q=address")
+        val gmmIntentUri = Uri.parse("geo:0,0?q=$address")
         val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
         mapIntent.setPackage("com.google.android.apps.maps")
         startActivity(mapIntent)

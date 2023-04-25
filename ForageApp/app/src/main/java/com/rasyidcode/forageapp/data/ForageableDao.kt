@@ -1,6 +1,7 @@
 package com.rasyidcode.forageapp.data
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -32,5 +33,6 @@ interface ForageableDao {
     suspend fun update(forageable: Forageable)
 
     // implement a method to delete a Forageable from the database
+    @Delete
     suspend fun delete(forageable: Forageable)
 }

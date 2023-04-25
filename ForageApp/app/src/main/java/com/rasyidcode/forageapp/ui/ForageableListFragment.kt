@@ -61,7 +61,7 @@ class ForageableListFragment : Fragment() {
             recyclerView.adapter = adapter
             addForageableFab.setOnClickListener {
                 findNavController().navigate(
-                    R.id.action_forageableDetailFragment_to_addForageableFragment
+                    R.id.action_forageableListFragment_to_addForageableFragment
                 )
             }
         }

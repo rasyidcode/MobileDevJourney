@@ -43,7 +43,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.checkbox.MaterialCheckBox
-        android:id="@+id/in_session_checkbox"
+        android:id="@+id/in_season_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -57,7 +57,7 @@
         android:layout_marginTop="16dp"
         android:hint="@string/notes"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/in_session_checkbox">
+        app:layout_constraintTop_toBottomOf="@+id/in_season_checkbox">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/notes_input"

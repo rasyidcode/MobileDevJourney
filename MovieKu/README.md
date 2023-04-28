@@ -9,20 +9,41 @@ it also has search movie feature, pagination and movie details.
 
 ## Screenshots
 
-![Splash](./screenshots/splash.jpg "Splash")
+[//]: # (![Splash]&#40;./screenshots/splash.jpg "Splash"&#41;)
 
-![Splash Night](./screenshots/splash_night.jpg "Splash Night")
+[//]: # ()
 
-![Movie List](./screenshots/movie_list.jpg "Movie List")
+[//]: # (![Splash Night]&#40;./screenshots/splash_night.jpg "Splash Night"&#41;)
 
-![Movie List Night](./screenshots/movie_list_night.jpg "Movie List Night")
+[//]: # ()
 
-![Movie Detail](./screenshots/movie_detail.jpg "Movie Detail")
+[//]: # (![Movie List]&#40;./screenshots/movie_list.jpg "Movie List"&#41;)
 
-![Movie Detail 2](./screenshots/movie_detail2.jpg "Movie Detail 2")
+[//]: # ()
 
-![Movie Detail Night](./screenshots/movie_detail_night.jpg "Movie Detail Night")
+[//]: # (![Movie List Night]&#40;./screenshots/movie_list_night.jpg "Movie List Night"&#41;)
 
-![Movie Detail Night 2](./screenshots/movie_detail_night2.jpg "Movie Detail Night 2")
+[//]: # ()
 
-![Search Movie](./screenshots/movie_search.jpg "Search Movie")
+[//]: # (![Movie Detail]&#40;./screenshots/movie_detail.jpg "Movie Detail"&#41;)
+
+[//]: # ()
+
+[//]: # (![Movie Detail 2]&#40;./screenshots/movie_detail2.jpg "Movie Detail 2"&#41;)
+
+[//]: # ()
+
+[//]: # (![Movie Detail Night]&#40;./screenshots/movie_detail_night.jpg "Movie Detail Night"&#41;)
+
+[//]: # ()
+
+[//]: # (![Movie Detail Night 2]&#40;./screenshots/movie_detail_night2.jpg "Movie Detail Night 2"&#41;)
+
+[//]: # ()
+
+[//]: # (![Search Movie]&#40;./screenshots/movie_search.jpg "Search Movie"&#41;)
+
+<figure>
+    <img src="./screenshots/splash.jpg" width="75%" height="75%" alt="Splash"/>
+    <figure-caption>Splash</figure-caption>
+</figure>

@@ -10,13 +10,13 @@ Simple app to introduce layout in android.
     <tr>
         <td>
             <figure>
-                <img src="./screenshots/hbd.jpg" width="35%" height="35%" alt="Splash"/>
+                <img src="./screenshots/hbd.jpg" width="35%" height="35%" alt="HBD"/>
                 <figure-caption>HBD</figure-caption>
             </figure>
         </td>
         <td>
             <figure>
-                <img src="./screenshots/hbd_dark.jpg" width="35%" height="35%" alt="Splash Night"/>
+                <img src="./screenshots/hbd_dark.jpg" width="35%" height="35%" alt="HBD Night"/>
                 <figure-caption>HBD Night</figure-caption>
             </figure>
         </td>

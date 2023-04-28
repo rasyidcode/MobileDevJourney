@@ -48,13 +48,64 @@ it also has search movie feature, pagination and movie details.
         <td>
             <figure>
                 <img src="./screenshots/splash.jpg" width="35%" height="35%" alt="Splash"/>
-                    <figure-caption>Splash</figure-caption>
+                <figure-caption>Splash</figure-caption>
             </figure>
         </td>
         <td>
             <figure>
-                <img src="./screenshots/splash_night.jpg" width="35%" height="35%" alt="Splash"/>
-                    <figure-caption>Splash Night</figure-caption>
+                <img src="./screenshots/splash_night.jpg" width="35%" height="35%" alt="Splash Night"/>
+                <figure-caption>Splash Night</figure-caption>
+            </figure>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <figure>
+                <img src="./screenshots/movie_list.jpg" width="35%" height="35%" alt="Movie List"/>
+                <figure-caption>Movie List</figure-caption>
+            </figure>
+        </td>
+        <td>
+            <figure>
+                <img src="./screenshots/movie_list_night.jpg" width="35%" height="35%" alt="Movie List Night"/>
+                <figure-caption>Movie List Night</figure-caption>
+            </figure>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <figure>
+                <img src="./screenshots/movie_search.jpg" width="35%" height="35%" alt="Search Movie"/>
+                <figure-caption>Search Movie</figure-caption>
+            </figure>
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>
+            <figure>
+                <img src="./screenshots/movie_detail.jpg" width="35%" height="35%" alt="Movie Detail"/>
+                <figure-caption>Movie Detail</figure-caption>
+            </figure>
+        </td>
+        <td>
+            <figure>
+                <img src="./screenshots/movie_detail_night.jpg" width="35%" height="35%" alt="Movie Detail Night"/>
+                <figure-caption>Movie Detail Night</figure-caption>
+            </figure>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <figure>
+                <img src="./screenshots/movie_detail2.jpg" width="35%" height="35%" alt="Movie Detail 2"/>
+                <figure-caption>Movie Detail 2</figure-caption>
+            </figure>
+        </td>
+        <td>
+            <figure>
+                <img src="./screenshots/movie_detail_night2.jpg" width="35%" height="35%" alt="Movie Detail Night 2"/>
+                <figure-caption>Movie Detail Night 2</figure-caption>
             </figure>
         </td>
     </tr>

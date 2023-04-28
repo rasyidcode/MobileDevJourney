@@ -44,6 +44,6 @@ it also has search movie feature, pagination and movie details.
 [//]: # (![Search Movie]&#40;./screenshots/movie_search.jpg "Search Movie"&#41;)
 
 <figure>
-    <img src="./screenshots/splash.jpg" width="75%" height="75%" alt="Splash"/>
+    <img src="./screenshots/splash.jpg" width="50%" height="50%" alt="Splash"/>
     <figure-caption>Splash</figure-caption>
 </figure>

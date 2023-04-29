@@ -6,7 +6,7 @@ import androidx.room.RoomDatabase
 import com.rasyidcode.movieapp.data.database.genre.GenreDao
 import com.rasyidcode.movieapp.data.database.movie.MovieDao
 
-abstract class AppDatabase : RoomDatabase() {
+abstract class MovieDatabase : RoomDatabase() {
 
     abstract fun movieDao(): MovieDao
 
@@ -14,13 +14,13 @@ abstract class AppDatabase : RoomDatabase() {
 
     companion object {
         @Volatile
-        private var INSTANCE: AppDatabase? = null
+        private var INSTANCE: MovieDatabase? = null
 
-        fun getDatabase(context: Context): AppDatabase {
+        fun getDatabase(context: Context): MovieDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context,
-                    AppDatabase::class.java,
+                    MovieDatabase::class.java,
                     "app_database"
                 ).build()
                 INSTANCE = instance

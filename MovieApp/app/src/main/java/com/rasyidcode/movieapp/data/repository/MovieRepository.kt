@@ -1,10 +1,11 @@
 package com.rasyidcode.movieapp.data.repository
 
 import com.rasyidcode.movieapp.BuildConfig
-import com.rasyidcode.movieapp.data.database.AppDatabase
+import com.rasyidcode.movieapp.data.database.MovieDatabase
 import com.rasyidcode.movieapp.data.database.movie.Movie
 import com.rasyidcode.movieapp.data.database.movie.MovieListType
 import com.rasyidcode.movieapp.data.network.MovieApi
+import com.rasyidcode.movieapp.data.network.MovieApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -12,12 +13,13 @@ import kotlinx.coroutines.withContext
 import com.rasyidcode.movieapp.data.domain.Movie as MovieDomain
 
 class MovieRepository(
-    private val database: AppDatabase
+    private val database: MovieDatabase,
+    private val movieApiService: MovieApiService
 ) {
 
     suspend fun fetchPopularMovies(page: Int) {
         withContext(Dispatchers.IO) {
-            val popularMovies = MovieApi.getService().getPopularMovies(
+            val popularMovies = movieApiService.getPopularMovies(
                 page = page,
                 apiKey = BuildConfig.API_KEY
             )

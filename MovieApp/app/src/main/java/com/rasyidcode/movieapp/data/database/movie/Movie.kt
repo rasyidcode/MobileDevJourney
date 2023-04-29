@@ -1,0 +1,53 @@
+package com.rasyidcode.movieapp.data.database.movie
+
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.rasyidcode.movieapp.data.network.genre.GenreItem
+
+@Entity(tableName = "movie")
+data class Movie(
+    @PrimaryKey(autoGenerate = false)
+    val id: Int? = null,
+    @ColumnInfo(name = "title")
+    val title: String? = null,
+    @ColumnInfo(name = "original_title")
+    val originalTitle: String? = null,
+    @ColumnInfo(name = "overview")
+    val overview: String? = null,
+    @ColumnInfo(name = "original_language")
+    val originalLanguage: String? = null,
+    @ColumnInfo(name = "genre_ids")
+    val genreIds: String? = null,
+    @ColumnInfo(name = "poster_path")
+    val posterPath: String? = null,
+    @ColumnInfo(name = "release_date")
+    val releaseDate: String? = null,
+    @ColumnInfo(name = "vote_average")
+    val voteAverage: Double? = null,
+    @ColumnInfo(name = "vote_count")
+    val voteCount: Int? = null,
+    @ColumnInfo(name = "revenue")
+    val revenue: Int? = null,
+    @ColumnInfo(name = "genres")
+    val genres: List<GenreItem?>? = null,
+    @ColumnInfo(name = "popularity")
+    val popularity: Double? = null,
+    @ColumnInfo(name = "tagline")
+    val tagline: String? = null,
+    @ColumnInfo(name = "budget")
+    val budget: Int? = null,
+    @ColumnInfo(name = "runtime")
+    val runtime: Int? = null,
+    @ColumnInfo(name = "status")
+    val status: String? = null,
+    @ColumnInfo(name = "list_type")
+    val listType: String?
+)
+
+enum class MovieListType {
+    POPULAR,
+    NOW_PLAYING,
+    TOP_RATED,
+    UPCOMING
+}

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/fragmentPopularMovie">
+
+    <fragment
+        android:id="@+id/fragmentPopularMovie"
+        android:name="com.rasyidcode.movieapp.ui.movie.FragmentPopularMovie"
+        android:label="Popular Movie" />
+    <fragment
+        android:id="@+id/fragmentNowPlaying"
+        android:name="com.rasyidcode.movieapp.ui.movie.FragmentNowPlaying"
+        android:label="Now Playing" />
+    <fragment
+        android:id="@+id/fragmentTopRated"
+        android:name="com.rasyidcode.movieapp.ui.movie.FragmentTopRated"
+        android:label="Top Rated" />
+    <fragment
+        android:id="@+id/fragmentUpcoming"
+        android:name="com.rasyidcode.movieapp.ui.movie.FragmentUpcoming"
+        android:label="Upcoming" />
+</navigation>

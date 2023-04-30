@@ -7,17 +7,17 @@
     <fragment
         android:id="@+id/fragmentPopularMovie"
         android:name="com.rasyidcode.movieapp.ui.movie.FragmentPopularMovie"
-        android:label="Popular Movie" />
+        android:label="@string/popular" />
     <fragment
         android:id="@+id/fragmentNowPlaying"
         android:name="com.rasyidcode.movieapp.ui.movie.FragmentNowPlaying"
-        android:label="Now Playing" />
+        android:label="@string/now_playing" />
     <fragment
         android:id="@+id/fragmentTopRated"
         android:name="com.rasyidcode.movieapp.ui.movie.FragmentTopRated"
-        android:label="Top Rated" />
+        android:label="@string/top_rated" />
     <fragment
         android:id="@+id/fragmentUpcoming"
         android:name="com.rasyidcode.movieapp.ui.movie.FragmentUpcoming"
-        android:label="Upcoming" />
+        android:label="@string/upcoming" />
 </navigation>

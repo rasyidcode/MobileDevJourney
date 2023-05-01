@@ -6,4 +6,5 @@
     <string name="upcoming">Upcoming</string>
     <string name="navigation_drawer_open">Drawer Open</string>
     <string name="navigation_drawer_close">Drawer Close</string>
+    <string name="message_before_quit">Press back one more time before quit</string>
 </resources>

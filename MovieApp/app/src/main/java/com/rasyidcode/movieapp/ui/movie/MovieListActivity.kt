@@ -1,15 +1,19 @@
 package com.rasyidcode.movieapp.ui.movie
 
+import android.app.Activity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.View
+import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import com.rasyidcode.movieapp.R
 import com.rasyidcode.movieapp.databinding.ActivityMovieListBinding
@@ -22,6 +26,8 @@ class MovieListActivity : AppCompatActivity() {
 
     private lateinit var toggle: ActionBarDrawerToggle
 
+    private var doubleBackToExistPressedOnce = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMovieListBinding.inflate(layoutInflater)
@@ -31,6 +37,7 @@ class MovieListActivity : AppCompatActivity() {
         setupToolbar()
         setupDrawer()
         setupNavigation()
+        setupHandleBackPressed()
     }
 
     private fun setupToolbar() {
@@ -73,10 +80,10 @@ class MovieListActivity : AppCompatActivity() {
 
                 supportActionBar?.title =
                     when (navController.currentDestination?.id) {
-                        R.id.fragmentPopularMovie -> getString(R.string.popular)
-                        R.id.fragmentNowPlaying -> getString(R.string.now_playing)
-                        R.id.fragmentTopRated -> getString(R.string.top_rated)
-                        R.id.fragmentUpcoming -> getString(R.string.upcoming)
+                        R.id.fragment_popular_movie -> getString(R.string.popular)
+                        R.id.fragment_now_playing -> getString(R.string.now_playing)
+                        R.id.fragment_top_rated -> getString(R.string.top_rated)
+                        R.id.fragment_upcoming -> getString(R.string.upcoming)
                         else -> getString(R.string.app_name)
                     }
                 toggle.syncState()
@@ -86,15 +93,46 @@ class MovieListActivity : AppCompatActivity() {
 
     private fun setupNavigation() {
         binding.navView.setupWithNavController(navController)
-        binding.navView.setCheckedItem(R.id.menu_popular)
-//        binding.navView.setNavigationItemSelectedListener { menuItem ->
-//            when (menuItem.itemId) {
-//                R.id.menu_popular -> {
-//                    navController.navigate
-//                }
-//            }
-//            true
-//        }
+        binding.navView.setCheckedItem(R.id.fragment_popular_movie)
+    }
+
+    private fun setupHandleBackPressed() {
+        onBackPressedDispatcher.addCallback(this) {
+            when (navController.currentDestination?.id) {
+                R.id.fragment_popular_movie -> {
+                    if (doubleBackToExistPressedOnce) {
+                        finish()
+                        return@addCallback
+                    }
+
+                    doubleBackToExistPressedOnce = true
+
+                    Toast.makeText(
+                        this@MovieListActivity,
+                        getString(R.string.message_before_quit),
+                        Toast.LENGTH_LONG
+                    ).show()
+
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        doubleBackToExistPressedOnce = false
+                    }, 2000)
+                }
+
+                R.id.fragment_now_playing -> {
+                    navController.navigate(R.id.action_fragment_now_playing_to_fragment_popular_movie)
+                }
+
+                R.id.fragment_top_rated -> {
+                    navController.navigate(R.id.action_fragment_top_rated_to_fragment_popular_movie)
+                }
+
+                R.id.fragment_upcoming -> {
+                    navController.navigate(R.id.action_fragment_upcoming_to_fragment_popular_movie)
+                }
+
+                else -> {}
+            }
+        }
     }
 
     companion object {

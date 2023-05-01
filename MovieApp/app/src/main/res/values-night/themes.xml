@@ -30,4 +30,6 @@
 
     <style name="Theme.MovieApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark" />
 
+    <style name="Theme.MovieApp.Toolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
 </resources>

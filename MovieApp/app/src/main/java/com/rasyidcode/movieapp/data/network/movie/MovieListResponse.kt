@@ -27,5 +27,7 @@ data class MovieItem(
     @Json(name = "poster_path")
     val posterPath: String? = null,
     @Json(name = "vote_average")
-    val voteAverage: Double? = null
+    val voteAverage: Float? = null,
+    @Json(name = "release_date")
+    val releaseDate: String? = null,
 )

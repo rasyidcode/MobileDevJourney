@@ -24,7 +24,7 @@ data class Movie(
     @ColumnInfo(name = "release_date")
     val releaseDate: String? = null,
     @ColumnInfo(name = "vote_average")
-    val voteAverage: Double? = null,
+    val voteAverage: Float? = null,
     @ColumnInfo(name = "vote_count")
     val voteCount: Int? = null,
     @ColumnInfo(name = "revenue")

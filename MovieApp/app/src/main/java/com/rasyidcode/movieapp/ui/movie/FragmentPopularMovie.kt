@@ -29,16 +29,12 @@ class FragmentPopularMovie : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentPopularMovieBinding.inflate(inflater, container, false)
+
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
+        binding.recyclerView.adapter = MovieListAdapter()
+
         return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        viewModel.popularMovies.observe(viewLifecycleOwner) { movieList ->
-            Log.d(TAG, "${movieList.size}")
-            Log.d(TAG, "$movieList")
-        }
     }
 
     override fun onDestroyView() {

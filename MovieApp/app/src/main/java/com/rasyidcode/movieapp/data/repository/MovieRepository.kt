@@ -50,6 +50,7 @@ class MovieRepository(
                     genreIds = it?.genreIds?.joinToString(),
                     posterPath = it?.posterPath,
                     voteAverage = it?.voteAverage,
+                    releaseDate = it?.releaseDate,
                     listType = MovieListType.POPULAR.name
                 )
             }
@@ -59,8 +60,8 @@ class MovieRepository(
         }
     }
 
-    fun getPopularMovies(): Flow<List<MovieDomain>> =
-        movieDatabase.movieDao().getPopularMovies().map { movies ->
+    fun getPopularMovies(): Flow<List<MovieDomain>>? =
+        movieDatabase.movieDao().getPopularMovies()?.map { movies ->
             movies.map { movie ->
                 val genres: List<String> = withContext(Dispatchers.IO) {
                     genreIdsToGenreList(movie.genreIds)
@@ -71,9 +72,10 @@ class MovieRepository(
                     title = movie.title,
                     originalTitle = movie.originalTitle,
                     overview = movie.overview,
-                    genres = genres,
+                    genres = genres.joinToString(),
                     posterPath = movie.posterPath,
-                    voteAverage = movie.voteAverage
+                    voteAverage = movie.voteAverage,
+                    releaseDate = movie.releaseDate
                 )
             }
         }

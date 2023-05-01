@@ -68,11 +68,15 @@ dependencies {
     implementation "com.squareup.moshi:moshi-kotlin:$moshiVersion"
 
     // Room
-    def roomVersion = "2.5.1"
+    def roomVersion = '2.5.1'
     implementation "androidx.room:room-runtime:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation "androidx.room:room-ktx:$roomVersion"
+
+    // Coil
+    def coilVersion = '1.1.1'
+    implementation "io.coil-kt:coil:$coilVersion"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

@@ -17,7 +17,13 @@ class MovieViewModel(
     private val movieRepository: MovieRepository
 ) : ViewModel() {
 
-    val popularMovies: LiveData<List<Movie>>? = movieRepository.getPopularMovies()?.asLiveData()
+    val popularMoviesList: LiveData<List<Movie>>? = movieRepository.getPopularMovies()?.asLiveData()
+
+    val nowPlayingList: LiveData<List<Movie>>? = movieRepository.getNowPlaying()?.asLiveData()
+
+    val topRatedList: LiveData<List<Movie>>? = movieRepository.getTopRated()?.asLiveData()
+
+    val upcomingList: LiveData<List<Movie>>? = movieRepository.getUpcoming()?.asLiveData()
 
     init {
         fetchPopularMovies()

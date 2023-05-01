@@ -12,7 +12,7 @@ interface MovieApiService {
 
     @GET("movie/latest")
     suspend fun getLatestMovies(
-        @Query("api_key") key: String
+        @Query("api_key") apiKey: String
     ): MovieDetailResponse
 
     @GET("movie/now_playing")
@@ -30,19 +30,19 @@ interface MovieApiService {
     @GET("movie/top_rated")
     suspend fun getTopRatedMovies(
         @Query("page") page: Int,
-        @Query("api_key") key: String
+        @Query("api_key") apiKey: String
     ): MovieListResponse
 
     @GET("movie/upcoming")
     suspend fun getUpComingMovies(
         @Query("page") page: Int,
-        @Query("api_key") key: String
+        @Query("api_key") apiKey: String
     ): MovieListResponse
 
     @GET("movie/{id}")
     suspend fun getMovieDetail(
         @Path("id") id: Int,
-        @Query("api_key") key: String
+        @Query("api_key") apiKey: String
     ): MovieDetailResponse
 
     @GET("search/movie")
@@ -51,21 +51,21 @@ interface MovieApiService {
         @Query("query") keyword: String,
         @Query("year") year: String,
         @Query("include_adult") adult: Boolean,
-        @Query("api_key") key: String
+        @Query("api_key") apiKey: String
     )
 
     @GET("movie/{movie_id}/similar")
     suspend fun getSimilarMovies(
         @Path("movie_id") movieId: Int,
         @Query("page") page: Int,
-        @Query("api_key") key: String
+        @Query("api_key") apiKey: String
     ): MovieListResponse
 
     @GET("movie/{movie_id}/reviews")
     suspend fun getReviews(
         @Path("movie_id") movieId: Int,
         @Query("page") page: Int,
-        @Query("api_key") key: String
+        @Query("api_key") apiKey: String
     ): ReviewListResponse
 
     @GET("genre/movie/list")

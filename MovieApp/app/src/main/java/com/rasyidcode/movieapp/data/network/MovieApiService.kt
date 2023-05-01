@@ -70,6 +70,6 @@ interface MovieApiService {
 
     @GET("genre/movie/list")
     suspend fun getGenres(
-        @Query("api_key") key: String
+        @Query("api_key") apiKey: String
     ): GenreListResponse
 }

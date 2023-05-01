@@ -14,6 +14,9 @@ interface GenreDao {
     @Query("SELECT * FROM genre WHERE id IN (:ids)")
     fun getByIds(ids: List<String>?): List<Genre>
 
+    @Query("SELECT COUNT(id) FROM genre")
+    fun getCount(): Int
+
     @Insert
     suspend fun insertAll(genres: List<Genre>)
 

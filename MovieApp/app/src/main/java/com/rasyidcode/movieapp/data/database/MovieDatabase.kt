@@ -1,11 +1,15 @@
 package com.rasyidcode.movieapp.data.database
 
 import android.content.Context
+import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.rasyidcode.movieapp.data.database.genre.Genre
 import com.rasyidcode.movieapp.data.database.genre.GenreDao
+import com.rasyidcode.movieapp.data.database.movie.Movie
 import com.rasyidcode.movieapp.data.database.movie.MovieDao
 
+@Database(entities = [Movie::class, Genre::class], version = 1)
 abstract class MovieDatabase : RoomDatabase() {
 
     abstract fun movieDao(): MovieDao

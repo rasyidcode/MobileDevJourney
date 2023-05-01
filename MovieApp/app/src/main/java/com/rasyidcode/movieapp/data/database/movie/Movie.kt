@@ -30,7 +30,7 @@ data class Movie(
     @ColumnInfo(name = "revenue")
     val revenue: Int? = null,
     @ColumnInfo(name = "genres")
-    val genres: List<GenreItem?>? = null,
+    val genres: String? = null,
     @ColumnInfo(name = "popularity")
     val popularity: Double? = null,
     @ColumnInfo(name = "tagline")

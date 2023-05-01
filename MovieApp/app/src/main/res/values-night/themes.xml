@@ -14,13 +14,20 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="Theme.MovieApp.NoActionBar">
+    <style name="Theme.MovieApp.NoActionBar" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimaryVariant">@color/black</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="Theme.MovieApp.NavigationView" parent="Theme.MovieApp.NoActionBar">
+        <item name="android:background">@color/darker_gray</item>
+        <item name="itemIconTint">@color/white</item>
+        <item name="itemTextColor">@color/white</item>
+    </style>
+
     <style name="Theme.MovieApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.DayNight.ActionBar" />
 
-    <style name="Theme.MovieApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Theme.MovieApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark" />
 
 </resources>

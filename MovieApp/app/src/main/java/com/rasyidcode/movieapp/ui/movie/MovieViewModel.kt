@@ -27,11 +27,38 @@ class MovieViewModel(
 
     init {
         fetchPopularMovies()
+        fetchNowPlaying()
+        fetchTopRated()
+        fetchUpcoming()
     }
 
     private fun fetchPopularMovies(page: Int = 1) = viewModelScope.launch {
         try {
             movieRepository.fetchPopularMovies(page)
+        } catch (exception: IOException) {
+            Log.e(TAG, exception.message.toString())
+        }
+    }
+
+    private fun fetchNowPlaying(page: Int = 1) = viewModelScope.launch {
+        try {
+            movieRepository.fetchNowPlaying(page)
+        } catch (exception: IOException) {
+            Log.e(TAG, exception.message.toString())
+        }
+    }
+
+    private fun fetchTopRated(page: Int = 1) = viewModelScope.launch {
+        try {
+            movieRepository.fetchTopRated(page)
+        } catch (exception: IOException) {
+            Log.e(TAG, exception.message.toString())
+        }
+    }
+
+    private fun fetchUpcoming(page: Int = 1) = viewModelScope.launch {
+        try {
+            movieRepository.fetchUpcoming(page)
         } catch (exception: IOException) {
             Log.e(TAG, exception.message.toString())
         }

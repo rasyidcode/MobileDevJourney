@@ -25,11 +25,14 @@ class MovieViewModel(
 
     val upcomingList: LiveData<List<Movie>>? = movieRepository.getUpcoming()?.asLiveData()
 
+    val movieLatest: LiveData<Movie>? = movieRepository.movieLatest?.asLiveData()
+
     init {
         fetchPopularMovies()
         fetchNowPlaying()
         fetchTopRated()
         fetchUpcoming()
+        fetchLatestMovie()
     }
 
     private fun fetchPopularMovies(page: Int = 1) = viewModelScope.launch {
@@ -59,6 +62,14 @@ class MovieViewModel(
     private fun fetchUpcoming(page: Int = 1) = viewModelScope.launch {
         try {
             movieRepository.fetchUpcoming(page)
+        } catch (exception: IOException) {
+            Log.e(TAG, exception.message.toString())
+        }
+    }
+
+    private fun fetchLatestMovie() = viewModelScope.launch {
+        try {
+            movieRepository.fetchLatestMovie()
         } catch (exception: IOException) {
             Log.e(TAG, exception.message.toString())
         }

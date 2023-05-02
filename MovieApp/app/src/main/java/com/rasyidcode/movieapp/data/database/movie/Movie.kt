@@ -3,7 +3,7 @@ package com.rasyidcode.movieapp.data.database.movie
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.rasyidcode.movieapp.data.network.genre.GenreItem
+import com.rasyidcode.movieapp.data.domain.Movie as MovieDomain
 
 @Entity(tableName = "movie")
 data class Movie(
@@ -49,5 +49,16 @@ enum class MovieListType {
     POPULAR,
     NOW_PLAYING,
     TOP_RATED,
-    UPCOMING
+    UPCOMING,
+    LATEST
+}
+
+fun Movie.asMovieLatestDomain(): MovieDomain {
+    return MovieDomain(
+        id = this.id,
+        title = this.title,
+        overview = this.overview,
+        genres = this.genres,
+        posterPath = this.posterPath
+    )
 }

@@ -8,6 +8,7 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.rasyidcode.movieapp.BuildConfig
+import com.rasyidcode.movieapp.R
 import com.rasyidcode.movieapp.data.domain.Movie
 import com.rasyidcode.movieapp.ui.movie.MovieListAdapter
 
@@ -16,7 +17,9 @@ fun bindImage(imageView: ImageView, posterPath: String?) {
     posterPath?.let {
         val imageUrl = "${BuildConfig.POSTER_BASE_URL}$posterPath"
         val imageUri = imageUrl.toUri().buildUpon().scheme("https").build()
-        imageView.load(imageUri)
+        imageView.load(imageUri) {
+            placeholder(R.drawable.placeholder)
+        }
     }
 }
 
@@ -28,6 +31,21 @@ fun bindRating(ratingBar: RatingBar, movieRating: Float?) {
 @BindingAdapter("movieRating")
 fun bindRatingText(textView: TextView, movieRating: Float?) {
     textView.text = (movieRating?.div(2) ?: 0f).toString()
+}
+
+@BindingAdapter("movieTitle")
+fun bindTextViewMovieTitle(textView: TextView, movieTitle: String?) {
+    textView.text = movieTitle ?: "No Title"
+}
+
+@BindingAdapter("movieGenres")
+fun bindTextViewMovieGenres(textView: TextView, movieGenres: String?) {
+    textView.text = movieGenres ?: "No Genre"
+}
+
+@BindingAdapter("movieOverview")
+fun bindTextViewMovieOverview(textView: TextView, movieOverview: String?) {
+    textView.text = movieOverview ?: "-"
 }
 
 @BindingAdapter("movieList")

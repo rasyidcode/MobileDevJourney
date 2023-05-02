@@ -1,5 +1,7 @@
 package com.rasyidcode.movieapp.data.network.movie
 
+import com.rasyidcode.movieapp.data.database.movie.Movie
+import com.rasyidcode.movieapp.data.database.movie.MovieListType
 import com.rasyidcode.movieapp.data.network.genre.GenreItem
 import com.squareup.moshi.Json
 
@@ -33,7 +35,18 @@ data class MovieDetailResponse(
     @Json(name = "release_date")
     val releaseDate: String? = null,
     @Json(name = "vote_average")
-    val voteAverage: Double? = null,
+    val voteAverage: Float? = null,
     @Json(name = "status")
     val status: String? = null
 )
+
+fun MovieDetailResponse?.asMovieLatestRoom(): Movie {
+    return Movie(
+        id = this?.id,
+        title = this?.title,
+        overview = this?.overview,
+        posterPath = this?.posterPath,
+        genres = this?.genres?.joinToString(),
+        listType = MovieListType.LATEST.name
+    )
+}

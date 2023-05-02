@@ -8,13 +8,16 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.addCallback
+import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import com.rasyidcode.movieapp.MovieApplication
 import com.rasyidcode.movieapp.R
 import com.rasyidcode.movieapp.databinding.ActivityMovieListBinding
 
@@ -28,6 +31,12 @@ class MovieListActivity : AppCompatActivity() {
 
     private var doubleBackToExistPressedOnce = false
 
+    private val viewModel by viewModels<MovieViewModel> {
+        MovieViewModel.Factory(
+            movieRepository = (application as MovieApplication).movieRepository
+        )
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMovieListBinding.inflate(layoutInflater)
@@ -38,6 +47,10 @@ class MovieListActivity : AppCompatActivity() {
         setupDrawer()
         setupNavigation()
         setupHandleBackPressed()
+
+        viewModel.movieLatest?.observe(this) {
+            binding.movie = it
+        }
     }
 
     private fun setupToolbar() {

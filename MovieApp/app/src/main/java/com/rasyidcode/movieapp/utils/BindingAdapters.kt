@@ -86,3 +86,18 @@ fun bindProgressBarMovieLatest(progressBar: ProgressBar, isLoading: Boolean?) {
         }
     }
 }
+
+@BindingAdapter("isNetworkError", "movieList")
+fun bindNetworkErrorTextView(
+    textView: TextView,
+    isNetworkError: Boolean?,
+    movieList: List<Movie>?
+) {
+    isNetworkError?.let {
+        if (isNetworkError && movieList.isNullOrEmpty()) {
+            "Something went wrong"
+        } else {
+            textView.visibility = View.GONE
+        }
+    }
+}

@@ -31,70 +31,72 @@ class MovieViewModel(
     private val _movieLatestIsLoading: MutableLiveData<Boolean> = MutableLiveData(false)
     val movieLatestIsLoading: LiveData<Boolean> = _movieLatestIsLoading
 
-    private val _moviePopularIsLoading: MutableLiveData<Boolean> = MutableLiveData(false)
-    val moviePopularIsLoading: LiveData<Boolean> = _moviePopularIsLoading
+    private val _isMovieListLoading: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isMovieListLoading: LiveData<Boolean> = _isMovieListLoading
 
-    private val _nowPlayingIsLoading: MutableLiveData<Boolean> = MutableLiveData(false)
-    val nowPlayingIsLoading: LiveData<Boolean> = _nowPlayingIsLoading
-
-    private val _topRatedIsLoading: MutableLiveData<Boolean> = MutableLiveData(false)
-    val topRatedIsLoading: LiveData<Boolean> = _topRatedIsLoading
-
-    private val _upcomingIsLoading: MutableLiveData<Boolean> = MutableLiveData(false)
-    val upcomingIsLoading: LiveData<Boolean> = _upcomingIsLoading
+    private val _isNetworkError: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isNetworkError: LiveData<Boolean> = _isNetworkError
 
     init {
         fetchPopularMovies()
     }
 
-    private fun fetchPopularMovies(page: Int = 1) {
+    fun fetchPopularMovies(page: Int = 1) {
         viewModelScope.launch {
-            _moviePopularIsLoading.value = true
+            _isMovieListLoading.value = true
             try {
                 movieRepository.fetchPopularMovies(page)
-                _moviePopularIsLoading.value = false
+                _isMovieListLoading.value = false
             } catch (exception: IOException) {
                 Log.e(TAG, exception.message.toString())
-                _moviePopularIsLoading.value = false
+
+                _isMovieListLoading.value = false
+                _isNetworkError.value = true
             }
         }
     }
 
     fun fetchNowPlaying(page: Int = 1) {
         viewModelScope.launch {
-            _nowPlayingIsLoading.value = true
+            _isMovieListLoading.value = true
             try {
                 movieRepository.fetchNowPlaying(page)
-                _nowPlayingIsLoading.value = false
+                _isMovieListLoading.value = false
             } catch (exception: IOException) {
                 Log.e(TAG, exception.message.toString())
-                _nowPlayingIsLoading.value = false
+
+                _isMovieListLoading.value = false
+                _isNetworkError.value = true
             }
         }
     }
 
     fun fetchTopRated(page: Int = 1) {
         viewModelScope.launch {
-            _topRatedIsLoading.value = true
+            _isMovieListLoading.value = true
             try {
                 movieRepository.fetchTopRated(page)
-                _topRatedIsLoading.value = false
+                _isMovieListLoading.value = false
             } catch (exception: IOException) {
                 Log.e(TAG, exception.message.toString())
-                _topRatedIsLoading.value = false
+
+                _isMovieListLoading.value = false
+                _isNetworkError.value = true
             }
         }
     }
 
     fun fetchUpcoming(page: Int = 1) {
         viewModelScope.launch {
-            _upcomingIsLoading.value = true
+            _isMovieListLoading.value = true
             try {
                 movieRepository.fetchUpcoming(page)
-                _upcomingIsLoading.value = false
+                _isMovieListLoading.value = false
             } catch (exception: IOException) {
                 Log.e(TAG, exception.message.toString())
-                _upcomingIsLoading.value = false
+
+                _isMovieListLoading.value = false
+                _isNetworkError.value = true
             }
         }
     }

@@ -27,11 +27,21 @@
             style="@style/Theme.MovieApp.ProgressBar.List"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:isLoading="@{viewModel.moviePopularIsLoading}"
+            app:isLoading="@{viewModel.isMovieListLoading()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:isNetworkError="@{viewModel.isNetworkError}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:movieList="@{viewModel.popularMoviesList}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

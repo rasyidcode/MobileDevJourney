@@ -59,7 +59,7 @@ class MovieListActivity : AppCompatActivity() {
             when (destination.id) {
                 R.id.fragment_now_playing -> {
                     if (!isNowPlayingVisible) {
-                        viewModel.fetchUpcoming()
+                        viewModel.fetchNowPlaying()
                         isNowPlayingVisible = true
                     }
                 }

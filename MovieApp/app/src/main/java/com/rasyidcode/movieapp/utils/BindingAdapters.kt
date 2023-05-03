@@ -1,6 +1,9 @@
 package com.rasyidcode.movieapp.utils
 
+import android.util.Log
+import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.core.net.toUri
@@ -12,15 +15,22 @@ import com.rasyidcode.movieapp.R
 import com.rasyidcode.movieapp.data.domain.Movie
 import com.rasyidcode.movieapp.ui.movie.MovieListAdapter
 
+private const val TAG = "BindingAdapters"
+
 @BindingAdapter("posterPath")
 fun bindImage(imageView: ImageView, posterPath: String?) {
-    posterPath?.let {
-        val imageUrl = "${BuildConfig.POSTER_BASE_URL}$posterPath"
-        val imageUri = imageUrl.toUri().buildUpon().scheme("https").build()
-        imageView.load(imageUri) {
-            placeholder(R.drawable.placeholder)
+    if (posterPath == null) {
+        imageView.load(R.drawable.placeholder)
+    } else {
+        posterPath.let {
+            val imageUrl = "${BuildConfig.POSTER_BASE_URL}$posterPath"
+            val imageUri = imageUrl.toUri().buildUpon().scheme("https").build()
+            imageView.load(imageUri) {
+                placeholder(R.drawable.placeholder)
+            }
         }
     }
+
 }
 
 @BindingAdapter("movieRating")
@@ -35,21 +45,44 @@ fun bindRatingText(textView: TextView, movieRating: Float?) {
 
 @BindingAdapter("movieTitle")
 fun bindTextViewMovieTitle(textView: TextView, movieTitle: String?) {
-    textView.text = movieTitle ?: "No Title"
+    textView.text = if (movieTitle.isNullOrEmpty()) {
+        "No Title"
+    } else {
+        movieTitle
+    }
 }
 
 @BindingAdapter("movieGenres")
 fun bindTextViewMovieGenres(textView: TextView, movieGenres: String?) {
-    textView.text = movieGenres ?: "No Genre"
+    textView.text = if (movieGenres.isNullOrEmpty()) {
+        "No Genre"
+    } else {
+        movieGenres
+    }
 }
 
 @BindingAdapter("movieOverview")
 fun bindTextViewMovieOverview(textView: TextView, movieOverview: String?) {
-    textView.text = movieOverview ?: "-"
+    textView.text = if (movieOverview.isNullOrEmpty()) {
+        "-"
+    } else {
+        movieOverview
+    }
 }
 
 @BindingAdapter("movieList")
 fun bindRecyclerView(recyclerView: RecyclerView, data: List<Movie>?) {
     val adapter = recyclerView.adapter as MovieListAdapter
     adapter.submitList(data)
+}
+
+@BindingAdapter("isLoading")
+fun bindProgressBarMovieLatest(progressBar: ProgressBar, isLoading: Boolean?) {
+    isLoading?.let {
+        progressBar.visibility = if (it) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
+    }
 }

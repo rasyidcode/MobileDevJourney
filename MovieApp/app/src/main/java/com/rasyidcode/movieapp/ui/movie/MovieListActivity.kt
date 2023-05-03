@@ -1,6 +1,5 @@
 package com.rasyidcode.movieapp.ui.movie
 
-import android.app.Activity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -12,8 +11,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -37,10 +36,18 @@ class MovieListActivity : AppCompatActivity() {
         )
     }
 
+    private var isDrawerOpened = false
+    private var isNowPlayingVisible = false
+    private var isTopRatedVisible = false
+    private var isUpcomingVisible = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMovieListBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
 
         setupNavHost()
         setupToolbar()
@@ -48,8 +55,29 @@ class MovieListActivity : AppCompatActivity() {
         setupNavigation()
         setupHandleBackPressed()
 
-        viewModel.movieLatest?.observe(this) {
-            binding.movie = it
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.fragment_now_playing -> {
+                    if (!isNowPlayingVisible) {
+                        viewModel.fetchUpcoming()
+                        isNowPlayingVisible = true
+                    }
+                }
+
+                R.id.fragment_top_rated -> {
+                    if (!isTopRatedVisible) {
+                        viewModel.fetchTopRated()
+                        isTopRatedVisible = true
+                    }
+                }
+
+                R.id.fragment_upcoming -> {
+                    if (!isUpcomingVisible) {
+                        viewModel.fetchUpcoming()
+                        isUpcomingVisible = true
+                    }
+                }
+            }
         }
     }
 
@@ -83,6 +111,12 @@ class MovieListActivity : AppCompatActivity() {
         binding.drawerLayout.addDrawerListener(object : DrawerLayout.SimpleDrawerListener() {
             override fun onDrawerOpened(drawerView: View) {
                 super.onDrawerOpened(drawerView)
+
+                if (!isDrawerOpened) {
+                    Log.d(TAG, "fetchLatestMovie()")
+                    viewModel.fetchLatestMovie()
+                    isDrawerOpened = true
+                }
 
                 supportActionBar?.title = getString(R.string.app_name)
                 toggle.syncState()

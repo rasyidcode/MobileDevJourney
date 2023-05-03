@@ -32,4 +32,12 @@
 
     <style name="Theme.MovieApp.Toolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
+    <style name="Theme.MovieApp.ProgressBar" parent="">
+        <item name="android:indeterminateTint">@color/purple_200</item>
+    </style>
+
+    <style name="Theme.MovieApp.ProgressBar.List" parent="">
+        <item name="android:indeterminateTint">@color/white</item>
+    </style>
+
 </resources>

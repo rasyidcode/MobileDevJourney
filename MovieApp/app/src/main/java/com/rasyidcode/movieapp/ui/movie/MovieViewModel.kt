@@ -2,6 +2,7 @@ package com.rasyidcode.movieapp.ui.movie
 
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
@@ -27,51 +28,87 @@ class MovieViewModel(
 
     val movieLatest: LiveData<Movie>? = movieRepository.movieLatest?.asLiveData()
 
+    private val _movieLatestIsLoading: MutableLiveData<Boolean> = MutableLiveData(false)
+    val movieLatestIsLoading: LiveData<Boolean> = _movieLatestIsLoading
+
+    private val _moviePopularIsLoading: MutableLiveData<Boolean> = MutableLiveData(false)
+    val moviePopularIsLoading: LiveData<Boolean> = _moviePopularIsLoading
+
+    private val _nowPlayingIsLoading: MutableLiveData<Boolean> = MutableLiveData(false)
+    val nowPlayingIsLoading: LiveData<Boolean> = _nowPlayingIsLoading
+
+    private val _topRatedIsLoading: MutableLiveData<Boolean> = MutableLiveData(false)
+    val topRatedIsLoading: LiveData<Boolean> = _topRatedIsLoading
+
+    private val _upcomingIsLoading: MutableLiveData<Boolean> = MutableLiveData(false)
+    val upcomingIsLoading: LiveData<Boolean> = _upcomingIsLoading
+
     init {
         fetchPopularMovies()
-        fetchNowPlaying()
-        fetchTopRated()
-        fetchUpcoming()
-        fetchLatestMovie()
     }
 
-    private fun fetchPopularMovies(page: Int = 1) = viewModelScope.launch {
-        try {
-            movieRepository.fetchPopularMovies(page)
-        } catch (exception: IOException) {
-            Log.e(TAG, exception.message.toString())
+    private fun fetchPopularMovies(page: Int = 1) {
+        viewModelScope.launch {
+            _moviePopularIsLoading.value = true
+            try {
+                movieRepository.fetchPopularMovies(page)
+                _moviePopularIsLoading.value = false
+            } catch (exception: IOException) {
+                Log.e(TAG, exception.message.toString())
+                _moviePopularIsLoading.value = false
+            }
         }
     }
 
-    private fun fetchNowPlaying(page: Int = 1) = viewModelScope.launch {
-        try {
-            movieRepository.fetchNowPlaying(page)
-        } catch (exception: IOException) {
-            Log.e(TAG, exception.message.toString())
+    fun fetchNowPlaying(page: Int = 1) {
+        viewModelScope.launch {
+            _nowPlayingIsLoading.value = true
+            try {
+                movieRepository.fetchNowPlaying(page)
+                _nowPlayingIsLoading.value = false
+            } catch (exception: IOException) {
+                Log.e(TAG, exception.message.toString())
+                _nowPlayingIsLoading.value = false
+            }
         }
     }
 
-    private fun fetchTopRated(page: Int = 1) = viewModelScope.launch {
-        try {
-            movieRepository.fetchTopRated(page)
-        } catch (exception: IOException) {
-            Log.e(TAG, exception.message.toString())
+    fun fetchTopRated(page: Int = 1) {
+        viewModelScope.launch {
+            _topRatedIsLoading.value = true
+            try {
+                movieRepository.fetchTopRated(page)
+                _topRatedIsLoading.value = false
+            } catch (exception: IOException) {
+                Log.e(TAG, exception.message.toString())
+                _topRatedIsLoading.value = false
+            }
         }
     }
 
-    private fun fetchUpcoming(page: Int = 1) = viewModelScope.launch {
-        try {
-            movieRepository.fetchUpcoming(page)
-        } catch (exception: IOException) {
-            Log.e(TAG, exception.message.toString())
+    fun fetchUpcoming(page: Int = 1) {
+        viewModelScope.launch {
+            _upcomingIsLoading.value = true
+            try {
+                movieRepository.fetchUpcoming(page)
+                _upcomingIsLoading.value = false
+            } catch (exception: IOException) {
+                Log.e(TAG, exception.message.toString())
+                _upcomingIsLoading.value = false
+            }
         }
     }
 
-    private fun fetchLatestMovie() = viewModelScope.launch {
-        try {
-            movieRepository.fetchLatestMovie()
-        } catch (exception: IOException) {
-            Log.e(TAG, exception.message.toString())
+    fun fetchLatestMovie() {
+        viewModelScope.launch {
+            _movieLatestIsLoading.value = true
+            try {
+                movieRepository.fetchLatestMovie()
+                _movieLatestIsLoading.value = false
+            } catch (exception: IOException) {
+                Log.e(TAG, exception.message.toString())
+                _movieLatestIsLoading.value = false
+            }
         }
     }
 

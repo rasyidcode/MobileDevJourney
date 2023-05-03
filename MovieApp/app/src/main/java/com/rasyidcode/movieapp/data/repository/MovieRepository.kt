@@ -25,11 +25,14 @@ class MovieRepository(
 
     val movieLatest: Flow<MovieDomain>? =
         movieDatabase.movieDao().getByType(listType = MovieListType.LATEST.name)?.map {
+            val genres: List<String> = withContext(Dispatchers.IO) {
+                genreIdsToGenreList(it?.genreIds)
+            }
             MovieDomain(
                 id = it?.id,
                 title = it?.title,
                 overview = it?.overview,
-                genres = it?.genres,
+                genres = genres.joinToString(),
                 posterPath = it?.posterPath
             )
         }
@@ -201,9 +204,15 @@ class MovieRepository(
     }
 
     private fun genreIdsToGenreList(genreIds: String?): List<String> {
-        return movieDatabase.genreDao().getByIds(genreIds?.split(",")).map {
-            it.name ?: ""
+        val genreList = genreIds?.split(",")
+        var res: List<String> = emptyList()
+        genreList?.let {
+            res = movieDatabase.genreDao().getByIds(genreList).map {
+                it.name ?: ""
+            }
         }
+
+        return res
     }
 
     private suspend fun fetchGenres() {

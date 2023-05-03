@@ -9,7 +9,7 @@ import com.rasyidcode.movieapp.data.database.genre.GenreDao
 import com.rasyidcode.movieapp.data.database.movie.Movie
 import com.rasyidcode.movieapp.data.database.movie.MovieDao
 
-@Database(entities = [Movie::class, Genre::class], version = 1)
+@Database(entities = [Movie::class, Genre::class], version = 1, exportSchema = false)
 abstract class MovieDatabase : RoomDatabase() {
 
     abstract fun movieDao(): MovieDao

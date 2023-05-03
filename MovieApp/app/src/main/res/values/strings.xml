@@ -18,4 +18,6 @@
     </string>
     <string name="no_title">No Title</string>
     <string name="no_genres">No Genre</string>
+    <string name="latest_movie">Latest Movie</string>
+    <string name="refresh_latest_movie">Refresh Latest Movie</string>
 </resources>

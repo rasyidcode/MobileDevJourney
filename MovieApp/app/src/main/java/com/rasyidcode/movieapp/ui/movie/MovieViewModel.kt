@@ -191,19 +191,15 @@ class MovieViewModel(
     }
 
     fun setGenre(id: Int?) {
-        Log.d(TAG, "setGenre: $id")
-
         id?.let {
             if (_selectedGenreIds.value?.contains(it) != true) {
                 _selectedGenreIds.value?.add(it)
             } else {
                 _selectedGenreIds.value?.remove(it)
             }
-
-            Log.d(TAG, "setGenre inside let: $it")
         }
 
-        Log.d(TAG, "currentSelectedGenreList: ${_selectedGenreIds.value}")
+        Log.d(TAG, "selectedGenres: ${_selectedGenreIds.value}")
     }
 
     fun clearFilters() {

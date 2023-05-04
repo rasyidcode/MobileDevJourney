@@ -43,8 +43,10 @@ class MovieViewModel(
     private var _nowPlayingPage: Int = 0
     private var _topRatedPage: Int = 0
     private var _upcomingPage: Int = 0
+    private var _isListReset: Boolean = false
 
-    private val _selectedGenreIds: MutableLiveData<MutableList<Int>?> = MutableLiveData(null)
+    private val _selectedGenreIds: MutableLiveData<MutableList<Int>> =
+        MutableLiveData(mutableListOf())
     val selectedGenreIds: LiveData<List<Int>?> = _selectedGenreIds.map { it?.toList() }
 
     init {
@@ -58,15 +60,31 @@ class MovieViewModel(
     }
 
     fun fetchPopularMovies() {
-        _popularMoviePage++
+        Log.d(
+            TAG,
+            "withGenres: ${
+                _selectedGenreIds.value?.map { it.toString() }?.toList().toString()
+            }"
+        )
 
         viewModelScope.launch {
             _isMovieListLoading.value = true
 
-            try {
+            if (!_selectedGenreIds.value.isNullOrEmpty()) {
+                if (!_isListReset) {
+                    movieRepository.clearList(listType = MovieListType.POPULAR)
 
+                    _popularMoviePage = 0
+                    _isListReset = true
+                }
+            }
+
+            _popularMoviePage++
+
+            try {
                 movieRepository.fetchPopularMovies(
-                    page = _popularMoviePage
+                    page = _popularMoviePage,
+                    withGenres = _selectedGenreIds.value?.map { it.toString() }?.toList()
                 )
 
                 _isMovieListLoading.value = false
@@ -173,9 +191,24 @@ class MovieViewModel(
     }
 
     fun setGenre(id: Int?) {
+        Log.d(TAG, "setGenre: $id")
+
         id?.let {
-            _selectedGenreIds.value?.add(it)
+            if (_selectedGenreIds.value?.contains(it) != true) {
+                _selectedGenreIds.value?.add(it)
+            } else {
+                _selectedGenreIds.value?.remove(it)
+            }
+
+            Log.d(TAG, "setGenre inside let: $it")
         }
+
+        Log.d(TAG, "currentSelectedGenreList: ${_selectedGenreIds.value}")
+    }
+
+    fun clearFilters() {
+        _selectedGenreIds.value = mutableListOf()
+        _isListReset = false
     }
 
     private fun fetchNetworkGenres() {

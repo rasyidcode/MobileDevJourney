@@ -188,7 +188,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:contentDescription="@string/no_desc"
-            android:onClick="@{() -> fabClickListener.onClick(viewModel.selectedGenreIds)}"
+            android:onClick="@{() -> fabClickListener.onClick()}"
             android:theme="@style/Theme.MovieApp.Fab"
             app:backgroundTint="@color/purple_500"
             app:layout_constraintBottom_toBottomOf="parent"

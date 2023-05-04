@@ -191,12 +191,16 @@ class MovieListActivity : AppCompatActivity() {
                 )
             }
         }
+
+        viewModel.selectedGenreIds.observe(this) {
+            Log.d(TAG, "selectedGenreIds: $it")
+        }
     }
 
     class MovieFilterDialogClickListener(
-        private val clickListener: (genreIds: List<String>?) -> Unit
+        private val clickListener: () -> Unit
     ) {
-        fun onClick(genreIds: List<String>?) = clickListener(genreIds)
+        fun onClick() = clickListener()
     }
 
     companion object {

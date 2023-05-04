@@ -10,7 +10,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="240dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp">
 
@@ -27,6 +27,7 @@
                     android:id="@+id/checkbox_action"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checked="@{viewModel.selectedGenreIds.contains(28)}"
                     android:onClick="@{() -> viewModel.setGenre(28)}"
                     android:text="@string/genre_action" />
 
@@ -34,6 +35,7 @@
                     android:id="@+id/checkbox_adventure"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checked="@{viewModel.selectedGenreIds.contains(12)}"
                     android:onClick="@{() -> viewModel.setGenre(12)}"
                     android:text="@string/genre_adventure" />
 
@@ -41,6 +43,7 @@
                     android:id="@+id/checkbox_animation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checked="@{viewModel.selectedGenreIds.contains(16)}"
                     android:onClick="@{() -> viewModel.setGenre(16)}"
                     android:text="@string/genre_animation" />
 
@@ -48,6 +51,7 @@
                     android:id="@+id/checkbox_comedy"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checked="@{viewModel.selectedGenreIds.contains(35)}"
                     android:onClick="@{() -> viewModel.setGenre(35)}"
                     android:text="@string/genre_comedy" />
 
@@ -55,6 +59,7 @@
                     android:id="@+id/checkbox_crime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checked="@{viewModel.selectedGenreIds.contains(80)}"
                     android:onClick="@{() -> viewModel.setGenre(80)}"
                     android:text="@string/genre_crime" />
 
@@ -62,6 +67,7 @@
                     android:id="@+id/checkbox_documentary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checked="@{viewModel.selectedGenreIds.contains(99)}"
                     android:onClick="@{() -> viewModel.setGenre(99)}"
                     android:text="@string/genre_documentary" />
 
@@ -69,6 +75,7 @@
                     android:id="@+id/checkbox_drama"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checked="@{viewModel.selectedGenreIds.contains(18)}"
                     android:onClick="@{() -> viewModel.setGenre(18)}"
                     android:text="@string/genre_drama" />
 
@@ -76,6 +83,7 @@
                     android:id="@+id/checkbox_family"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checked="@{viewModel.selectedGenreIds.contains(10751)}"
                     android:onClick="@{() -> viewModel.setGenre(10751)}"
                     android:text="@string/genre_family" />
 
@@ -83,6 +91,7 @@
                     android:id="@+id/checkbox_fantasy"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checked="@{viewModel.selectedGenreIds.contains(14)}"
                     android:onClick="@{() -> viewModel.setGenre(14)}"
                     android:text="@string/genre_fantasy" />
 
@@ -90,6 +99,7 @@
                     android:id="@+id/checkbox_history"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checked="@{viewModel.selectedGenreIds.contains(36)}"
                     android:onClick="@{() -> viewModel.setGenre(36)}"
                     android:text="@string/genre_history" />
 
@@ -97,6 +107,7 @@
                     android:id="@+id/checkbox_horror"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checked="@{viewModel.selectedGenreIds.contains(27)}"
                     android:onClick="@{() -> viewModel.setGenre(27)}"
                     android:text="@string/genre_horror" />
 
@@ -104,6 +115,7 @@
                     android:id="@+id/checkbox_music"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checked="@{viewModel.selectedGenreIds.contains(10402)}"
                     android:onClick="@{() -> viewModel.setGenre(10402)}"
                     android:text="@string/genre_music" />
 
@@ -111,6 +123,7 @@
                     android:id="@+id/checkbox_mystery"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checked="@{viewModel.selectedGenreIds.contains(9648)}"
                     android:onClick="@{() -> viewModel.setGenre(9648)}"
                     android:text="@string/genre_mystery" />
 
@@ -118,6 +131,7 @@
                     android:id="@+id/checkbox_romance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checked="@{viewModel.selectedGenreIds.contains(10749)}"
                     android:onClick="@{() -> viewModel.setGenre(10749)}"
                     android:text="@string/genre_romance" />
 
@@ -125,6 +139,7 @@
                     android:id="@+id/checkbox_science_fiction"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checked="@{viewModel.selectedGenreIds.contains(878)}"
                     android:onClick="@{() -> viewModel.setGenre(878)}"
                     android:text="@string/genre_science_fiction" />
 
@@ -132,6 +147,7 @@
                     android:id="@+id/checkbox_tv_movie"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checked="@{viewModel.selectedGenreIds.contains(10770)}"
                     android:onClick="@{() -> viewModel.setGenre(10770)}"
                     android:text="@string/genre_tv_movie" />
 
@@ -139,6 +155,7 @@
                     android:id="@+id/checkbox_thriller"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checked="@{viewModel.selectedGenreIds.contains(53)}"
                     android:onClick="@{() -> viewModel.setGenre(53)}"
                     android:text="@string/genre_thriller" />
 
@@ -146,6 +163,7 @@
                     android:id="@+id/checkbox_war"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checked="@{viewModel.selectedGenreIds.contains(10752)}"
                     android:onClick="@{() -> viewModel.setGenre(10752)}"
                     android:text="@string/genre_war" />
 
@@ -153,6 +171,7 @@
                     android:id="@+id/checkbox_western"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:checked="@{viewModel.selectedGenreIds.contains(37)}"
                     android:onClick="@{() -> viewModel.setGenre(37)}"
                     android:text="@string/genre_western" />
 

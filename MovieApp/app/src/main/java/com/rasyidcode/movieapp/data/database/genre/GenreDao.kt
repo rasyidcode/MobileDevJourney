@@ -1,6 +1,7 @@
 package com.rasyidcode.movieapp.data.database.genre
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
@@ -20,4 +21,6 @@ interface GenreDao {
     @Insert
     suspend fun insertAll(genres: List<Genre>)
 
+    @Query("DELETE FROM genre")
+    suspend fun deleteAll()
 }

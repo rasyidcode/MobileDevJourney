@@ -25,14 +25,16 @@ class MovieRepository(
 
     val movieLatest: Flow<MovieDomain>? =
         movieDatabase.movieDao().getByType(listType = MovieListType.LATEST.name)?.map {
-            val genres: List<String> = withContext(Dispatchers.IO) {
-                genreIdsToGenreList(it?.genreIds)
+            val genres: List<String>? = withContext(Dispatchers.IO) {
+                it?.genreIds?.let { genres ->
+                    genreIdsToGenreList(genres)
+                }
             }
             MovieDomain(
                 id = it?.id,
                 title = it?.title,
                 overview = it?.overview,
-                genres = genres.joinToString(),
+                genres = genres?.joinToString(),
                 posterPath = it?.posterPath
             )
         }
@@ -125,13 +127,8 @@ class MovieRepository(
             }
         }
 
-    suspend fun fetchPopularMovies(page: Int) {
+    suspend fun fetchNetworkGenres() {
         withContext(Dispatchers.IO) {
-            val popularMovies = movieApiService.getPopularMovies(
-                page = page,
-                apiKey = BuildConfig.API_KEY
-            )
-
             // Fetch genre list if not exists
             if (movieDatabase.genreDao().getCount() == 0) {
                 val genres = movieApiService.getGenres(
@@ -142,6 +139,15 @@ class MovieRepository(
                     movieDatabase.genreDao().insertAll(it)
                 }
             }
+        }
+    }
+
+    suspend fun fetchPopularMovies(page: Int) {
+        withContext(Dispatchers.IO) {
+            val popularMovies = movieApiService.getPopularMovies(
+                page = page,
+                apiKey = BuildConfig.API_KEY
+            )
 
             val movieList: List<Movie>? = popularMovies.results?.asPopularMovieRoom()
             movieList?.let {
@@ -200,6 +206,22 @@ class MovieRepository(
 
             val movieLatest: Movie = latest.asMovieLatestRoom()
             movieDatabase.movieDao().insert(movieLatest)
+        }
+    }
+
+    suspend fun clearData() {
+        withContext(Dispatchers.IO) {
+            movieDatabase.clearAllTables()
+        }
+    }
+
+    suspend fun clearList(
+        listType: MovieListType
+    ) {
+        withContext(Dispatchers.IO) {
+            movieDatabase.movieDao().deleteAllByListType(
+                listType = listType.name
+            )
         }
     }
 

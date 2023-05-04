@@ -7,8 +7,10 @@ import com.rasyidcode.movieapp.data.domain.Movie as MovieDomain
 
 @Entity(tableName = "movie")
 data class Movie(
-    @PrimaryKey(autoGenerate = false)
+    @PrimaryKey(autoGenerate = true)
     val id: Int? = null,
+    @ColumnInfo(name = "movie_id")
+    val movieId: Int? = null,
     @ColumnInfo(name = "title")
     val title: String? = null,
     @ColumnInfo(name = "original_title")

@@ -22,4 +22,6 @@
     <string name="refresh_latest_movie">Refresh Latest Movie</string>
 
     <string name="network_error">Something went wrong</string>
+    <string name="delete_list">Delete List</string>
+    <string name="refresh_list">Refresh List</string>
 </resources>

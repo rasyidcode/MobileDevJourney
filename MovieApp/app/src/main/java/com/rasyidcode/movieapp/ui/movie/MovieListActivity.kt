@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.addCallback
@@ -18,6 +20,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.rasyidcode.movieapp.MovieApplication
 import com.rasyidcode.movieapp.R
+import com.rasyidcode.movieapp.data.database.movie.MovieListType
 import com.rasyidcode.movieapp.databinding.ActivityMovieListBinding
 
 class MovieListActivity : AppCompatActivity() {
@@ -180,6 +183,30 @@ class MovieListActivity : AppCompatActivity() {
                 else -> {}
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.appbar_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.refresh_list -> viewModel.refreshList(
+                listType = when (navController.currentDestination?.id) {
+                    R.id.fragment_popular_movie -> MovieListType.POPULAR
+
+                    R.id.fragment_now_playing -> MovieListType.NOW_PLAYING
+
+                    R.id.fragment_top_rated -> MovieListType.TOP_RATED
+
+                    R.id.fragment_upcoming -> MovieListType.UPCOMING
+
+                    else -> null
+                }
+            )
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     companion object {

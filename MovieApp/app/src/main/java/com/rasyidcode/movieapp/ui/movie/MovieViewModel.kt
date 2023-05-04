@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.rasyidcode.movieapp.data.database.movie.MovieListType
 import com.rasyidcode.movieapp.data.domain.Movie
 import com.rasyidcode.movieapp.data.repository.MovieRepository
 import kotlinx.coroutines.launch
@@ -37,15 +38,25 @@ class MovieViewModel(
     private val _isNetworkError: MutableLiveData<Boolean> = MutableLiveData(false)
     val isNetworkError: LiveData<Boolean> = _isNetworkError
 
+    private var _popularMoviePage: Int = 0
+    private var _nowPlayingPage: Int = 0
+    private var _topRatedPage: Int = 0
+    private var _upcomingPage: Int = 0
+
     init {
+        clearData()
+
+        fetchNetworkGenres()
         fetchPopularMovies()
     }
 
-    fun fetchPopularMovies(page: Int = 1) {
+    fun fetchPopularMovies() {
+        _popularMoviePage++
+
         viewModelScope.launch {
             _isMovieListLoading.value = true
             try {
-                movieRepository.fetchPopularMovies(page)
+                movieRepository.fetchPopularMovies(_popularMoviePage)
                 _isMovieListLoading.value = false
             } catch (exception: IOException) {
                 Log.e(TAG, exception.message.toString())
@@ -56,11 +67,12 @@ class MovieViewModel(
         }
     }
 
-    fun fetchNowPlaying(page: Int = 1) {
+    fun fetchNowPlaying() {
+        _nowPlayingPage++
         viewModelScope.launch {
             _isMovieListLoading.value = true
             try {
-                movieRepository.fetchNowPlaying(page)
+                movieRepository.fetchNowPlaying(_nowPlayingPage)
                 _isMovieListLoading.value = false
             } catch (exception: IOException) {
                 Log.e(TAG, exception.message.toString())
@@ -71,11 +83,12 @@ class MovieViewModel(
         }
     }
 
-    fun fetchTopRated(page: Int = 1) {
+    fun fetchTopRated() {
+        _topRatedPage++
         viewModelScope.launch {
             _isMovieListLoading.value = true
             try {
-                movieRepository.fetchTopRated(page)
+                movieRepository.fetchTopRated(_topRatedPage)
                 _isMovieListLoading.value = false
             } catch (exception: IOException) {
                 Log.e(TAG, exception.message.toString())
@@ -86,11 +99,12 @@ class MovieViewModel(
         }
     }
 
-    fun fetchUpcoming(page: Int = 1) {
+    fun fetchUpcoming() {
+        _upcomingPage++
         viewModelScope.launch {
             _isMovieListLoading.value = true
             try {
-                movieRepository.fetchUpcoming(page)
+                movieRepository.fetchUpcoming(_upcomingPage)
                 _isMovieListLoading.value = false
             } catch (exception: IOException) {
                 Log.e(TAG, exception.message.toString())
@@ -111,6 +125,53 @@ class MovieViewModel(
                 Log.e(TAG, exception.message.toString())
                 _movieLatestIsLoading.value = false
             }
+        }
+    }
+
+    fun refreshList(listType: MovieListType?) {
+        listType?.let {
+            viewModelScope.launch {
+                movieRepository.clearList(it)
+                when (it) {
+                    MovieListType.POPULAR -> {
+                        _popularMoviePage = 0
+                        fetchPopularMovies()
+                    }
+
+                    MovieListType.NOW_PLAYING -> {
+                        _nowPlayingPage = 0
+                        fetchNowPlaying()
+                    }
+
+                    MovieListType.TOP_RATED -> {
+                        _topRatedPage = 0
+                        fetchTopRated()
+                    }
+
+                    MovieListType.UPCOMING -> {
+                        _upcomingPage = 0
+                        fetchUpcoming()
+                    }
+
+                    else -> {}
+                }
+            }
+        }
+    }
+
+    private fun fetchNetworkGenres() {
+        viewModelScope.launch {
+            try {
+                movieRepository.fetchNetworkGenres()
+            } catch (exception: IOException) {
+                Log.e(TAG, exception.message.toString())
+            }
+        }
+    }
+
+    private fun clearData() {
+        viewModelScope.launch {
+            movieRepository.clearData()
         }
     }
 

@@ -37,7 +37,7 @@ data class MovieItem(
 fun List<MovieItem?>?.asPopularMovieRoom(): List<Movie>? {
     return this?.map {
         Movie(
-            id = it?.id,
+            movieId = it?.id,
             title = it?.title,
             originalTitle = it?.originalTitle,
             overview = it?.overview,
@@ -53,7 +53,7 @@ fun List<MovieItem?>?.asPopularMovieRoom(): List<Movie>? {
 fun List<MovieItem?>?.asNowPlayingRoom(): List<Movie>? {
     return this?.map {
         Movie(
-            id = it?.id,
+            movieId = it?.id,
             title = it?.title,
             originalTitle = it?.originalTitle,
             overview = it?.overview,
@@ -69,7 +69,7 @@ fun List<MovieItem?>?.asNowPlayingRoom(): List<Movie>? {
 fun List<MovieItem?>?.asTopRatedRoom(): List<Movie>? {
     return this?.map {
         Movie(
-            id = it?.id,
+            movieId = it?.id,
             title = it?.title,
             originalTitle = it?.originalTitle,
             overview = it?.overview,
@@ -85,7 +85,7 @@ fun List<MovieItem?>?.asTopRatedRoom(): List<Movie>? {
 fun List<MovieItem?>?.asUpcomingRoom(): List<Movie>? {
     return this?.map {
         Movie(
-            id = it?.id,
+            movieId = it?.id,
             title = it?.title,
             originalTitle = it?.originalTitle,
             overview = it?.overview,

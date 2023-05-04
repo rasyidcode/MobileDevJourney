@@ -74,6 +74,7 @@ fun bindTextViewMovieOverview(textView: TextView, movieOverview: String?) {
 @BindingAdapter("movieList")
 fun bindRecyclerView(recyclerView: RecyclerView, data: List<Movie>?) {
     val adapter = recyclerView.adapter as MovieListAdapter
+    Log.d(TAG, "data length: ${data?.size}")
     adapter.submitList(data)
 }
 
@@ -95,6 +96,8 @@ fun bindNetworkErrorTextView(
     movieList: List<Movie>?,
     context: Context?
 ) {
+    Log.d(TAG, "isNetworkError: $isNetworkError")
+    Log.d(TAG, "movieList: ${movieList?.size}")
     isNetworkError?.let {
         if (isNetworkError && movieList.isNullOrEmpty()) {
             Log.d(TAG, "isNetworkError")

@@ -42,7 +42,7 @@ data class MovieDetailResponse(
 
 fun MovieDetailResponse?.asMovieLatestRoom(): Movie {
     return Movie(
-        id = this?.id,
+        movieId = this?.id,
         title = this?.title,
         overview = this?.overview,
         posterPath = this?.posterPath,

@@ -9,7 +9,7 @@ import com.rasyidcode.movieapp.data.database.genre.GenreDao
 import com.rasyidcode.movieapp.data.database.movie.Movie
 import com.rasyidcode.movieapp.data.database.movie.MovieDao
 
-@Database(entities = [Movie::class, Genre::class], version = 1, exportSchema = false)
+@Database(entities = [Movie::class, Genre::class], version = 2, exportSchema = false)
 abstract class MovieDatabase : RoomDatabase() {
 
     abstract fun movieDao(): MovieDao
@@ -26,7 +26,8 @@ abstract class MovieDatabase : RoomDatabase() {
                     context,
                     MovieDatabase::class.java,
                     "app_database"
-                ).build()
+                ).fallbackToDestructiveMigration()
+                    .build()
                 INSTANCE = instance
 
                 return instance

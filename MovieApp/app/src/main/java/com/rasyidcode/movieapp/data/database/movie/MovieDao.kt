@@ -20,4 +20,7 @@ interface MovieDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(movie: Movie)
+
+    @Query("DELETE FROM movie WHERE list_type = :listType")
+    suspend fun deleteAllByListType(listType: String)
 }

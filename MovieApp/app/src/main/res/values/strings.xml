@@ -20,4 +20,6 @@
     <string name="no_genres">No Genre</string>
     <string name="latest_movie">Latest Movie</string>
     <string name="refresh_latest_movie">Refresh Latest Movie</string>
+
+    <string name="network_error">Something went wrong</string>
 </resources>

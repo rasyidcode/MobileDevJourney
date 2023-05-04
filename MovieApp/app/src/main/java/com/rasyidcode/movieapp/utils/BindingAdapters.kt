@@ -1,5 +1,6 @@
 package com.rasyidcode.movieapp.utils
 
+import android.content.Context
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
@@ -87,15 +88,18 @@ fun bindProgressBarMovieLatest(progressBar: ProgressBar, isLoading: Boolean?) {
     }
 }
 
-@BindingAdapter("isNetworkError", "movieList")
+@BindingAdapter("isNetworkError", "movieList", "context")
 fun bindNetworkErrorTextView(
     textView: TextView,
     isNetworkError: Boolean?,
-    movieList: List<Movie>?
+    movieList: List<Movie>?,
+    context: Context?
 ) {
     isNetworkError?.let {
         if (isNetworkError && movieList.isNullOrEmpty()) {
-            "Something went wrong"
+            Log.d(TAG, "isNetworkError")
+            textView.visibility = View.VISIBLE
+            textView.text = context?.getString(R.string.network_error)
         } else {
             textView.visibility = View.GONE
         }

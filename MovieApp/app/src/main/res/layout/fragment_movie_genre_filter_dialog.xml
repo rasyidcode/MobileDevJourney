@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.rasyidcode.movieapp.ui.movie.MovieViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <CheckBox
+                    android:id="@+id/checkbox_action"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> viewModel.setGenre(28)}"
+                    android:text="@string/genre_action" />
+
+                <CheckBox
+                    android:id="@+id/checkbox_adventure"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> viewModel.setGenre(12)}"
+                    android:text="@string/genre_adventure" />
+
+                <CheckBox
+                    android:id="@+id/checkbox_animation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> viewModel.setGenre(16)}"
+                    android:text="@string/genre_animation" />
+
+                <CheckBox
+                    android:id="@+id/checkbox_comedy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> viewModel.setGenre(35)}"
+                    android:text="@string/genre_comedy" />
+
+                <CheckBox
+                    android:id="@+id/checkbox_crime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> viewModel.setGenre(80)}"
+                    android:text="@string/genre_crime" />
+
+                <CheckBox
+                    android:id="@+id/checkbox_documentary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> viewModel.setGenre(99)}"
+                    android:text="@string/genre_documentary" />
+
+                <CheckBox
+                    android:id="@+id/checkbox_drama"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> viewModel.setGenre(18)}"
+                    android:text="@string/genre_drama" />
+
+                <CheckBox
+                    android:id="@+id/checkbox_family"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> viewModel.setGenre(10751)}"
+                    android:text="@string/genre_family" />
+
+                <CheckBox
+                    android:id="@+id/checkbox_fantasy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> viewModel.setGenre(14)}"
+                    android:text="@string/genre_fantasy" />
+
+                <CheckBox
+                    android:id="@+id/checkbox_history"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> viewModel.setGenre(36)}"
+                    android:text="@string/genre_history" />
+
+                <CheckBox
+                    android:id="@+id/checkbox_horror"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> viewModel.setGenre(27)}"
+                    android:text="@string/genre_horror" />
+
+                <CheckBox
+                    android:id="@+id/checkbox_music"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> viewModel.setGenre(10402)}"
+                    android:text="@string/genre_music" />
+
+                <CheckBox
+                    android:id="@+id/checkbox_mystery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> viewModel.setGenre(9648)}"
+                    android:text="@string/genre_mystery" />
+
+                <CheckBox
+                    android:id="@+id/checkbox_romance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> viewModel.setGenre(10749)}"
+                    android:text="@string/genre_romance" />
+
+                <CheckBox
+                    android:id="@+id/checkbox_science_fiction"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> viewModel.setGenre(878)}"
+                    android:text="@string/genre_science_fiction" />
+
+                <CheckBox
+                    android:id="@+id/checkbox_tv_movie"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> viewModel.setGenre(10770)}"
+                    android:text="@string/genre_tv_movie" />
+
+                <CheckBox
+                    android:id="@+id/checkbox_thriller"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> viewModel.setGenre(53)}"
+                    android:text="@string/genre_thriller" />
+
+                <CheckBox
+                    android:id="@+id/checkbox_war"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> viewModel.setGenre(10752)}"
+                    android:text="@string/genre_war" />
+
+                <CheckBox
+                    android:id="@+id/checkbox_western"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{() -> viewModel.setGenre(37)}"
+                    android:text="@string/genre_western" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+</layout>

@@ -40,9 +40,6 @@ class MovieListActivity : AppCompatActivity() {
     }
 
     private var isDrawerOpened = false
-    private var isNowPlayingVisible = false
-    private var isTopRatedVisible = false
-    private var isUpcomingVisible = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,31 +54,31 @@ class MovieListActivity : AppCompatActivity() {
         setupDrawer()
         setupNavigation()
         setupHandleBackPressed()
+        setupFloatingActionButton()
+    }
 
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            when (destination.id) {
-                R.id.fragment_now_playing -> {
-                    if (!isNowPlayingVisible) {
-                        viewModel.fetchNowPlaying()
-                        isNowPlayingVisible = true
-                    }
-                }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.appbar_menu, menu)
+        return true
+    }
 
-                R.id.fragment_top_rated -> {
-                    if (!isTopRatedVisible) {
-                        viewModel.fetchTopRated()
-                        isTopRatedVisible = true
-                    }
-                }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.refresh_list -> viewModel.refreshList(
+                listType = when (navController.currentDestination?.id) {
+                    R.id.fragment_popular_movie -> MovieListType.POPULAR
 
-                R.id.fragment_upcoming -> {
-                    if (!isUpcomingVisible) {
-                        viewModel.fetchUpcoming()
-                        isUpcomingVisible = true
-                    }
+                    R.id.fragment_now_playing -> MovieListType.NOW_PLAYING
+
+                    R.id.fragment_top_rated -> MovieListType.TOP_RATED
+
+                    R.id.fragment_upcoming -> MovieListType.UPCOMING
+
+                    else -> null
                 }
-            }
+            )
         }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun setupToolbar() {
@@ -185,28 +182,21 @@ class MovieListActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.appbar_menu, menu)
-        return true
+    private fun setupFloatingActionButton() {
+        binding.fabClickListener = MovieFilterDialogClickListener {
+            MovieGenreFilterDialogFragment().apply {
+                show(
+                    supportFragmentManager,
+                    "GenreFilterDialog"
+                )
+            }
+        }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.refresh_list -> viewModel.refreshList(
-                listType = when (navController.currentDestination?.id) {
-                    R.id.fragment_popular_movie -> MovieListType.POPULAR
-
-                    R.id.fragment_now_playing -> MovieListType.NOW_PLAYING
-
-                    R.id.fragment_top_rated -> MovieListType.TOP_RATED
-
-                    R.id.fragment_upcoming -> MovieListType.UPCOMING
-
-                    else -> null
-                }
-            )
-        }
-        return super.onOptionsItemSelected(item)
+    class MovieFilterDialogClickListener(
+        private val clickListener: (genreIds: List<String>?) -> Unit
+    ) {
+        fun onClick(genreIds: List<String>?) = clickListener(genreIds)
     }
 
     companion object {

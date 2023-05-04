@@ -9,6 +9,10 @@
         <variable
             name="viewModel"
             type="com.rasyidcode.movieapp.ui.movie.MovieViewModel" />
+
+        <variable
+            name="fabClickListener"
+            type="com.rasyidcode.movieapp.ui.movie.MovieListActivity.MovieFilterDialogClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -178,6 +182,18 @@
             </com.google.android.material.navigation.NavigationView>
 
         </androidx.drawerlayout.widget.DrawerLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:contentDescription="@string/no_desc"
+            android:onClick="@{() -> fabClickListener.onClick(viewModel.selectedGenreIds)}"
+            android:theme="@style/Theme.MovieApp.Fab"
+            app:backgroundTint="@color/purple_500"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/baseline_filter_list_24" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -142,11 +142,12 @@ class MovieRepository(
         }
     }
 
-    suspend fun fetchPopularMovies(page: Int) {
+    suspend fun fetchPopularMovies(page: Int, withGenres: List<String>? = null) {
         withContext(Dispatchers.IO) {
             val popularMovies = movieApiService.getPopularMovies(
                 page = page,
-                apiKey = BuildConfig.API_KEY
+                apiKey = BuildConfig.API_KEY,
+                withGenres = withGenres?.joinToString()
             )
 
             val movieList: List<Movie>? = popularMovies.results?.asPopularMovieRoom()

@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.rasyidcode.movieapp.data.database.movie.MovieListType
 import com.rasyidcode.movieapp.data.domain.Movie
@@ -43,11 +44,17 @@ class MovieViewModel(
     private var _topRatedPage: Int = 0
     private var _upcomingPage: Int = 0
 
+    private val _selectedGenreIds: MutableLiveData<MutableList<Int>?> = MutableLiveData(null)
+    val selectedGenreIds: LiveData<List<Int>?> = _selectedGenreIds.map { it?.toList() }
+
     init {
         clearData()
 
         fetchNetworkGenres()
         fetchPopularMovies()
+        fetchNowPlaying()
+        fetchTopRated()
+        fetchUpcoming()
     }
 
     fun fetchPopularMovies() {
@@ -55,8 +62,13 @@ class MovieViewModel(
 
         viewModelScope.launch {
             _isMovieListLoading.value = true
+
             try {
-                movieRepository.fetchPopularMovies(_popularMoviePage)
+
+                movieRepository.fetchPopularMovies(
+                    page = _popularMoviePage
+                )
+
                 _isMovieListLoading.value = false
             } catch (exception: IOException) {
                 Log.e(TAG, exception.message.toString())
@@ -132,6 +144,7 @@ class MovieViewModel(
         listType?.let {
             viewModelScope.launch {
                 movieRepository.clearList(it)
+
                 when (it) {
                     MovieListType.POPULAR -> {
                         _popularMoviePage = 0
@@ -156,6 +169,12 @@ class MovieViewModel(
                     else -> {}
                 }
             }
+        }
+    }
+
+    fun setGenre(id: Int?) {
+        id?.let {
+            _selectedGenreIds.value?.add(it)
         }
     }
 

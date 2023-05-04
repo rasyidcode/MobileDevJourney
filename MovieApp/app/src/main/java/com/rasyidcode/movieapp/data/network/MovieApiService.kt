@@ -24,6 +24,7 @@ interface MovieApiService {
     @GET("movie/popular")
     suspend fun getPopularMovies(
         @Query("page") page: Int,
+        @Query("with_genres") withGenres: String? = null,
         @Query("api_key") apiKey: String
     ): MovieListResponse
 

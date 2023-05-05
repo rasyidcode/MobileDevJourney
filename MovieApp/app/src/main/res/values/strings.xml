@@ -45,4 +45,6 @@
     <string name="genre_thriller">Thriller</string>
     <string name="genre_war">War</string>
     <string name="genre_western">Western</string>
+    <string name="button_filter_text">Filter</string>
+    <string name="btn_cancel_text">Cancel</string>
 </resources>

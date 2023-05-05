@@ -195,6 +195,12 @@ class MovieListActivity : AppCompatActivity() {
         viewModel.selectedGenreIds.observe(this) {
             Log.d(TAG, "selectedGenreIds: $it")
         }
+        viewModel.selectedGenreIdsSize.observe(this) {
+            Log.d(TAG, "selectedGenreIds size: $it")
+        }
+        viewModel.lastSelectedGenreId.observe(this) {
+            Log.d(TAG, "lastSelectedGenreId: $it")
+        }
     }
 
     class MovieFilterDialogClickListener(

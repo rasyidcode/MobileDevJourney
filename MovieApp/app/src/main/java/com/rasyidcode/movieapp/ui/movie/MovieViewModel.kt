@@ -49,6 +49,11 @@ class MovieViewModel(
         MutableLiveData(mutableListOf())
     val selectedGenreIds: LiveData<List<Int>?> = _selectedGenreIds.map { it?.toList() }
 
+    val selectedGenreIdsSize: LiveData<Int> = _selectedGenreIds.map { it.size }
+
+    private val _lastSelectedGenreId: MutableLiveData<Int> = MutableLiveData(0)
+    val lastSelectedGenreId: LiveData<Int> = _lastSelectedGenreId
+
     init {
         clearData()
 
@@ -193,13 +198,27 @@ class MovieViewModel(
     fun setGenre(id: Int?) {
         id?.let {
             if (_selectedGenreIds.value?.contains(it) != true) {
-                _selectedGenreIds.value?.add(it)
+                val oldList = _selectedGenreIds.value
+                oldList?.add(it)
+                oldList?.let { list ->
+                    _selectedGenreIds.value = list
+                }
             } else {
-                _selectedGenreIds.value?.remove(it)
+                val oldList = _selectedGenreIds.value
+                oldList?.remove(it)
+                oldList?.let { list ->
+                    _selectedGenreIds.value = list
+                }
             }
         }
 
         Log.d(TAG, "selectedGenres: ${_selectedGenreIds.value}")
+
+        _lastSelectedGenreId.value = if (_selectedGenreIds.value.isNullOrEmpty()) {
+            0
+        } else {
+            _selectedGenreIds.value?.last()
+        }
     }
 
     fun clearFilters() {

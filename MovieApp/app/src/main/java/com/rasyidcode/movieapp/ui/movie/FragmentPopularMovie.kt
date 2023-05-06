@@ -46,8 +46,13 @@ class FragmentPopularMovie : Fragment() {
 
                     if (!recyclerView.canScrollVertically(1)) {
                         if (!lockFetchData) {
-                            Log.d(TAG, "Fetching new data..")
-                            movieViewModel.fetchPopularMovies()
+                            movieViewModel.selectedGenreIdsSize.observe(viewLifecycleOwner) { genreFilterSize ->
+                                if (genreFilterSize > 0) {
+                                    movieViewModel.fetchPopularMovieWithFilter(keepFilter = true)
+                                } else {
+                                    movieViewModel.fetchPopularMovies()
+                                }
+                            }
 
                             lockFetchData = true
 

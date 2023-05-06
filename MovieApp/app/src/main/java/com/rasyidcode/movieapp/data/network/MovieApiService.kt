@@ -15,14 +15,15 @@ interface MovieApiService {
         @Query("api_key") apiKey: String
     ): MovieDetailResponse
 
-    @GET("movie/now_playing")
-    suspend fun getNowPlayingMovies(
+    @GET("movie/popular")
+    suspend fun getPopularMovies(
         @Query("page") page: Int,
+        @Query("with_genres") withGenres: String? = null,
         @Query("api_key") apiKey: String
     ): MovieListResponse
 
-    @GET("movie/popular")
-    suspend fun getPopularMovies(
+    @GET("movie/now_playing")
+    suspend fun getNowPlayingMovies(
         @Query("page") page: Int,
         @Query("with_genres") withGenres: String? = null,
         @Query("api_key") apiKey: String
@@ -31,12 +32,14 @@ interface MovieApiService {
     @GET("movie/top_rated")
     suspend fun getTopRatedMovies(
         @Query("page") page: Int,
+        @Query("with_genres") withGenres: String? = null,
         @Query("api_key") apiKey: String
     ): MovieListResponse
 
     @GET("movie/upcoming")
     suspend fun getUpComingMovies(
         @Query("page") page: Int,
+        @Query("with_genres") withGenres: String? = null,
         @Query("api_key") apiKey: String
     ): MovieListResponse
 

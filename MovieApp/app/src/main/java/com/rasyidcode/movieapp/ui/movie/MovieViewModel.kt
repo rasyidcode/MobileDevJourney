@@ -40,10 +40,12 @@ class MovieViewModel(
     val isNetworkError: LiveData<Boolean> = _isNetworkError
 
     private var _popularMoviePage: Int = 0
+    private var _popularMovieFilterPage: Int = 0
+    private var _lastGenreFilterList: List<Int> = emptyList()
+
     private var _nowPlayingPage: Int = 0
     private var _topRatedPage: Int = 0
     private var _upcomingPage: Int = 0
-    private var _isListReset: Boolean = false
 
     private val _selectedGenreIds: MutableLiveData<MutableList<Int>> =
         MutableLiveData(mutableListOf())
@@ -65,30 +67,75 @@ class MovieViewModel(
     }
 
     fun fetchPopularMovies() {
-        Log.d(
-            TAG,
-            "withGenres: ${
-                _selectedGenreIds.value?.map { it.toString() }?.toList().toString()
-            }"
-        )
-
         viewModelScope.launch {
             _isMovieListLoading.value = true
-
-            if (!_selectedGenreIds.value.isNullOrEmpty()) {
-                if (!_isListReset) {
-                    movieRepository.clearList(listType = MovieListType.POPULAR)
-
-                    _popularMoviePage = 0
-                    _isListReset = true
-                }
-            }
 
             _popularMoviePage++
 
             try {
                 movieRepository.fetchPopularMovies(
-                    page = _popularMoviePage,
+                    page = _popularMoviePage
+                )
+
+                _isMovieListLoading.value = false
+            } catch (exception: IOException) {
+                Log.e(TAG, exception.message.toString())
+
+                _isMovieListLoading.value = false
+                _isNetworkError.value = true
+            }
+        }
+    }
+
+    fun fetchPopularMovieWithFilter(keepFilter: Boolean = false) {
+        _isMovieListLoading.value = true
+
+        viewModelScope.launch {
+            if (!keepFilter) {
+                movieRepository.clearList(listType = MovieListType.POPULAR)
+
+                _popularMovieFilterPage = 0
+            }
+
+            _popularMovieFilterPage++
+
+            try {
+                movieRepository.fetchPopularMovies(
+                    page = _popularMovieFilterPage,
+                    withGenres = _selectedGenreIds.value?.map { it.toString() }?.toList()
+                )
+
+                _selectedGenreIds.value?.let {
+                    _lastGenreFilterList = it
+                }
+
+                _isMovieListLoading.value = false
+            } catch (exception: IOException) {
+                Log.e(TAG, exception.message.toString())
+
+                _isNetworkError.value = true
+                _isMovieListLoading.value = false
+            }
+        }
+    }
+
+    fun fetchNowPlaying() {
+        viewModelScope.launch {
+            _isMovieListLoading.value = true
+
+            if (!_selectedGenreIds.value.isNullOrEmpty()) {
+                movieRepository.clearList(
+                    listType = MovieListType.NOW_PLAYING
+                )
+
+                _nowPlayingPage = 0
+            }
+
+            _nowPlayingPage++
+
+            try {
+                movieRepository.fetchNowPlaying(
+                    page = _nowPlayingPage,
                     withGenres = _selectedGenreIds.value?.map { it.toString() }?.toList()
                 )
 
@@ -102,28 +149,25 @@ class MovieViewModel(
         }
     }
 
-    fun fetchNowPlaying() {
-        _nowPlayingPage++
-        viewModelScope.launch {
-            _isMovieListLoading.value = true
-            try {
-                movieRepository.fetchNowPlaying(_nowPlayingPage)
-                _isMovieListLoading.value = false
-            } catch (exception: IOException) {
-                Log.e(TAG, exception.message.toString())
-
-                _isMovieListLoading.value = false
-                _isNetworkError.value = true
-            }
-        }
-    }
-
     fun fetchTopRated() {
-        _topRatedPage++
         viewModelScope.launch {
             _isMovieListLoading.value = true
+
+            if (!_selectedGenreIds.value.isNullOrEmpty()) {
+                movieRepository.clearList(
+                    listType = MovieListType.TOP_RATED
+                )
+
+                _topRatedPage = 0
+            }
+
+            _topRatedPage++
+
             try {
-                movieRepository.fetchTopRated(_topRatedPage)
+                movieRepository.fetchTopRated(
+                    page = _topRatedPage,
+                    withGenres = _selectedGenreIds.value?.map { it.toString() }?.toList()
+                )
                 _isMovieListLoading.value = false
             } catch (exception: IOException) {
                 Log.e(TAG, exception.message.toString())
@@ -135,11 +179,24 @@ class MovieViewModel(
     }
 
     fun fetchUpcoming() {
-        _upcomingPage++
         viewModelScope.launch {
             _isMovieListLoading.value = true
+
+            if (!_selectedGenreIds.value.isNullOrEmpty()) {
+                movieRepository.clearList(
+                    listType = MovieListType.TOP_RATED
+                )
+
+                _upcomingPage = 0
+            }
+
+            _upcomingPage++
+
             try {
-                movieRepository.fetchUpcoming(_upcomingPage)
+                movieRepository.fetchUpcoming(
+                    page = _upcomingPage,
+                    withGenres = _selectedGenreIds.value?.map { it.toString() }?.toList()
+                )
                 _isMovieListLoading.value = false
             } catch (exception: IOException) {
                 Log.e(TAG, exception.message.toString())
@@ -164,6 +221,7 @@ class MovieViewModel(
     }
 
     fun refreshList(listType: MovieListType?) {
+        _selectedGenreIds.value = mutableListOf()
         listType?.let {
             viewModelScope.launch {
                 movieRepository.clearList(it)
@@ -223,7 +281,6 @@ class MovieViewModel(
 
     fun clearFilters() {
         _selectedGenreIds.value = mutableListOf()
-        _isListReset = false
     }
 
     private fun fetchNetworkGenres() {

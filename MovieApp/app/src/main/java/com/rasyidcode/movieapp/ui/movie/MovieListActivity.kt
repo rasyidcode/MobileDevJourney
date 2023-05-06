@@ -55,6 +55,10 @@ class MovieListActivity : AppCompatActivity() {
         setupNavigation()
         setupHandleBackPressed()
         setupFloatingActionButton()
+
+        navController.addOnDestinationChangedListener { _, _, _ ->
+            viewModel.clearFilters()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -77,8 +81,10 @@ class MovieListActivity : AppCompatActivity() {
                     else -> null
                 }
             )
+
+            else -> super.onOptionsItemSelected(item)
         }
-        return super.onOptionsItemSelected(item)
+        return true
     }
 
     private fun setupToolbar() {

@@ -191,6 +191,7 @@
             android:onClick="@{() -> fabClickListener.onClick()}"
             android:theme="@style/Theme.MovieApp.Fab"
             app:backgroundTint="@color/purple_500"
+            app:isFilterApplied="@{viewModel.selectedGenreIds.size() > 0}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/baseline_filter_list_24" />

@@ -11,6 +11,7 @@ import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.rasyidcode.movieapp.BuildConfig
 import com.rasyidcode.movieapp.R
 import com.rasyidcode.movieapp.data.domain.Movie
@@ -74,7 +75,6 @@ fun bindTextViewMovieOverview(textView: TextView, movieOverview: String?) {
 @BindingAdapter("movieList")
 fun bindRecyclerView(recyclerView: RecyclerView, data: List<Movie>?) {
     val adapter = recyclerView.adapter as MovieListAdapter
-    Log.d(TAG, "data length: ${data?.size}")
     adapter.submitList(data)
 }
 
@@ -96,15 +96,28 @@ fun bindNetworkErrorTextView(
     movieList: List<Movie>?,
     context: Context?
 ) {
-    Log.d(TAG, "isNetworkError: $isNetworkError")
-    Log.d(TAG, "movieList: ${movieList?.size}")
     isNetworkError?.let {
         if (isNetworkError && movieList.isNullOrEmpty()) {
-            Log.d(TAG, "isNetworkError")
             textView.visibility = View.VISIBLE
             textView.text = context?.getString(R.string.network_error)
         } else {
             textView.visibility = View.GONE
         }
     }
+}
+
+@BindingAdapter("isFilterApplied")
+fun bindFloatingActionButton(
+    floatingActionButton: FloatingActionButton,
+    isFilterApplied: Boolean?
+) {
+
+    floatingActionButton.setImageResource(
+        if (isFilterApplied == true) {
+            R.drawable.baseline_filter_alt_off_24
+        } else {
+            R.drawable.baseline_filter_alt_24
+        }
+    )
+
 }

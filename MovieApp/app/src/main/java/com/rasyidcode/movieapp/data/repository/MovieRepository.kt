@@ -146,8 +146,8 @@ class MovieRepository(
         withContext(Dispatchers.IO) {
             val popularMovies = movieApiService.getPopularMovies(
                 page = page,
-                apiKey = BuildConfig.API_KEY,
-                withGenres = withGenres?.joinToString()
+                withGenres = withGenres?.joinToString(),
+                apiKey = BuildConfig.API_KEY
             )
 
             val movieList: List<Movie>? = popularMovies.results?.asPopularMovieRoom()
@@ -157,10 +157,11 @@ class MovieRepository(
         }
     }
 
-    suspend fun fetchNowPlaying(page: Int) {
+    suspend fun fetchNowPlaying(page: Int, withGenres: List<String>? = null) {
         withContext(Dispatchers.IO) {
             val nowPlaying = movieApiService.getNowPlayingMovies(
                 page = page,
+                withGenres = withGenres?.joinToString(),
                 apiKey = BuildConfig.API_KEY
             )
 
@@ -171,10 +172,11 @@ class MovieRepository(
         }
     }
 
-    suspend fun fetchTopRated(page: Int) {
+    suspend fun fetchTopRated(page: Int, withGenres: List<String>?) {
         withContext(Dispatchers.IO) {
             val topRated = movieApiService.getTopRatedMovies(
                 page = page,
+                withGenres = withGenres?.joinToString(),
                 apiKey = BuildConfig.API_KEY
             )
 
@@ -185,10 +187,11 @@ class MovieRepository(
         }
     }
 
-    suspend fun fetchUpcoming(page: Int) {
+    suspend fun fetchUpcoming(page: Int, withGenres: List<String>?) {
         withContext(Dispatchers.IO) {
             val upcoming = movieApiService.getUpComingMovies(
                 page = page,
+                withGenres = withGenres?.joinToString(),
                 apiKey = BuildConfig.API_KEY
             )
 

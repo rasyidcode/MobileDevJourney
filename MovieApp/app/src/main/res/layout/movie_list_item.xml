@@ -8,11 +8,20 @@
         <variable
             name="movie"
             type="com.rasyidcode.movieapp.data.domain.Movie" />
+
+        <variable
+            name="movieItemClick"
+            type="com.rasyidcode.movieapp.ui.movie_list.MovieListActivity.OnMovieItemClick" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="@{() -> movieItemClick.onClick(movie.movieId)}"
         android:paddingStart="@dimen/item_horizontal_padding"
         android:paddingTop="@dimen/item_vertical_padding"
         android:paddingEnd="@dimen/item_horizontal_padding"

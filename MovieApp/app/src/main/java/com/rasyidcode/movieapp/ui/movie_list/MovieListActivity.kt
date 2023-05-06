@@ -214,6 +214,14 @@ class MovieListActivity : AppCompatActivity() {
         fun onClick() = clickListener()
     }
 
+    class OnMovieItemClick(
+        private val onMovieItemClick: (movieId: Int) -> Unit
+    ) {
+
+        fun onClick(movieId: Int) = onMovieItemClick(movieId)
+
+    }
+
     companion object {
         const val TAG = "MovieListActivity"
     }

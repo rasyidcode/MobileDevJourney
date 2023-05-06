@@ -1,6 +1,7 @@
 package com.rasyidcode.movieapp.utils
 
 import android.content.Context
+import android.content.Intent
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -16,6 +17,8 @@ import com.rasyidcode.movieapp.BuildConfig
 import com.rasyidcode.movieapp.R
 import com.rasyidcode.movieapp.data.domain.Movie
 import com.rasyidcode.movieapp.data.domain.Review
+import com.rasyidcode.movieapp.ui.movie_detail.MovieDetailActivity
+import com.rasyidcode.movieapp.ui.movie_list.MovieListActivity
 import com.rasyidcode.movieapp.ui.movie_list.MovieListAdapter
 import com.rasyidcode.movieapp.ui.review_list.ReviewListAdapter
 
@@ -74,10 +77,17 @@ fun bindTextViewMovieOverview(textView: TextView, movieOverview: String?) {
     }
 }
 
-@BindingAdapter("movieList")
-fun bindMovieList(recyclerView: RecyclerView, data: List<Movie>?) {
-    val adapter = recyclerView.adapter as MovieListAdapter
-    adapter.submitList(data)
+@BindingAdapter("movieList", "context")
+fun bindMovieList(recyclerView: RecyclerView, data: List<Movie>?, context: Context?) {
+    val adapter = MovieListAdapter(MovieListActivity.OnMovieItemClick { movieId ->
+        context?.startActivity(Intent(context, MovieDetailActivity::class.java).apply {
+            putExtra(MovieDetailActivity.MOVIE_ID, movieId)
+        })
+    }).apply {
+        submitList(data)
+    }
+
+    recyclerView.adapter = adapter
 }
 
 @BindingAdapter("movieListOnDetail", "context")

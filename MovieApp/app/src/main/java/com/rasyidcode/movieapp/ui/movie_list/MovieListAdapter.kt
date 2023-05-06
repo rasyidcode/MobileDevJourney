@@ -8,14 +8,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rasyidcode.movieapp.data.domain.Movie
 import com.rasyidcode.movieapp.databinding.MovieListItemBinding
 
-class MovieListAdapter : ListAdapter<Movie, MovieListAdapter.MovieListViewHolder>(DiffCallback) {
+class MovieListAdapter(
+    private val onMovieItemClick: MovieListActivity.OnMovieItemClick
+) : ListAdapter<Movie, MovieListAdapter.MovieListViewHolder>(DiffCallback) {
 
     class MovieListViewHolder(
         private val binding: MovieListItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(movie: Movie) {
+        fun bind(movie: Movie, onMovieItemClick: MovieListActivity.OnMovieItemClick) {
             binding.movie = movie
+            binding.movieItemClick = onMovieItemClick
             binding.executePendingBindings()
         }
 
@@ -31,7 +34,7 @@ class MovieListAdapter : ListAdapter<Movie, MovieListAdapter.MovieListViewHolder
     }
 
     override fun onBindViewHolder(holder: MovieListViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), onMovieItemClick)
     }
 
     companion object {

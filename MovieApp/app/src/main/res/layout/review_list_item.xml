@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="review"
+            type="com.rasyidcode.movieapp.data.domain.Review" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -8,13 +8,16 @@ import android.widget.RatingBar
 import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.rasyidcode.movieapp.BuildConfig
 import com.rasyidcode.movieapp.R
 import com.rasyidcode.movieapp.data.domain.Movie
+import com.rasyidcode.movieapp.data.domain.Review
 import com.rasyidcode.movieapp.ui.movie_list.MovieListAdapter
+import com.rasyidcode.movieapp.ui.review_list.ReviewListAdapter
 
 private const val TAG = "BindingAdapters"
 
@@ -72,9 +75,25 @@ fun bindTextViewMovieOverview(textView: TextView, movieOverview: String?) {
 }
 
 @BindingAdapter("movieList")
-fun bindRecyclerView(recyclerView: RecyclerView, data: List<Movie>?) {
+fun bindMovieList(recyclerView: RecyclerView, data: List<Movie>?) {
     val adapter = recyclerView.adapter as MovieListAdapter
     adapter.submitList(data)
+}
+
+@BindingAdapter("movieListOnDetail", "context")
+fun bindSimilarMovieListOnDetail(
+    recyclerView: RecyclerView,
+    movies: List<Movie>?,
+    context: Context?
+) {
+    recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+    (recyclerView.adapter as MovieListAdapter).submitList(movies)
+}
+
+@BindingAdapter("reviewList", "context")
+fun bindReviewList(recyclerView: RecyclerView, reviews: List<Review>?, context: Context?) {
+    recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+    (recyclerView.adapter as ReviewListAdapter).submitList(reviews)
 }
 
 @BindingAdapter("isLoading")

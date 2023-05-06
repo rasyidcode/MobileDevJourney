@@ -8,6 +8,18 @@
         <variable
             name="viewModel"
             type="com.rasyidcode.movieapp.ui.movie_detail.MovieDetailViewModel" />
+
+        <variable
+            name="movieId"
+            type="Integer" />
+
+        <variable
+            name="movie"
+            type="com.rasyidcode.movieapp.data.domain.Movie" />
+
+        <variable
+            name="onSeeAllListener"
+            type="com.rasyidcode.movieapp.ui.movie_detail.MovieDetailActivity.SeeAllClickListener" />
     </data>
 
     <ScrollView
@@ -27,6 +39,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:posterPath="@{movie.posterPath}"
                 tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
             <TextView
@@ -36,6 +49,7 @@
                 android:layout_marginTop="8dp"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
+                android:text="@{movie.title}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                 app:layout_constraintTop_toBottomOf="@+id/movie_poster"
                 tools:text="Guardian of The Galaxy Vol. 3" />
@@ -46,6 +60,7 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
+                android:text="@{movie.genres}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 app:layout_constraintTop_toBottomOf="@+id/movie_title"
                 tools:text="Adventure, Action, Comedy" />
@@ -57,6 +72,7 @@
                 android:layout_marginTop="8dp"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
+                android:text="@{movie.overview}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 app:layout_constraintTop_toBottomOf="@+id/movie_genres"
                 tools:maxLines="10"
@@ -77,6 +93,7 @@
                 android:stepSize="0.05"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/movie_description"
+                app:movieRating="@{movie.voteAverage}"
                 tools:ignore="RtlSymmetry"
                 tools:rating="4.5" />
 
@@ -89,6 +106,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/movie_rating_bar"
                 app:layout_constraintStart_toEndOf="@+id/movie_rating_bar"
                 app:layout_constraintTop_toTopOf="@+id/movie_rating_bar"
+                app:movieRating="@{movie.voteAverage}"
                 tools:text="4.5" />
 
             <TextView
@@ -97,6 +115,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:paddingEnd="16dp"
+                android:text="@{movie.releaseDate}"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                 app:layout_constraintBottom_toBottomOf="@+id/movie_rating_bar"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -132,7 +151,7 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                android:text="@string/text_budget"
+                android:text="@{movie.budget}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 app:layout_constraintTop_toBottomOf="@+id/movie_budget_label"
                 tools:text="$2 mil" />
@@ -165,6 +184,7 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
+                android:text="@{movie.voteCount}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 app:layout_constraintTop_toBottomOf="@+id/movie_vote_count_label"
                 tools:text="2000" />
@@ -197,6 +217,7 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
+                android:text="@{movie.revenue}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 app:layout_constraintTop_toBottomOf="@+id/movie_revenue_label"
                 tools:text="$8 bil" />
@@ -229,6 +250,7 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
+                android:text="@{movie.originalLanguage}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 app:layout_constraintTop_toBottomOf="@+id/movie_original_lang_label"
                 tools:text="En" />
@@ -261,6 +283,7 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
+                android:text="@{movie.popularity.toString()}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 app:layout_constraintTop_toBottomOf="@+id/movie_popularity_label"
                 tools:text="2000.0" />
@@ -296,6 +319,7 @@
                 android:layout_marginEnd="16dp"
                 android:minWidth="0dp"
                 android:minHeight="0dp"
+                android:onClick="@{() -> onSeeAllListener.onSeeAllReviewClick()}"
                 android:text="@string/btn_see_all"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/movie_review_label" />
@@ -304,7 +328,9 @@
                 android:id="@+id/review_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:context="@{context}"
                 app:layout_constraintTop_toBottomOf="@+id/movie_review_label"
+                app:reviewList="@{viewModel.getTheFirstThreeReviews(movieId)}"
                 tools:itemCount="3"
                 tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/review_list_item"
@@ -341,6 +367,7 @@
                 android:layout_marginEnd="16dp"
                 android:minWidth="0dp"
                 android:minHeight="0dp"
+                android:onClick="@{() -> onSeeAllListener.onSeeAllSimilarMoviesClick()}"
                 android:text="@string/btn_see_all"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/movie_similar_label" />
@@ -349,7 +376,9 @@
                 android:id="@+id/similar_movie_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:context="@{context}"
                 app:layout_constraintTop_toBottomOf="@+id/movie_similar_label"
+                app:movieListOnDetail="@{viewModel.getTheFirstThreeSimilar(movieId)}"
                 tools:itemCount="3"
                 tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/similar_movie_list_item"

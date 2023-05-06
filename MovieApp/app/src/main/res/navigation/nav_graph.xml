@@ -6,11 +6,11 @@
 
     <fragment
         android:id="@+id/fragment_popular_movie"
-        android:name="com.rasyidcode.movieapp.ui.movie.FragmentPopularMovie"
+        android:name="com.rasyidcode.movieapp.ui.movie_list.FragmentPopularMovie"
         android:label="@string/popular" />
     <fragment
         android:id="@+id/fragment_now_playing"
-        android:name="com.rasyidcode.movieapp.ui.movie.FragmentNowPlaying"
+        android:name="com.rasyidcode.movieapp.ui.movie_list.FragmentNowPlaying"
         android:label="@string/now_playing" >
         <action
             android:id="@+id/action_fragment_now_playing_to_fragment_popular_movie"
@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragment_top_rated"
-        android:name="com.rasyidcode.movieapp.ui.movie.FragmentTopRated"
+        android:name="com.rasyidcode.movieapp.ui.movie_list.FragmentTopRated"
         android:label="@string/top_rated" >
         <action
             android:id="@+id/action_fragment_top_rated_to_fragment_popular_movie"
@@ -30,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragment_upcoming"
-        android:name="com.rasyidcode.movieapp.ui.movie.FragmentUpcoming"
+        android:name="com.rasyidcode.movieapp.ui.movie_list.FragmentUpcoming"
         android:label="@string/upcoming" >
         <action
             android:id="@+id/action_fragment_upcoming_to_fragment_popular_movie"

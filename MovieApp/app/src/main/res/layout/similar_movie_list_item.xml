@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/movie_poster"
+            android:layout_width="70dp"
+            android:layout_height="100dp"
+            android:contentDescription="@string/poster_description"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+        <TextView
+            android:id="@+id/movie_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/movie_poster"
+            app:layout_constraintTop_toTopOf="@+id/movie_poster"
+            tools:text="The Conjuring" />
+
+        <TextView
+            android:id="@+id/movie_genres"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+            android:textColor="?attr/colorPrimary"
+            app:layout_constraintEnd_toEndOf="@+id/movie_title"
+            app:layout_constraintStart_toStartOf="@+id/movie_title"
+            app:layout_constraintTop_toBottomOf="@+id/movie_title"
+            tools:text="Horror, Thriller" />
+
+        <TextView
+            android:id="@+id/movie_description"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            app:layout_constraintBottom_toTopOf="@+id/movie_rating_bar"
+            app:layout_constraintEnd_toEndOf="@+id/movie_title"
+            app:layout_constraintStart_toStartOf="@+id/movie_title"
+            app:layout_constraintTop_toBottomOf="@+id/movie_genres"
+            tools:text="@tools:sample/lorem/random" />
+
+        <RatingBar
+            android:id="@+id/movie_rating_bar"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:progressBackgroundTint="?attr/colorPrimary"
+            android:progressTint="?attr/colorPrimary"
+            android:secondaryProgressTint="?attr/colorPrimary"
+            android:stepSize="0.05"
+            app:layout_constraintBottom_toBottomOf="@+id/movie_poster"
+            app:layout_constraintStart_toStartOf="@+id/movie_title"
+            tools:rating="4.5" />
+
+        <TextView
+            android:id="@+id/movie_rating"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            app:layout_constraintBottom_toBottomOf="@+id/movie_rating_bar"
+            app:layout_constraintStart_toEndOf="@+id/movie_rating_bar"
+            app:layout_constraintTop_toTopOf="@+id/movie_rating_bar"
+            tools:text="4.5" />
+
+        <TextView
+            android:id="@+id/movie_release_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            app:layout_constraintBottom_toBottomOf="@+id/movie_rating_bar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/movie_rating_bar"
+            tools:text="@tools:sample/date/ddmmyy" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

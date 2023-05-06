@@ -50,3 +50,25 @@ fun MovieDetailResponse?.asMovieLatestRoom(): Movie {
         listType = MovieListType.LATEST.name
     )
 }
+
+fun MovieDetailResponse?.asMovieDetailRoom(listType: MovieListType): Movie {
+    return Movie(
+        movieId = this?.id,
+        title = this?.title,
+        overview = this?.overview,
+        originalTitle = this?.originalTitle,
+        originalLanguage = this?.originalLanguage,
+        posterPath = this?.posterPath,
+        revenue = this?.revenue,
+        genres = this?.genres?.joinToString(),
+        popularity = this?.popularity,
+        tagline = this?.tagline,
+        voteCount = this?.voteCount,
+        budget = this?.budget,
+        runtime = this?.runtime,
+        releaseDate = this?.releaseDate,
+        voteAverage = this?.voteAverage,
+        status = this?.status,
+        listType = listType.name
+    )
+}

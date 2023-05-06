@@ -1,6 +1,5 @@
-package com.rasyidcode.movieapp.ui.movie
+package com.rasyidcode.movieapp.ui.movie_list
 
-import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -12,31 +11,31 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.rasyidcode.movieapp.MovieApplication
-import com.rasyidcode.movieapp.databinding.FragmentNowPlayingBinding
+import com.rasyidcode.movieapp.databinding.FragmentUpcomingBinding
 
-class FragmentNowPlaying : Fragment() {
+class FragmentUpcoming : Fragment() {
 
-    private var _binding: FragmentNowPlayingBinding? = null
+    private var _binding: FragmentUpcomingBinding? = null
 
     private val binding get() = _binding!!
 
-    private val movieViewModel by activityViewModels<MovieViewModel> {
-        MovieViewModel.Factory(
+    private val movieListViewModel by activityViewModels<MovieListViewModel> {
+        MovieListViewModel.Factory(
             movieRepository = (activity?.application as MovieApplication).movieRepository
         )
     }
-    private var lockFetchData = false
 
+    private var lockFetchData = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentNowPlayingBinding.inflate(inflater, container, false)
+        _binding = FragmentUpcomingBinding.inflate(inflater, container, false)
 
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.viewModel = movieViewModel
+        binding.lifecycleOwner = this
+        binding.viewModel = movieListViewModel
         binding.recyclerView.adapter = MovieListAdapter()
         binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -46,7 +45,7 @@ class FragmentNowPlaying : Fragment() {
                     if (!lockFetchData) {
                         Log.d(FragmentPopularMovie.TAG, "Fetching new data..")
 
-                        movieViewModel.fetchNowPlaying()
+                        movieListViewModel.fetchUpcoming()
 
                         lockFetchData = true
 
@@ -64,10 +63,6 @@ class FragmentNowPlaying : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    companion object {
-        private const val TAG = "FragmentNowPlaying"
     }
 
 }

@@ -1,4 +1,4 @@
-package com.rasyidcode.movieapp.ui.movie
+package com.rasyidcode.movieapp.ui.movie_list
 
 import android.os.Bundle
 import android.os.Handler
@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.rasyidcode.movieapp.MovieApplication
-import com.rasyidcode.movieapp.databinding.FragmentNowPlayingBinding
 import com.rasyidcode.movieapp.databinding.FragmentTopRatedBinding
 
 class FragmentTopRated : Fragment() {
@@ -20,8 +19,8 @@ class FragmentTopRated : Fragment() {
 
     private val binding get() = _binding!!
 
-    private val movieViewModel by activityViewModels<MovieViewModel> {
-        MovieViewModel.Factory(
+    private val movieListViewModel by activityViewModels<MovieListViewModel> {
+        MovieListViewModel.Factory(
             movieRepository = (activity?.application as MovieApplication).movieRepository
         )
     }
@@ -36,7 +35,7 @@ class FragmentTopRated : Fragment() {
         _binding = FragmentTopRatedBinding.inflate(inflater, container, false)
 
         binding.lifecycleOwner = this
-        binding.viewModel = movieViewModel
+        binding.viewModel = movieListViewModel
         binding.recyclerView.adapter = MovieListAdapter()
         binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -46,7 +45,7 @@ class FragmentTopRated : Fragment() {
                     if (!lockFetchData) {
                         Log.d(FragmentPopularMovie.TAG, "Fetching new data..")
 
-                        movieViewModel.fetchTopRated()
+                        movieListViewModel.fetchTopRated()
 
                         lockFetchData = true
 

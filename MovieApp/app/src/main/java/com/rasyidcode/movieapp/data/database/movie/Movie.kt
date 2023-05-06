@@ -52,7 +52,8 @@ enum class MovieListType {
     NOW_PLAYING,
     TOP_RATED,
     UPCOMING,
-    LATEST
+    LATEST,
+    SIMILAR
 }
 
 fun Movie.asMovieLatestDomain(): MovieDomain {

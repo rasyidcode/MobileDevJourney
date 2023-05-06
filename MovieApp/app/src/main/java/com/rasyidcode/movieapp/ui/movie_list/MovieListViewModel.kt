@@ -1,4 +1,4 @@
-package com.rasyidcode.movieapp.ui.movie
+package com.rasyidcode.movieapp.ui.movie_list
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -13,10 +13,9 @@ import com.rasyidcode.movieapp.data.domain.Movie
 import com.rasyidcode.movieapp.data.repository.MovieRepository
 import kotlinx.coroutines.launch
 import java.io.IOException
-import java.lang.Exception
 import java.lang.IllegalArgumentException
 
-class MovieViewModel(
+class MovieListViewModel(
     private val movieRepository: MovieRepository
 ) : ViewModel() {
 
@@ -303,9 +302,9 @@ class MovieViewModel(
         private val movieRepository: MovieRepository
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return if (modelClass.isAssignableFrom(MovieViewModel::class.java)) {
+            return if (modelClass.isAssignableFrom(MovieListViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")
-                MovieViewModel(movieRepository) as T
+                MovieListViewModel(movieRepository) as T
             } else {
                 throw IllegalArgumentException("Unable to construct viewModel")
             }

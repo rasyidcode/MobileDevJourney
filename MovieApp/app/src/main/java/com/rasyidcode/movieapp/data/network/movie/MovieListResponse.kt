@@ -97,3 +97,19 @@ fun List<MovieItem?>?.asUpcomingRoom(): List<Movie>? {
         )
     }
 }
+
+fun List<MovieItem?>?.asSimilarMoviesRoom(): List<Movie>? {
+    return this?.map {
+        Movie(
+            movieId = it?.id,
+            title = it?.title,
+            originalTitle = it?.originalTitle,
+            overview = it?.overview,
+            genreIds = it?.genreIds?.joinToString(),
+            posterPath = it?.posterPath,
+            voteAverage = it?.voteAverage,
+            releaseDate = it?.releaseDate,
+            listType = MovieListType.SIMILAR.name
+        )
+    }
+}

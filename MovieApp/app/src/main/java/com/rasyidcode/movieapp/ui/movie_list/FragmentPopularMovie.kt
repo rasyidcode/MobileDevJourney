@@ -1,15 +1,13 @@
-package com.rasyidcode.movieapp.ui.movie
+package com.rasyidcode.movieapp.ui.movie_list
 
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.rasyidcode.movieapp.MovieApplication
@@ -21,8 +19,8 @@ class FragmentPopularMovie : Fragment() {
 
     private val binding get() = _binding!!
 
-    private val movieViewModel by activityViewModels<MovieViewModel> {
-        MovieViewModel.Factory(
+    private val movieListViewModel by activityViewModels<MovieListViewModel> {
+        MovieListViewModel.Factory(
             movieRepository = (activity?.application as MovieApplication).movieRepository
         )
     }
@@ -38,7 +36,7 @@ class FragmentPopularMovie : Fragment() {
 
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
-            viewModel = movieViewModel
+            viewModel = movieListViewModel
             recyclerView.adapter = MovieListAdapter()
             recyclerView.addOnScrollListener(object : OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -46,11 +44,11 @@ class FragmentPopularMovie : Fragment() {
 
                     if (!recyclerView.canScrollVertically(1)) {
                         if (!lockFetchData) {
-                            movieViewModel.selectedGenreIdsSize.observe(viewLifecycleOwner) { genreFilterSize ->
+                            movieListViewModel.selectedGenreIdsSize.observe(viewLifecycleOwner) { genreFilterSize ->
                                 if (genreFilterSize > 0) {
-                                    movieViewModel.fetchPopularMovieWithFilter(keepFilter = true)
+                                    movieListViewModel.fetchPopularMovieWithFilter(keepFilter = true)
                                 } else {
-                                    movieViewModel.fetchPopularMovies()
+                                    movieListViewModel.fetchPopularMovies()
                                 }
                             }
 

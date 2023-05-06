@@ -1,4 +1,4 @@
-package com.rasyidcode.movieapp.ui.movie
+package com.rasyidcode.movieapp.ui.movie_list
 
 import android.os.Bundle
 import android.os.Handler
@@ -14,7 +14,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
-import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -33,8 +32,8 @@ class MovieListActivity : AppCompatActivity() {
 
     private var doubleBackToExistPressedOnce = false
 
-    private val viewModel by viewModels<MovieViewModel> {
-        MovieViewModel.Factory(
+    private val viewModel by viewModels<MovieListViewModel> {
+        MovieListViewModel.Factory(
             movieRepository = (application as MovieApplication).movieRepository
         )
     }

@@ -1,7 +1,6 @@
 package com.rasyidcode.movieapp.utils
 
 import android.content.Context
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -15,7 +14,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.rasyidcode.movieapp.BuildConfig
 import com.rasyidcode.movieapp.R
 import com.rasyidcode.movieapp.data.domain.Movie
-import com.rasyidcode.movieapp.ui.movie.MovieListAdapter
+import com.rasyidcode.movieapp.ui.movie_list.MovieListAdapter
 
 private const val TAG = "BindingAdapters"
 

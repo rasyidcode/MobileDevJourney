@@ -2,17 +2,17 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.movie.MovieListActivity">
+    tools:context=".ui.movie_list.MovieListActivity">
 
     <data>
 
         <variable
             name="viewModel"
-            type="com.rasyidcode.movieapp.ui.movie.MovieViewModel" />
+            type="com.rasyidcode.movieapp.ui.movie_list.MovieListViewModel" />
 
         <variable
             name="fabClickListener"
-            type="com.rasyidcode.movieapp.ui.movie.MovieListActivity.MovieFilterDialogClickListener" />
+            type="com.rasyidcode.movieapp.ui.movie_list.MovieListActivity.MovieFilterDialogClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

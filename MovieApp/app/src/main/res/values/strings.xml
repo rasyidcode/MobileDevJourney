@@ -47,4 +47,12 @@
     <string name="genre_western">Western</string>
     <string name="button_filter_text">Filter</string>
     <string name="btn_cancel_text">Cancel</string>
+    <string name="text_budget">Budget</string>
+    <string name="text_vote_count">Vote Count</string>
+    <string name="text_revenue">Revenue</string>
+    <string name="text_original_lang">Original Language</string>
+    <string name="text_popularity">Popularity</string>
+    <string name="similar_movie">Similar Movie</string>
+    <string name="user_review">User Review</string>
+    <string name="btn_see_all">See All</string>
 </resources>

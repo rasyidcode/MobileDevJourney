@@ -1,4 +1,4 @@
-package com.rasyidcode.movieapp.ui.movie
+package com.rasyidcode.movieapp.ui.movie_list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

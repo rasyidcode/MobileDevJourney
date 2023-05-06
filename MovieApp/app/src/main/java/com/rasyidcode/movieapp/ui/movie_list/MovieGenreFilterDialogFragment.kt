@@ -1,25 +1,19 @@
-package com.rasyidcode.movieapp.ui.movie
+package com.rasyidcode.movieapp.ui.movie_list
 
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.rasyidcode.movieapp.MovieApplication
 import com.rasyidcode.movieapp.R
-import com.rasyidcode.movieapp.data.database.movie.MovieListType
 import com.rasyidcode.movieapp.databinding.FragmentMovieGenreFilterDialogBinding
 
 class MovieGenreFilterDialogFragment : DialogFragment() {
 
-    private val movieViewModel by activityViewModels<MovieViewModel> {
-        MovieViewModel.Factory(
+    private val movieListViewModel by activityViewModels<MovieListViewModel> {
+        MovieListViewModel.Factory(
             movieRepository = (activity?.application as MovieApplication).movieRepository
         )
     }
@@ -56,7 +50,7 @@ class MovieGenreFilterDialogFragment : DialogFragment() {
             FragmentMovieGenreFilterDialogBinding.inflate(layoutInflater)
 
         binding.lifecycleOwner = this@MovieGenreFilterDialogFragment
-        binding.viewModel = movieViewModel
+        binding.viewModel = movieListViewModel
 
         val builder = activity?.let {
             AlertDialog.Builder(it)
@@ -64,13 +58,13 @@ class MovieGenreFilterDialogFragment : DialogFragment() {
                 .setView(binding.root)
                 .setPositiveButton("OK") { _, _ ->
                     when (findNavController().currentDestination?.id) {
-                        R.id.fragment_popular_movie -> movieViewModel.fetchPopularMovieWithFilter()
+                        R.id.fragment_popular_movie -> movieListViewModel.fetchPopularMovieWithFilter()
 
-                        R.id.fragment_now_playing -> movieViewModel.fetchNowPlaying()
+                        R.id.fragment_now_playing -> movieListViewModel.fetchNowPlaying()
 
-                        R.id.fragment_top_rated -> movieViewModel.fetchTopRated()
+                        R.id.fragment_top_rated -> movieListViewModel.fetchTopRated()
 
-                        R.id.fragment_upcoming -> movieViewModel.fetchUpcoming()
+                        R.id.fragment_upcoming -> movieListViewModel.fetchUpcoming()
 
                         else -> {}
                     }

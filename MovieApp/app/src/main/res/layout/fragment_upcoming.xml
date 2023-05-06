@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.rasyidcode.movieapp.ui.movie.MovieViewModel" />
+            type="com.rasyidcode.movieapp.ui.movie_list.MovieListViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

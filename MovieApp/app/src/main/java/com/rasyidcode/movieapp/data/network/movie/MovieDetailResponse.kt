@@ -51,8 +51,9 @@ fun MovieDetailResponse?.asMovieLatestRoom(): Movie {
     )
 }
 
-fun MovieDetailResponse?.asMovieDetailRoom(listType: MovieListType): Movie {
+fun MovieDetailResponse?.asMovieDetailRoom(listType: String, id: Int?): Movie {
     return Movie(
+        id = id,
         movieId = this?.id,
         title = this?.title,
         overview = this?.overview,
@@ -60,7 +61,9 @@ fun MovieDetailResponse?.asMovieDetailRoom(listType: MovieListType): Movie {
         originalLanguage = this?.originalLanguage,
         posterPath = this?.posterPath,
         revenue = this?.revenue,
-        genres = this?.genres?.joinToString(),
+        genreIds = this?.genres?.map {
+            it?.id
+        }.toString(),
         popularity = this?.popularity,
         tagline = this?.tagline,
         voteCount = this?.voteCount,
@@ -69,6 +72,6 @@ fun MovieDetailResponse?.asMovieDetailRoom(listType: MovieListType): Movie {
         releaseDate = this?.releaseDate,
         voteAverage = this?.voteAverage,
         status = this?.status,
-        listType = listType.name
+        listType = listType
     )
 }

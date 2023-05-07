@@ -18,8 +18,8 @@ interface MovieDao {
     @Query("SELECT * FROM movie WHERE list_type = :listType ORDER BY id DESC")
     fun getByType(listType: String?): Flow<Movie?>?
 
-    @Query("SELECT * FROM movie WHERE movie_id = :movieId")
-    fun getById(movieId: Int?): Flow<Movie?>?
+    @Query("SELECT * FROM movie WHERE id = :id AND movie_id = :movieId AND list_type = :listType")
+    fun getById(id: Int?, movieId: Int?, listType: String?): Flow<Movie?>?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(movies: List<Movie>)

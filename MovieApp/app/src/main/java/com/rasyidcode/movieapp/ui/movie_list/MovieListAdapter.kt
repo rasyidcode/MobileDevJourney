@@ -19,6 +19,8 @@ class MovieListAdapter(
         fun bind(movie: Movie, onMovieItemClick: MovieListActivity.OnMovieItemClick) {
             binding.movie = movie
             binding.movieItemClick = onMovieItemClick
+            binding.id = movie.id
+            binding.movieId = movie.movieId
             binding.executePendingBindings()
         }
 

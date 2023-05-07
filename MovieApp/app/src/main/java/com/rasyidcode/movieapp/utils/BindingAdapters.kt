@@ -2,6 +2,7 @@ package com.rasyidcode.movieapp.utils
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -15,12 +16,15 @@ import coil.load
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.rasyidcode.movieapp.BuildConfig
 import com.rasyidcode.movieapp.R
+import com.rasyidcode.movieapp.data.database.movie.MovieListType
 import com.rasyidcode.movieapp.data.domain.Movie
 import com.rasyidcode.movieapp.data.domain.Review
 import com.rasyidcode.movieapp.ui.movie_detail.MovieDetailActivity
 import com.rasyidcode.movieapp.ui.movie_list.MovieListActivity
 import com.rasyidcode.movieapp.ui.movie_list.MovieListAdapter
 import com.rasyidcode.movieapp.ui.review_list.ReviewListAdapter
+import java.math.RoundingMode
+import java.text.DecimalFormat
 
 private const val TAG = "BindingAdapters"
 
@@ -42,12 +46,16 @@ fun bindImage(imageView: ImageView, posterPath: String?) {
 
 @BindingAdapter("movieRating")
 fun bindRating(ratingBar: RatingBar, movieRating: Float?) {
-    ratingBar.rating = movieRating?.div(2) ?: 0f
+    val df = DecimalFormat("#.#").apply { roundingMode = RoundingMode.DOWN }
+    val rating = df.format(movieRating?.div(2) ?: 0f)
+    ratingBar.rating = rating.toFloat()
 }
 
 @BindingAdapter("movieRating")
 fun bindRatingText(textView: TextView, movieRating: Float?) {
-    textView.text = (movieRating?.div(2) ?: 0f).toString()
+    val df = DecimalFormat("#.#").apply { roundingMode = RoundingMode.DOWN }
+    val rating = df.format(movieRating?.div(2) ?: 0f)
+    textView.text = rating
 }
 
 @BindingAdapter("movieTitle")
@@ -77,17 +85,10 @@ fun bindTextViewMovieOverview(textView: TextView, movieOverview: String?) {
     }
 }
 
-@BindingAdapter("movieList", "context")
-fun bindMovieList(recyclerView: RecyclerView, data: List<Movie>?, context: Context?) {
-    val adapter = MovieListAdapter(MovieListActivity.OnMovieItemClick { movieId ->
-        context?.startActivity(Intent(context, MovieDetailActivity::class.java).apply {
-            putExtra(MovieDetailActivity.MOVIE_ID, movieId)
-        })
-    }).apply {
-        submitList(data)
-    }
-
-    recyclerView.adapter = adapter
+@BindingAdapter("movieList")
+fun bindMovieList(recyclerView: RecyclerView, data: List<Movie>?) {
+    val adapter = recyclerView.adapter as MovieListAdapter
+    adapter.submitList(data)
 }
 
 @BindingAdapter("movieListOnDetail", "context")
@@ -97,13 +98,32 @@ fun bindSimilarMovieListOnDetail(
     context: Context?
 ) {
     recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-    (recyclerView.adapter as MovieListAdapter).submitList(movies)
+    recyclerView.adapter = MovieListAdapter(MovieListActivity.OnMovieItemClick { id, movieId ->
+        Log.d(TAG, "id: $id")
+        Log.d(TAG, "movieId: $movieId")
+
+        if (id != null && movieId != null) {
+            context?.startActivity(Intent(context, MovieDetailActivity::class.java).apply {
+                putExtra(MovieDetailActivity.ID, id)
+                putExtra(MovieDetailActivity.MOVIE_ID, movieId)
+                putExtra(
+                    MovieDetailActivity.MOVIE_LIST_TYPE,
+                    MovieListType.SIMILAR.name
+                )
+            })
+        }
+
+    }).apply {
+        submitList(movies)
+    }
 }
 
 @BindingAdapter("reviewList", "context")
 fun bindReviewList(recyclerView: RecyclerView, reviews: List<Review>?, context: Context?) {
     recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-    (recyclerView.adapter as ReviewListAdapter).submitList(reviews)
+    recyclerView.adapter = ReviewListAdapter().apply {
+        submitList(reviews)
+    }
 }
 
 @BindingAdapter("isLoading")

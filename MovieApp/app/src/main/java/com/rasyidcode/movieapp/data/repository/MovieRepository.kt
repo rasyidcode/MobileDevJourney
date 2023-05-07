@@ -1,5 +1,6 @@
 package com.rasyidcode.movieapp.data.repository
 
+import android.util.Log
 import com.rasyidcode.movieapp.BuildConfig
 import com.rasyidcode.movieapp.data.database.MovieDatabase
 import com.rasyidcode.movieapp.data.database.genre.Genre
@@ -54,6 +55,7 @@ class MovieRepository(
 
                 MovieDomain(
                     id = movie.id,
+                    movieId = movie.movieId,
                     title = movie.title,
                     originalTitle = movie.originalTitle,
                     overview = movie.overview,
@@ -76,6 +78,7 @@ class MovieRepository(
 
                 MovieDomain(
                     id = movie.id,
+                    movieId = movie.movieId,
                     title = movie.title,
                     originalTitle = movie.originalTitle,
                     overview = movie.overview,
@@ -98,6 +101,7 @@ class MovieRepository(
 
                 MovieDomain(
                     id = movie.id,
+                    movieId = movie.movieId,
                     title = movie.title,
                     originalTitle = movie.originalTitle,
                     overview = movie.overview,
@@ -120,6 +124,7 @@ class MovieRepository(
 
                 MovieDomain(
                     id = movie.id,
+                    movieId = movie.movieId,
                     title = movie.title,
                     originalTitle = movie.originalTitle,
                     overview = movie.overview,
@@ -131,28 +136,38 @@ class MovieRepository(
             }
         }
 
-    fun getMovieDetail(movieId: Int?): Flow<MovieDomain>? = movieDatabase.movieDao().getById(
-        movieId = movieId
-    )?.map {
-        MovieDomain(
-            movieId = it?.id,
-            title = it?.title,
-            originalTitle = it?.originalTitle,
-            overview = it?.overview,
-            originalLanguage = it?.originalLanguage,
-            genres = it?.genres,
-            posterPath = it?.posterPath,
-            releaseDate = it?.releaseDate,
-            voteAverage = it?.voteAverage,
-            voteCount = it?.voteCount,
-            revenue = it?.revenue,
-            popularity = it?.popularity,
-            tagline = it?.tagline,
-            budget = it?.budget,
-            runtime = it?.runtime,
-            status = it?.status
-        )
-    }
+    fun getMovieDetail(id: Int?, movieId: Int?, movieListType: String?): Flow<MovieDomain?>? =
+        movieDatabase.movieDao().getById(
+            movieId = movieId,
+            id = id,
+            listType = movieListType
+        )?.map {
+            val genres: List<String> = withContext(Dispatchers.IO) {
+                genreIdsToGenreList(it?.genreIds)
+            }
+
+            Log.d(TAG, "getMovieDetail(), genreIds: ${it?.genreIds}")
+            Log.d(TAG, "getMovieDetail(), genres: $genres")
+
+            MovieDomain(
+                movieId = it?.id,
+                title = it?.title,
+                originalTitle = it?.originalTitle,
+                overview = it?.overview,
+                originalLanguage = it?.originalLanguage,
+                genres = genres.joinToString(),
+                posterPath = it?.posterPath,
+                releaseDate = it?.releaseDate,
+                voteAverage = it?.voteAverage,
+                voteCount = it?.voteCount,
+                revenue = it?.revenue,
+                popularity = it?.popularity,
+                tagline = it?.tagline,
+                budget = it?.budget,
+                runtime = it?.runtime,
+                status = it?.status
+            )
+        }
 
     fun getReviews(movieId: Int): Flow<List<Review>>? =
         movieDatabase.reviewDao().getByMovieId(movieId).map { reviews ->
@@ -297,16 +312,24 @@ class MovieRepository(
         }
     }
 
-    suspend fun fetchMovieDetail(id: Int, movieListType: MovieListType) {
+    suspend fun fetchMovieDetail(id: Int, movieId: Int, movieListType: String) {
         withContext(Dispatchers.IO) {
             val movieDetail = movieApiService.getMovieDetail(
-                id = id,
+                id = movieId,
                 apiKey = BuildConfig.API_KEY
             )
+
+            Log.d(TAG, "movieDetailResponse: $movieDetail")
+
+            val movieDetailRoom = movieDetail.asMovieDetailRoom(
+                listType = movieListType,
+                id = id
+            )
+
+            Log.d(TAG, "movieDetailRoom: $movieDetailRoom")
+
             movieDatabase.movieDao().update(
-                movie = movieDetail.asMovieDetailRoom(
-                    listType = movieListType
-                )
+                movie = movieDetailRoom
             )
         }
     }
@@ -346,6 +369,7 @@ class MovieRepository(
         val genreList = genreIds?.split(",")
         var res: List<String> = emptyList()
         genreList?.let {
+            Log.d(TAG, "genreIdsToGenreList: $genreList")
             res = movieDatabase.genreDao().getByIds(genreList).map {
                 it.name ?: ""
             }
@@ -354,21 +378,8 @@ class MovieRepository(
         return res
     }
 
-    private suspend fun fetchGenres() {
-        withContext(Dispatchers.IO) {
-            val genres = movieApiService.getGenres(
-                apiKey = BuildConfig.API_KEY
-            )
-            val genreList: List<Genre>? = genres.genres?.map {
-                Genre(
-                    id = it?.id,
-                    name = it?.name
-                )
-            }
-            genreList?.let {
-                movieDatabase.genreDao().insertAll(it)
-            }
-        }
+    companion object {
+        const val TAG = "MovieRepository"
     }
 
 }

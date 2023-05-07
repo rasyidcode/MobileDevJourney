@@ -1,5 +1,6 @@
 package com.rasyidcode.movieapp.ui.movie_list
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -11,7 +12,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.rasyidcode.movieapp.MovieApplication
+import com.rasyidcode.movieapp.data.database.movie.MovieListType
 import com.rasyidcode.movieapp.databinding.FragmentUpcomingBinding
+import com.rasyidcode.movieapp.ui.movie_detail.MovieDetailActivity
 
 class FragmentUpcoming : Fragment() {
 
@@ -36,7 +39,19 @@ class FragmentUpcoming : Fragment() {
 
         binding.lifecycleOwner = this
         binding.viewModel = movieListViewModel
-        binding.recyclerView.adapter = MovieListAdapter()
+        binding.recyclerView.adapter =
+            MovieListAdapter(MovieListActivity.OnMovieItemClick { id, movieId ->
+                if (id != null && movieId != null) {
+                    startActivity(Intent(context, MovieDetailActivity::class.java).apply {
+                        putExtra(MovieDetailActivity.ID, id)
+                        putExtra(MovieDetailActivity.MOVIE_ID, movieId)
+                        putExtra(
+                            MovieDetailActivity.MOVIE_LIST_TYPE,
+                            MovieListType.UPCOMING.name
+                        )
+                    })
+                }
+            })
         binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)

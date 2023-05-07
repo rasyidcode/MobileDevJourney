@@ -215,10 +215,10 @@ class MovieListActivity : AppCompatActivity() {
     }
 
     class OnMovieItemClick(
-        private val onMovieItemClick: (movieId: Int) -> Unit
+        private val onMovieItemClick: (id: Int?, movieId: Int?) -> Unit
     ) {
 
-        fun onClick(movieId: Int) = onMovieItemClick(movieId)
+        fun onClick(id: Int?, movieId: Int?): Unit = onMovieItemClick(id, movieId)
 
     }
 

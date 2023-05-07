@@ -22,8 +22,9 @@ class MovieDetailViewModel(
     private val _isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
     val isLoading: LiveData<Boolean> = _isLoading
 
-    fun getMovieDetail(id: Int): LiveData<Movie>? =
-        movieRepository.getMovieDetail(movieId = id)?.asLiveData()
+    fun getMovieDetail(id: Int, movieId: Int, movieListType: String): LiveData<Movie?>? =
+        movieRepository.getMovieDetail(id = id, movieId = movieId, movieListType = movieListType)
+            ?.asLiveData()
 
     fun getTheFirstThreeReviews(movieId: Int): LiveData<List<Review>>? =
         movieRepository.getReviews(movieId = movieId)?.asLiveData()?.map {
@@ -35,13 +36,14 @@ class MovieDetailViewModel(
             it.take(3)
         }
 
-    fun fetchMovieDetail(id: Int, movieListType: MovieListType) {
+    fun fetchMovieDetail(id: Int, movieId: Int, movieListType: String) {
         _isLoading.value = true
 
         viewModelScope.launch {
             try {
                 movieRepository.fetchMovieDetail(
                     id = id,
+                    movieId = movieId,
                     movieListType = movieListType
                 )
 

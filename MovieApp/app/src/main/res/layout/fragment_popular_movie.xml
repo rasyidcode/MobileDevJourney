@@ -18,7 +18,6 @@
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:context="@{context}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:movieList="@{viewModel.popularMoviesList}"
             tools:listitem="@layout/movie_list_item" />

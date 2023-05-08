@@ -9,7 +9,11 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.rasyidcode.movieapp.data.database.movie.MovieListType
+import com.rasyidcode.movieapp.data.domain.Genre
 import com.rasyidcode.movieapp.data.domain.Movie
+import com.rasyidcode.movieapp.data.domain.asNamedGenres
+import com.rasyidcode.movieapp.data.domain.asString
+import com.rasyidcode.movieapp.data.domain.withGenreIdsTransformed
 import com.rasyidcode.movieapp.data.repository.MovieRepository
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -18,6 +22,8 @@ import java.lang.IllegalArgumentException
 class MovieListViewModel(
     private val movieRepository: MovieRepository
 ) : ViewModel() {
+
+    val genres: LiveData<List<Genre?>?>? = movieRepository.genres?.asLiveData()
 
     val popularMoviesList: LiveData<List<Movie>>? = movieRepository.getPopularMovies()?.asLiveData()
 
@@ -56,9 +62,10 @@ class MovieListViewModel(
     val lastSelectedGenreId: LiveData<Int> = _lastSelectedGenreId
 
     init {
-        clearData()
+        clearMoviesData()
 
         fetchNetworkGenres()
+
         fetchPopularMovies()
         fetchNowPlaying()
         fetchTopRated()
@@ -292,9 +299,9 @@ class MovieListViewModel(
         }
     }
 
-    private fun clearData() {
+    private fun clearMoviesData() {
         viewModelScope.launch {
-            movieRepository.clearData()
+            movieRepository.clearMovieData()
         }
     }
 
@@ -312,7 +319,7 @@ class MovieListViewModel(
     }
 
     companion object {
-        const val TAG = "MovieViewModel"
+        const val TAG = "MovieListViewModel"
     }
 
 }

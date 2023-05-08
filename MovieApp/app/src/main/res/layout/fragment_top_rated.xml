@@ -20,6 +20,7 @@
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:movieList="@{viewModel.topRatedList}"
+            app:genres="@{viewModel.genres}"
             tools:listitem="@layout/movie_list_item" />
 
         <ProgressBar

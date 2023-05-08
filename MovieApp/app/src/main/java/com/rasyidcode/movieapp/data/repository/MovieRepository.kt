@@ -1,6 +1,7 @@
 package com.rasyidcode.movieapp.data.repository
 
 import android.util.Log
+import androidx.lifecycle.asLiveData
 import com.rasyidcode.movieapp.BuildConfig
 import com.rasyidcode.movieapp.data.database.MovieDatabase
 import com.rasyidcode.movieapp.data.database.genre.Genre
@@ -22,6 +23,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import com.rasyidcode.movieapp.data.domain.Movie as MovieDomain
+import com.rasyidcode.movieapp.data.domain.Genre as GenreDomain
 
 class MovieRepository(
     private val movieDatabase: MovieDatabase,
@@ -30,59 +32,54 @@ class MovieRepository(
 
     val movieLatest: Flow<MovieDomain>? =
         movieDatabase.movieDao().getByType(listType = MovieListType.LATEST.name)?.map {
-            val genres: List<String>? = withContext(Dispatchers.IO) {
-                it?.genreIds?.let { genres ->
-                    genreIdsToGenreList(genres)
-                }
-            }
             MovieDomain(
                 id = it?.id,
                 title = it?.title,
                 overview = it?.overview,
-                genres = genres?.joinToString(),
+                genres = it?.genreIds,
                 posterPath = it?.posterPath
             )
         }
 
-    fun getPopularMovies(): Flow<List<MovieDomain>>? =
-        movieDatabase.movieDao().getByListType(
-            listType = MovieListType.POPULAR.name
-        )?.map { movies ->
-            movies.map { movie ->
-                val genres: List<String> = withContext(Dispatchers.IO) {
-                    genreIdsToGenreList(movie.genreIds)
-                }
-
-                MovieDomain(
-                    id = movie.id,
-                    movieId = movie.movieId,
-                    title = movie.title,
-                    originalTitle = movie.originalTitle,
-                    overview = movie.overview,
-                    genres = genres.joinToString(),
-                    posterPath = movie.posterPath,
-                    voteAverage = movie.voteAverage,
-                    releaseDate = movie.releaseDate
-                )
-            }
+    val genres: Flow<List<GenreDomain?>?>? = movieDatabase.genreDao().getAll()?.map {
+        it?.map { genre ->
+            GenreDomain(
+                id = genre?.id,
+                name = genre?.name
+            )
         }
+    }
+
+    fun getPopularMovies(): Flow<List<MovieDomain>>? = movieDatabase.movieDao().getByListType(
+        listType = MovieListType.POPULAR.name
+    )?.map { movies ->
+        movies.map { movie ->
+            MovieDomain(
+                id = movie.id,
+                movieId = movie.movieId,
+                title = movie.title,
+                originalTitle = movie.originalTitle,
+                overview = movie.overview,
+                genres = movie.genreIds,
+                posterPath = movie.posterPath,
+                voteAverage = movie.voteAverage,
+                releaseDate = movie.releaseDate
+            )
+        }
+    }
 
     fun getNowPlaying(): Flow<List<MovieDomain>>? =
         movieDatabase.movieDao().getByListType(
             listType = MovieListType.NOW_PLAYING.name
         )?.map { movies ->
             movies.map { movie ->
-                val genres: List<String> = withContext(Dispatchers.IO) {
-                    genreIdsToGenreList(movie.genreIds)
-                }
-
                 MovieDomain(
                     id = movie.id,
                     movieId = movie.movieId,
                     title = movie.title,
                     originalTitle = movie.originalTitle,
                     overview = movie.overview,
-                    genres = genres.joinToString(),
+                    genres = movie.genreIds,
                     posterPath = movie.posterPath,
                     voteAverage = movie.voteAverage,
                     releaseDate = movie.releaseDate
@@ -95,17 +92,13 @@ class MovieRepository(
             listType = MovieListType.TOP_RATED.name
         )?.map { movies ->
             movies.map { movie ->
-                val genres: List<String> = withContext(Dispatchers.IO) {
-                    genreIdsToGenreList(movie.genreIds)
-                }
-
                 MovieDomain(
                     id = movie.id,
                     movieId = movie.movieId,
                     title = movie.title,
                     originalTitle = movie.originalTitle,
                     overview = movie.overview,
-                    genres = genres.joinToString(),
+                    genres = movie.genreIds,
                     posterPath = movie.posterPath,
                     voteAverage = movie.voteAverage,
                     releaseDate = movie.releaseDate
@@ -118,17 +111,13 @@ class MovieRepository(
             listType = MovieListType.UPCOMING.name
         )?.map { movies ->
             movies.map { movie ->
-                val genres: List<String> = withContext(Dispatchers.IO) {
-                    genreIdsToGenreList(movie.genreIds)
-                }
-
                 MovieDomain(
                     id = movie.id,
                     movieId = movie.movieId,
                     title = movie.title,
                     originalTitle = movie.originalTitle,
                     overview = movie.overview,
-                    genres = genres.joinToString(),
+                    genres = movie.genreIds,
                     posterPath = movie.posterPath,
                     voteAverage = movie.voteAverage,
                     releaseDate = movie.releaseDate
@@ -142,20 +131,13 @@ class MovieRepository(
             id = id,
             listType = movieListType
         )?.map {
-            val genres: List<String> = withContext(Dispatchers.IO) {
-                genreIdsToGenreList(it?.genreIds)
-            }
-
-            Log.d(TAG, "getMovieDetail(), genreIds: ${it?.genreIds}")
-            Log.d(TAG, "getMovieDetail(), genres: $genres")
-
             MovieDomain(
                 movieId = it?.id,
                 title = it?.title,
                 originalTitle = it?.originalTitle,
                 overview = it?.overview,
                 originalLanguage = it?.originalLanguage,
-                genres = genres.joinToString(),
+                genres = it?.genreIds,
                 posterPath = it?.posterPath,
                 releaseDate = it?.releaseDate,
                 voteAverage = it?.voteAverage,
@@ -193,16 +175,12 @@ class MovieRepository(
             listType = MovieListType.SIMILAR.name
         )?.map { movies ->
             movies.map { movie ->
-                val genres: List<String> = withContext(Dispatchers.IO) {
-                    genreIdsToGenreList(movie.genreIds)
-                }
-
                 MovieDomain(
                     id = movie.id,
                     title = movie.title,
                     originalTitle = movie.originalTitle,
                     overview = movie.overview,
-                    genres = genres.joinToString(),
+                    genres = movie.genreIds,
                     posterPath = movie.posterPath,
                     voteAverage = movie.voteAverage,
                     releaseDate = movie.releaseDate
@@ -210,18 +188,13 @@ class MovieRepository(
             }
         }
 
-    suspend fun fetchNetworkGenres() {
-        withContext(Dispatchers.IO) {
-            // Fetch genre list if not exists
-            if (movieDatabase.genreDao().getCount() == 0) {
-                val genres = movieApiService.getGenres(
-                    apiKey = BuildConfig.API_KEY
-                )
-                val genreList: List<Genre>? = genres.genres?.asGenreListRoom()
-                genreList?.let {
-                    movieDatabase.genreDao().insertAll(it)
-                }
-            }
+    suspend fun fetchNetworkGenres() = withContext(Dispatchers.IO) {
+        val genres = movieApiService.getGenres(
+            apiKey = BuildConfig.API_KEY
+        )
+        val genreList: List<Genre>? = genres.genres?.asGenreListRoom()
+        genreList?.let {
+            movieDatabase.genreDao().insertAll(it)
         }
     }
 
@@ -302,6 +275,10 @@ class MovieRepository(
         }
     }
 
+    suspend fun clearMovieData() = withContext(Dispatchers.IO) {
+        movieDatabase.movieDao().deleteAll()
+    }
+
     suspend fun clearList(
         listType: MovieListType
     ) {
@@ -363,19 +340,6 @@ class MovieRepository(
                 )
             }
         }
-    }
-
-    private fun genreIdsToGenreList(genreIds: String?): List<String> {
-        val genreList = genreIds?.split(",")
-        var res: List<String> = emptyList()
-        genreList?.let {
-            Log.d(TAG, "genreIdsToGenreList: $genreList")
-            res = movieDatabase.genreDao().getByIds(genreList).map {
-                it.name ?: ""
-            }
-        }
-
-        return res
     }
 
     companion object {

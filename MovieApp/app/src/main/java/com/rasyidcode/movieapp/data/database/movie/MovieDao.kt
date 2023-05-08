@@ -32,4 +32,7 @@ interface MovieDao {
 
     @Query("DELETE FROM movie WHERE list_type = :listType")
     suspend fun deleteAllByListType(listType: String)
+
+    @Query("DELETE FROM movie")
+    suspend fun deleteAll()
 }

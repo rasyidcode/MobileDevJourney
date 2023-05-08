@@ -17,8 +17,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.rasyidcode.movieapp.BuildConfig
 import com.rasyidcode.movieapp.R
 import com.rasyidcode.movieapp.data.database.movie.MovieListType
+import com.rasyidcode.movieapp.data.domain.Genre
 import com.rasyidcode.movieapp.data.domain.Movie
 import com.rasyidcode.movieapp.data.domain.Review
+import com.rasyidcode.movieapp.data.domain.asNamedGenres
 import com.rasyidcode.movieapp.ui.movie_detail.MovieDetailActivity
 import com.rasyidcode.movieapp.ui.movie_list.MovieListActivity
 import com.rasyidcode.movieapp.ui.movie_list.MovieListAdapter
@@ -85,10 +87,14 @@ fun bindTextViewMovieOverview(textView: TextView, movieOverview: String?) {
     }
 }
 
-@BindingAdapter("movieList")
-fun bindMovieList(recyclerView: RecyclerView, data: List<Movie>?) {
+@BindingAdapter("movieList", "genres")
+fun bindMovieList(recyclerView: RecyclerView, data: List<Movie>?, genres: List<Genre>?) {
     val adapter = recyclerView.adapter as MovieListAdapter
-    adapter.submitList(data)
+    adapter.submitList(data?.map {
+        it.copy(
+            genres = it.genres?.asNamedGenres(genres)
+        )
+    })
 }
 
 @BindingAdapter("movieListOnDetail", "context")

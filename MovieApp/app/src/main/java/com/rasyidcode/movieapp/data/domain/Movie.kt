@@ -19,3 +19,11 @@ data class Movie(
     val runtime: Int? = null,
     val status: String? = null
 )
+
+fun List<Movie>.withGenreIdsTransformed(genres: List<Genre?>?): List<Movie> {
+    return this.map {
+        it.copy(
+            genres = it.genres?.asNamedGenres(genres)
+        )
+    }
+}

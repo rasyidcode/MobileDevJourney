@@ -9,6 +9,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.rasyidcode.movieapp.data.database.movie.MovieListType
+import com.rasyidcode.movieapp.data.domain.Genre
 import com.rasyidcode.movieapp.data.domain.Movie
 import com.rasyidcode.movieapp.data.domain.Review
 import com.rasyidcode.movieapp.data.repository.MovieRepository
@@ -19,12 +20,17 @@ class MovieDetailViewModel(
     private val movieRepository: MovieRepository
 ) : ViewModel() {
 
+    val genres: LiveData<List<Genre?>?>? = movieRepository.genres?.asLiveData()
+
     private val _isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
     val isLoading: LiveData<Boolean> = _isLoading
 
     fun getMovieDetail(id: Int, movieId: Int, movieListType: String): LiveData<Movie?>? =
         movieRepository.getMovieDetail(id = id, movieId = movieId, movieListType = movieListType)
             ?.asLiveData()
+
+    private val _reviews: MutableLiveData<List<Review>>? = MutableLiveData(listOf())
+    val reviews: LiveData<List<Review>>? = _reviews
 
     fun getTheFirstThreeReviews(movieId: Int): LiveData<List<Review>>? =
         movieRepository.getReviews(movieId = movieId)?.asLiveData()?.map {
@@ -67,6 +73,8 @@ class MovieDetailViewModel(
                 Log.e(TAG, e.message.toString())
             }
         }
+
+        getTheFirstThreeReviews(movieId)
     }
 
     fun fetchSimilarMovies(movieId: Int) {

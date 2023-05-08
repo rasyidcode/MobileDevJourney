@@ -56,8 +56,7 @@ data class AuthorDetail(
 fun List<ReviewItem?>?.asReviewRoom(movieId: Int): List<Review>? {
     return this?.map {
         Review(
-            id = null,
-            reviewId = it?.id,
+            id = it?.id ?: "",
             username = it?.authorDetails?.username,
             avatarPath = it?.authorDetails?.avatarPath,
             author = it?.author,

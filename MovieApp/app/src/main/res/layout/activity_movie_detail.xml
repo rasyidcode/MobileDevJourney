@@ -60,9 +60,10 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                android:text="@{movie.genres}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                app:genres="@{viewModel.genres}"
                 app:layout_constraintTop_toBottomOf="@+id/movie_title"
+                app:movieGenres="@{movie.genres}"
                 tools:text="Adventure, Action, Comedy" />
 
             <TextView
@@ -329,7 +330,6 @@
                 android:id="@+id/review_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:context="@{context}"
                 app:layout_constraintTop_toBottomOf="@+id/movie_review_label"
                 app:reviewList="@{viewModel.getTheFirstThreeReviews(movieId)}"
                 tools:itemCount="3"

@@ -1,13 +1,11 @@
 package com.rasyidcode.movieapp.data.repository
 
 import android.util.Log
-import androidx.lifecycle.asLiveData
 import com.rasyidcode.movieapp.BuildConfig
 import com.rasyidcode.movieapp.data.database.MovieDatabase
 import com.rasyidcode.movieapp.data.database.genre.Genre
 import com.rasyidcode.movieapp.data.database.movie.Movie
 import com.rasyidcode.movieapp.data.database.movie.MovieListType
-import com.rasyidcode.movieapp.data.domain.Review
 import com.rasyidcode.movieapp.data.network.MovieApiService
 import com.rasyidcode.movieapp.data.network.genre.asGenreListRoom
 import com.rasyidcode.movieapp.data.network.movie.asMovieDetailRoom
@@ -22,8 +20,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import com.rasyidcode.movieapp.data.domain.Movie as MovieDomain
 import com.rasyidcode.movieapp.data.domain.Genre as GenreDomain
+import com.rasyidcode.movieapp.data.domain.Movie as MovieDomain
+import com.rasyidcode.movieapp.data.domain.Review as ReviewDomain
+import com.rasyidcode.movieapp.data.database.review.Review
 
 class MovieRepository(
     private val movieDatabase: MovieDatabase,
@@ -151,12 +151,14 @@ class MovieRepository(
             )
         }
 
-    fun getReviews(movieId: Int): Flow<List<Review>>? =
+    fun getReviews(movieId: Int): Flow<List<ReviewDomain>>? =
         movieDatabase.reviewDao().getByMovieId(movieId).map { reviews ->
+
+            Log.d(TAG, "getReviews(): ${reviews.size}")
+
             reviews.map { review ->
-                Review(
+                ReviewDomain(
                     id = review.id,
-                    reviewId = review.reviewId,
                     username = review.username,
                     avatarPath = review.avatarPath,
                     author = review.author,
@@ -228,7 +230,7 @@ class MovieRepository(
         }
     }
 
-    suspend fun fetchTopRated(page: Int, withGenres: List<String>?) {
+    suspend fun fetchTopRated(page: Int, withGenres: List<String>? = null) {
         withContext(Dispatchers.IO) {
             val topRated = movieApiService.getTopRatedMovies(
                 page = page,
@@ -243,7 +245,7 @@ class MovieRepository(
         }
     }
 
-    suspend fun fetchUpcoming(page: Int, withGenres: List<String>?) {
+    suspend fun fetchUpcoming(page: Int, withGenres: List<String>? = null) {
         withContext(Dispatchers.IO) {
             val upcoming = movieApiService.getUpComingMovies(
                 page = page,
@@ -296,14 +298,10 @@ class MovieRepository(
                 apiKey = BuildConfig.API_KEY
             )
 
-            Log.d(TAG, "movieDetailResponse: $movieDetail")
-
             val movieDetailRoom = movieDetail.asMovieDetailRoom(
                 listType = movieListType,
                 id = id
             )
-
-            Log.d(TAG, "movieDetailRoom: $movieDetailRoom")
 
             movieDatabase.movieDao().update(
                 movie = movieDetailRoom
@@ -318,10 +316,14 @@ class MovieRepository(
                 page = page,
                 apiKey = BuildConfig.API_KEY
             )
+            val reviewList: List<Review>? = reviews.results?.asReviewRoom(
+                movieId = movieId
+            )
+
+            Log.d(TAG, "review: $reviewList")
+
             movieDatabase.reviewDao().insertAll(
-                reviews = reviews.results?.asReviewRoom(
-                    movieId = movieId
-                )
+                reviews = reviewList
             )
         }
     }

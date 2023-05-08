@@ -1,15 +1,14 @@
 package com.rasyidcode.movieapp.data.database.review
 
+import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "review")
 data class Review(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int?,
-    @ColumnInfo(name = "review_id")
-    val reviewId: String?,
+    @PrimaryKey(autoGenerate = false)
+    val id: String = "",
     val username: String?,
     @ColumnInfo(name = "avatar_path")
     val avatarPath: String?,

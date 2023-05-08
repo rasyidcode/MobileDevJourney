@@ -46,6 +46,23 @@ fun bindImage(imageView: ImageView, posterPath: String?) {
 
 }
 
+@BindingAdapter("avatarPath")
+fun bindAvatar(imageView: ImageView, avatarPath: String?) {
+    if (avatarPath == null) {
+        imageView.load(R.drawable.placeholder)
+    } else {
+        val imageUrl: String = if (avatarPath.contains("https://")) {
+            avatarPath
+        } else {
+            "${BuildConfig.POSTER_BASE_URL}$avatarPath"
+        }
+        val imageUri = imageUrl.toUri().buildUpon().scheme("https").build()
+        imageView.load(imageUri) {
+            placeholder(R.drawable.placeholder)
+        }
+    }
+}
+
 @BindingAdapter("movieRating")
 fun bindRating(ratingBar: RatingBar, movieRating: Float?) {
     val df = DecimalFormat("#.#").apply { roundingMode = RoundingMode.DOWN }
@@ -69,12 +86,12 @@ fun bindTextViewMovieTitle(textView: TextView, movieTitle: String?) {
     }
 }
 
-@BindingAdapter("movieGenres")
-fun bindTextViewMovieGenres(textView: TextView, movieGenres: String?) {
+@BindingAdapter("movieGenres", "genres")
+fun bindTextViewMovieGenres(textView: TextView, movieGenres: String?, genres: List<Genre>?) {
     textView.text = if (movieGenres.isNullOrEmpty()) {
         "No Genre"
     } else {
-        movieGenres
+        movieGenres.asNamedGenres(genres)
     }
 }
 
@@ -124,12 +141,11 @@ fun bindSimilarMovieListOnDetail(
     }
 }
 
-@BindingAdapter("reviewList", "context")
-fun bindReviewList(recyclerView: RecyclerView, reviews: List<Review>?, context: Context?) {
-    recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-    recyclerView.adapter = ReviewListAdapter().apply {
-        submitList(reviews)
-    }
+@BindingAdapter("reviewList")
+fun bindReviewList(recyclerView: RecyclerView, reviewList: List<Review>?) {
+    Log.d(TAG, "reviewList: $reviewList")
+    val adapter = (recyclerView.adapter as ReviewListAdapter)
+    adapter.submitList(reviewList)
 }
 
 @BindingAdapter("isLoading")

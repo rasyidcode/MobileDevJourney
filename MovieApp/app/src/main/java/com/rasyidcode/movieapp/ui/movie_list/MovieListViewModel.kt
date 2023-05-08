@@ -11,13 +11,9 @@ import androidx.lifecycle.viewModelScope
 import com.rasyidcode.movieapp.data.database.movie.MovieListType
 import com.rasyidcode.movieapp.data.domain.Genre
 import com.rasyidcode.movieapp.data.domain.Movie
-import com.rasyidcode.movieapp.data.domain.asNamedGenres
-import com.rasyidcode.movieapp.data.domain.asString
-import com.rasyidcode.movieapp.data.domain.withGenreIdsTransformed
 import com.rasyidcode.movieapp.data.repository.MovieRepository
 import kotlinx.coroutines.launch
 import java.io.IOException
-import java.lang.IllegalArgumentException
 
 class MovieListViewModel(
     private val movieRepository: MovieRepository
@@ -129,20 +125,11 @@ class MovieListViewModel(
         viewModelScope.launch {
             _isMovieListLoading.value = true
 
-            if (!_selectedGenreIds.value.isNullOrEmpty()) {
-                movieRepository.clearList(
-                    listType = MovieListType.NOW_PLAYING
-                )
-
-                _nowPlayingPage = 0
-            }
-
             _nowPlayingPage++
 
             try {
                 movieRepository.fetchNowPlaying(
-                    page = _nowPlayingPage,
-                    withGenres = _selectedGenreIds.value?.map { it.toString() }?.toList()
+                    page = _nowPlayingPage
                 )
 
                 _isMovieListLoading.value = false
@@ -159,21 +146,13 @@ class MovieListViewModel(
         viewModelScope.launch {
             _isMovieListLoading.value = true
 
-            if (!_selectedGenreIds.value.isNullOrEmpty()) {
-                movieRepository.clearList(
-                    listType = MovieListType.TOP_RATED
-                )
-
-                _topRatedPage = 0
-            }
-
             _topRatedPage++
 
             try {
                 movieRepository.fetchTopRated(
-                    page = _topRatedPage,
-                    withGenres = _selectedGenreIds.value?.map { it.toString() }?.toList()
+                    page = _topRatedPage
                 )
+
                 _isMovieListLoading.value = false
             } catch (exception: IOException) {
                 Log.e(TAG, exception.message.toString())
@@ -188,20 +167,11 @@ class MovieListViewModel(
         viewModelScope.launch {
             _isMovieListLoading.value = true
 
-            if (!_selectedGenreIds.value.isNullOrEmpty()) {
-                movieRepository.clearList(
-                    listType = MovieListType.TOP_RATED
-                )
-
-                _upcomingPage = 0
-            }
-
             _upcomingPage++
 
             try {
                 movieRepository.fetchUpcoming(
-                    page = _upcomingPage,
-                    withGenres = _selectedGenreIds.value?.map { it.toString() }?.toList()
+                    page = _upcomingPage
                 )
                 _isMovieListLoading.value = false
             } catch (exception: IOException) {

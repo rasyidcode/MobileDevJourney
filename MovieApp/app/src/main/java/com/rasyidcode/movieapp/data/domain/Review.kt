@@ -1,8 +1,7 @@
 package com.rasyidcode.movieapp.data.domain
 
 data class Review(
-    val id: Int?,
-    val reviewId: String?,
+    val id: String?,
     val username: String?,
     val avatarPath: String?,
     val author: String?,

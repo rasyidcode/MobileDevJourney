@@ -63,7 +63,7 @@ fun MovieDetailResponse?.asMovieDetailRoom(listType: String, id: Int?): Movie {
         revenue = this?.revenue,
         genreIds = this?.genres?.map {
             it?.id
-        }.toString(),
+        }?.joinToString(","),
         popularity = this?.popularity,
         tagline = this?.tagline,
         voteCount = this?.voteCount,

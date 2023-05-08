@@ -40,7 +40,7 @@ class ReviewListAdapter :
     companion object {
         private val DiffCallback = object : DiffUtil.ItemCallback<Review>() {
             override fun areItemsTheSame(oldItem: Review, newItem: Review): Boolean {
-                return oldItem.reviewId == newItem.reviewId
+                return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(oldItem: Review, newItem: Review): Boolean {

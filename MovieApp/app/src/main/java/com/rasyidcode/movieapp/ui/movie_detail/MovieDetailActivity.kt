@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.rasyidcode.movieapp.MovieApplication
 import com.rasyidcode.movieapp.data.database.movie.MovieListType
 import com.rasyidcode.movieapp.databinding.ActivityMovieDetailBinding
 import com.rasyidcode.movieapp.ui.review_list.ReviewListActivity
+import com.rasyidcode.movieapp.ui.review_list.ReviewListAdapter
 import com.rasyidcode.movieapp.ui.similar_movie.SimilarMovieListActivity
 
 class MovieDetailActivity : AppCompatActivity() {
@@ -38,6 +40,9 @@ class MovieDetailActivity : AppCompatActivity() {
             it.viewModel = viewModel
             it.lifecycleOwner = this
             it.movieId = movieId
+            it.reviewList.layoutManager =
+                LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+            it.reviewList.adapter = ReviewListAdapter()
             it.onSeeAllListener = SeeAllClickListener({
                 startActivity(Intent(this, ReviewListActivity::class.java).apply {
                     putExtra(MOVIE_ID, movieId)
@@ -55,17 +60,21 @@ class MovieDetailActivity : AppCompatActivity() {
                 movieId = movieId,
                 movieListType = movieListType
             )
+
             it.fetchReviews(movieId)
+            it.getTheFirstThreeReviews(movieId)?.observe(this) { reviews ->
+                Log.d(TAG, "reviewListObserve: ${reviews.size}")
+            }
+
             it.fetchSimilarMovies(movieId)
             it.getMovieDetail(
                 id = id,
                 movieId = movieId,
                 movieListType = movieListType
             )?.observe(this) { movie ->
-                Log.d(TAG, "movie: $movie")
-
                 movie?.let { notNullMovie ->
                     binding.movie = notNullMovie
+                    binding.executePendingBindings()
                 }
             }
         }

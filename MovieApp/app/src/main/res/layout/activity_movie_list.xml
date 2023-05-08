@@ -155,6 +155,7 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
                         android:textColor="@color/white"
+                        app:genres="@{viewModel.genres}"
                         app:layout_constraintEnd_toEndOf="@+id/movie_title"
                         app:layout_constraintStart_toStartOf="@+id/movie_title"
                         app:layout_constraintTop_toBottomOf="@+id/movie_title"

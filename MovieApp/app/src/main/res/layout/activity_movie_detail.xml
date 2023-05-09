@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="java.util.List" />
+
         <variable
             name="viewModel"
             type="com.rasyidcode.movieapp.ui.movie_detail.MovieDetailViewModel" />
@@ -20,6 +22,15 @@
         <variable
             name="onSeeAllListener"
             type="com.rasyidcode.movieapp.ui.movie_detail.MovieDetailActivity.SeeAllClickListener" />
+
+        <variable
+            name="reviewsData"
+            type="List&lt;com.rasyidcode.movieapp.data.domain.Review>" />
+
+        <variable
+            name="moviesData"
+            type="List&lt;com.rasyidcode.movieapp.data.domain.Movie>" />
+
     </data>
 
     <ScrollView
@@ -331,7 +342,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/movie_review_label"
-                app:reviewList="@{viewModel.getTheFirstThreeReviews(movieId)}"
+                app:reviewList="@{reviewsData}"
                 tools:itemCount="3"
                 tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/review_list_item"
@@ -379,8 +390,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:context="@{context}"
+                app:genres="@{viewModel.genres}"
                 app:layout_constraintTop_toBottomOf="@+id/movie_similar_label"
-                app:movieListOnDetail="@{viewModel.getTheFirstThreeSimilar(movieId)}"
+                app:movieListOnDetail="@{moviesData}"
                 tools:itemCount="3"
                 tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/similar_movie_list_item"

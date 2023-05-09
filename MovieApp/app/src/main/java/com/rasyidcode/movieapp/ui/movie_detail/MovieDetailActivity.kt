@@ -55,18 +55,12 @@ class MovieDetailActivity : AppCompatActivity() {
         }
 
         viewModel.also {
+            // movie detail operation
             it.fetchMovieDetail(
                 id = id,
                 movieId = movieId,
                 movieListType = movieListType
             )
-
-            it.fetchReviews(movieId)
-            it.getTheFirstThreeReviews(movieId)?.observe(this) { reviews ->
-                Log.d(TAG, "reviewListObserve: ${reviews.size}")
-            }
-
-            it.fetchSimilarMovies(movieId)
             it.getMovieDetail(
                 id = id,
                 movieId = movieId,
@@ -76,6 +70,18 @@ class MovieDetailActivity : AppCompatActivity() {
                     binding.movie = notNullMovie
                     binding.executePendingBindings()
                 }
+            }
+
+            // review list
+            it.fetchReviews(movieId)
+            it.getTheFirstThreeReviews(movieId)?.observe(this) { reviews ->
+                binding.reviewsData = reviews
+            }
+
+            // similar movie list
+            it.fetchSimilarMovies(movieId)
+            it.getTheFirstThreeSimilar(movieId)?.observe(this) { movies ->
+                binding.moviesData = movies
             }
         }
     }

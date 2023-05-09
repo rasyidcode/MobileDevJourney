@@ -114,17 +114,15 @@ fun bindMovieList(recyclerView: RecyclerView, data: List<Movie>?, genres: List<G
     })
 }
 
-@BindingAdapter("movieListOnDetail", "context")
+@BindingAdapter("movieListOnDetail", "context", "genres")
 fun bindSimilarMovieListOnDetail(
     recyclerView: RecyclerView,
     movies: List<Movie>?,
-    context: Context?
+    context: Context?,
+    genres: List<Genre>?
 ) {
     recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
     recyclerView.adapter = MovieListAdapter(MovieListActivity.OnMovieItemClick { id, movieId ->
-        Log.d(TAG, "id: $id")
-        Log.d(TAG, "movieId: $movieId")
-
         if (id != null && movieId != null) {
             context?.startActivity(Intent(context, MovieDetailActivity::class.java).apply {
                 putExtra(MovieDetailActivity.ID, id)
@@ -137,7 +135,9 @@ fun bindSimilarMovieListOnDetail(
         }
 
     }).apply {
-        submitList(movies)
+        submitList(movies?.map {
+            it.copy(genres = it.genres?.asNamedGenres(genres))
+        })
     }
 }
 

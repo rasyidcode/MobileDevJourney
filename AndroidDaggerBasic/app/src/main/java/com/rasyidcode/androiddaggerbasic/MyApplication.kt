@@ -15,4 +15,8 @@ open class MyApplication : Application() {
         DaggerAppComponent.factory().create(applicationContext)
     }
 
+    open fun initializeComponent(): AppComponent {
+        return DaggerAppComponent.factory().create(applicationContext)
+    }
+
 }

@@ -7,20 +7,22 @@ import androidx.appcompat.app.AppCompatActivity
 import com.rasyidcode.androiddaggerbasic.MyApplication
 import com.rasyidcode.androiddaggerbasic.R
 import com.rasyidcode.androiddaggerbasic.login.LoginActivity
+import javax.inject.Inject
 
 class SettingsActivity : AppCompatActivity() {
 
-    private lateinit var settingsViewModel: SettingsViewModel
+    // @Inject annotated fields will be provided by Dagger
+    @Inject
+    lateinit var settingsViewModel: SettingsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Gets the userManager from application graph to obtain the instance
+        // of UserComponent and gets this Activity injected
+        val userManager = (application as MyApplication).appComponent.userManager()
+        userManager.userComponent!!.inject(this)
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-
-        val userManager = (application as MyApplication).userManager
-
-        userManager.userDataRepository?.let {
-            settingsViewModel = SettingsViewModel(it, userManager)
-        }
         setupViews()
     }
 

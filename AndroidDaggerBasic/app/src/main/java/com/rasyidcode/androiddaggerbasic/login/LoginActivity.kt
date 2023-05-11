@@ -13,17 +13,23 @@ import com.rasyidcode.androiddaggerbasic.MyApplication
 import com.rasyidcode.androiddaggerbasic.R
 import com.rasyidcode.androiddaggerbasic.main.MainActivity
 import com.rasyidcode.androiddaggerbasic.registration.RegistrationActivity
+import javax.inject.Inject
 
 class LoginActivity : AppCompatActivity() {
 
-    private lateinit var loginViewModel: LoginViewModel
+    // LoginViewModel is provided by Dagger
+    @Inject
+    lateinit var loginViewModel: LoginViewModel
     private lateinit var errorTextView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Creates an instance of Login component by grabbing the factory from the app graph
+        // and injects this activity to that Component
+        (application as MyApplication).appComponent.loginComponent().create().inject(this)
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        loginViewModel = LoginViewModel((application as MyApplication).userManager)
         loginViewModel.loginState.observe(this) { state ->
             when (state) {
                 is LoginViewState.LoginSuccess -> {

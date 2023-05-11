@@ -19,20 +19,15 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var mainViewModel: MainViewModel
 
-    @Inject
-    lateinit var userManager: UserManager
-
     /**
      * If the User is not registered, RegistrationActivity will be launched,
      * If the User is not logged in, LoginActivity will be launched
      * else carry on with MainActivity
      */
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Ask dagger to inject our dependencies
-        (application as MyApplication).appComponent.inject(this)
+        val userManager = (application as MyApplication).appComponent.userManager()
 
         super.onCreate(savedInstanceState)
-
         if (!userManager.isUserLoggedIn()) {
             if (!userManager.isUserRegistered()) {
                 startActivity(Intent(this, RegistrationActivity::class.java))
@@ -43,7 +38,9 @@ class MainActivity : AppCompatActivity() {
             }
         } else {
             setContentView(R.layout.activity_main)
-
+            // If the MainActivity needs to be displayed, we get the UserComponent
+            // from the application graph and gets this Activity injected
+            userManager.userComponent!!.inject(this)
             setupViews()
         }
     }

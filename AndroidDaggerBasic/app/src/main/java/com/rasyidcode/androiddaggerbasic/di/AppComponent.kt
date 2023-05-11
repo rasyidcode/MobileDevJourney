@@ -1,8 +1,11 @@
 package com.rasyidcode.androiddaggerbasic.di
 
 import android.content.Context
+import com.rasyidcode.androiddaggerbasic.login.LoginComponent
 import com.rasyidcode.androiddaggerbasic.main.MainActivity
 import com.rasyidcode.androiddaggerbasic.registration.RegistrationComponent
+import com.rasyidcode.androiddaggerbasic.settings.SettingsActivity
+import com.rasyidcode.androiddaggerbasic.user.UserManager
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -19,8 +22,11 @@ interface AppComponent {
         fun create(@BindsInstance context: Context): AppComponent
     }
 
-    // Classes that can be injected by this Component
+    // Types that can be retrieved from the graph
     fun registrationComponent(): RegistrationComponent.Factory
-    fun inject(activity: MainActivity)
+    fun loginComponent(): LoginComponent.Factory
 
+    // Expose UserManager so that MainActivity and SettingsActivity
+    // can access a particular instance of UserComponent
+    fun userManager(): UserManager
 }

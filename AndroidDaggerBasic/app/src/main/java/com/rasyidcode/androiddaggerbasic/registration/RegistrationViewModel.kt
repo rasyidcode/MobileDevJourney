@@ -1,10 +1,12 @@
 package com.rasyidcode.androiddaggerbasic.registration
 
+import com.rasyidcode.androiddaggerbasic.di.ActivityScope
 import com.rasyidcode.androiddaggerbasic.user.UserManager
 import javax.inject.Inject
 
 // @Inject tells Dagger how to provide instances of this type
 // Dagger also knows that UserManager is a dependency
+@ActivityScope
 class RegistrationViewModel @Inject constructor(
     val userManager: UserManager
 ) {

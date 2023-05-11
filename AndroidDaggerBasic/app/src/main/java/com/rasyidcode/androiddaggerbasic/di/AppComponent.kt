@@ -2,14 +2,14 @@ package com.rasyidcode.androiddaggerbasic.di
 
 import android.content.Context
 import com.rasyidcode.androiddaggerbasic.main.MainActivity
-import com.rasyidcode.androiddaggerbasic.registration.RegistrationActivity
+import com.rasyidcode.androiddaggerbasic.registration.RegistrationComponent
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
 
 // Definition of a Dagger component
 @Singleton
-@Component(modules = [StorageModule::class])
+@Component(modules = [StorageModule::class, AppSubcomponents::class])
 interface AppComponent {
 
     // Factory to create instances of the AppComponent
@@ -20,6 +20,7 @@ interface AppComponent {
     }
 
     // Classes that can be injected by this Component
-    fun inject(activity: RegistrationActivity)
+    fun registrationComponent(): RegistrationComponent.Factory
     fun inject(activity: MainActivity)
+
 }

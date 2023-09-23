@@ -13,6 +13,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -48,31 +49,47 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 
 @Composable
 fun ArticleView(modifier: Modifier = Modifier) {
-    Column {
+    ArticleCard(
+        title = stringResource(id = R.string.article_title),
+        shortDesc = stringResource(id = R.string.article_text_1),
+        longDesc = stringResource(id = R.string.article_text_2),
+        image = painterResource(id = R.drawable.bg_compose_background)
+    )
+}
+
+@Composable
+fun ArticleCard(
+    title: String,
+    shortDesc: String,
+    longDesc: String,
+    image: Painter,
+    modifier: Modifier = Modifier
+) {
+    Column(modifier) {
         Image(
-            painter = painterResource(id = R.drawable.bg_compose_background),
+            painter = image,
             contentDescription = null,
             modifier = Modifier.fillMaxWidth()
         )
         Text(
-            text = stringResource(id = R.string.article_title),
+            text = title,
             fontSize = 24.sp,
             modifier = Modifier.padding(16.dp)
         )
         Text(
-            text = stringResource(id = R.string.article_text_1),
+            text = shortDesc,
             textAlign = TextAlign.Justify,
             modifier = Modifier.padding(start = 16.dp, end = 16.dp),
         )
         Text(
-            text = stringResource(id = R.string.article_text_2),
+            text = longDesc,
             textAlign = TextAlign.Justify,
             modifier = Modifier.padding(16.dp)
         )
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun GreetingPreview() {
     ComposeArticleTheme {

@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">ComposeBusinessCardApp</string>
+    <string name="text_name">Ahmad Jamil Al Rasyid</string>
+    <string name="text_title">Software Engineer</string>
+    <string name="text_phone">+62 8122 6836 303</string>
+    <string name="text_social">rasyidcode</string>
+    <string name="text_email">rasyidcode7@gmail.com</string>
+</resources>

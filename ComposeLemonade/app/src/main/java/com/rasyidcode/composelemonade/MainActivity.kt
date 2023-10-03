@@ -1,11 +1,11 @@
 package com.rasyidcode.composelemonade
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,11 +18,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -31,10 +36,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -42,7 +45,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.rasyidcode.composelemonade.model.LemonadeItem
 import com.rasyidcode.composelemonade.ui.theme.ComposeLemonadeTheme
 import com.rasyidcode.composelemonade.ui.theme.Purple80
 
@@ -53,7 +55,8 @@ class MainActivity : ComponentActivity() {
             ComposeLemonadeTheme {
 //                ComposeLemonadeApp()
 //                ComposeLemonadeAppSolution()
-                ComposeLemonadeAppSolution2()
+//                ComposeLemonadeAppSolution2()
+                ComposeLemonadeAppSolution3()
             }
         }
     }
@@ -187,7 +190,7 @@ fun ComposeLemonadeAppSolution() {
     ) {
         var currentStep by remember { mutableStateOf(1) }
 
-        when(currentStep) {
+        when (currentStep) {
             1 -> {
                 Column(
                     modifier = Modifier.fillMaxSize(),
@@ -205,6 +208,7 @@ fun ComposeLemonadeAppSolution() {
                     )
                 }
             }
+
             2 -> {
                 Column(
                     modifier = Modifier.fillMaxSize(),
@@ -222,6 +226,7 @@ fun ComposeLemonadeAppSolution() {
                     )
                 }
             }
+
             3 -> {
                 Column(
                     modifier = Modifier.fillMaxSize(),
@@ -239,6 +244,7 @@ fun ComposeLemonadeAppSolution() {
                     )
                 }
             }
+
             else -> {
                 Column(
                     modifier = Modifier.fillMaxSize(),
@@ -267,7 +273,8 @@ fun LemonTextAndImage(
     imageRes: Int,
     imageDescRes: Int,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit) {
+    onClick: () -> Unit
+) {
     Column(
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -294,7 +301,7 @@ fun ComposeLemonadeAppSolution2() {
         var currentStep by remember { mutableStateOf(1) }
         var squeezeCount = 0
 
-        when(currentStep) {
+        when (currentStep) {
             1 -> {
                 LemonTextAndImage(
                     textRes = R.string.tree_text,
@@ -304,6 +311,7 @@ fun ComposeLemonadeAppSolution2() {
                     currentStep = 2
                 }
             }
+
             2 -> {
                 LemonTextAndImage(
                     textRes = R.string.squeeze_text,
@@ -317,6 +325,7 @@ fun ComposeLemonadeAppSolution2() {
                     }
                 }
             }
+
             3 -> {
                 LemonTextAndImage(
                     textRes = R.string.drink_text,
@@ -326,6 +335,7 @@ fun ComposeLemonadeAppSolution2() {
                     currentStep = 4
                 }
             }
+
             else -> {
                 LemonTextAndImage(
                     textRes = R.string.restart_text,
@@ -335,6 +345,131 @@ fun ComposeLemonadeAppSolution2() {
                     currentStep = 1
                 }
             }
+        }
+    }
+}
+
+// Solution 3
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview(showBackground = true)
+@Composable
+fun ComposeLemonadeAppSolution3() {
+    var currentStep by remember { mutableStateOf(1) }
+    var squeezeCount by remember { mutableStateOf(0) }
+
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(text = "Lemonade", fontWeight = FontWeight.Bold)
+                }, colors = TopAppBarDefaults.smallTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    actionIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+            )
+        }
+    ) {
+        // A surface container using the 'background' color from the theme
+        Surface(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(it)
+                .background(MaterialTheme.colorScheme.tertiaryContainer),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            when (currentStep) {
+                1 -> {
+                    LemonAndTextImage3(
+                        textLabelResourceId = R.string.tree_text,
+                        drawableResourceId = R.drawable.lemon_tree,
+                        contentDescriptionResourceId = R.string.img_desc_tree,
+                        onImageClick = {
+                            Log.d("MainActivity", "Clicked")
+                            currentStep = 2
+                            squeezeCount = (2..4).random()
+                        }
+                    )
+                }
+
+                2 -> {
+                    LemonAndTextImage3(
+                        textLabelResourceId = R.string.squeeze_text,
+                        drawableResourceId = R.drawable.lemon_squeeze,
+                        contentDescriptionResourceId = R.string.img_desc_squeeze,
+                        onImageClick = {
+                            squeezeCount--
+                            if (squeezeCount == 0) {
+                                currentStep = 3
+                            }
+                        }
+                    )
+                }
+
+                3 -> {
+                    LemonAndTextImage3(
+                        textLabelResourceId = R.string.drink_text,
+                        drawableResourceId = R.drawable.lemon_drink,
+                        contentDescriptionResourceId = R.string.img_desc_drink,
+                        onImageClick = {
+                            currentStep = 4
+                        }
+                    )
+                }
+
+                4 -> {
+                    LemonAndTextImage3(
+                        textLabelResourceId = R.string.restart_text,
+                        drawableResourceId = R.drawable.lemon_restart,
+                        contentDescriptionResourceId = R.string.img_desc_restart,
+                        onImageClick = {
+                            currentStep = 1
+                        }
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun LemonAndTextImage3(
+    textLabelResourceId: Int,
+    drawableResourceId: Int,
+    contentDescriptionResourceId: Int,
+    onImageClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Button(
+                onClick = onImageClick,
+                shape = RoundedCornerShape(dimensionResource(id = R.dimen.button_corner_radius)),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.tertiaryContainer
+                )
+            ) {
+                Image(
+                    painter = painterResource(id = drawableResourceId),
+                    contentDescription = stringResource(id = contentDescriptionResourceId),
+                    modifier = Modifier
+                        .width(dimensionResource(id = R.dimen.button_image_width))
+                        .height(dimensionResource(id = R.dimen.button_image_height))
+                        .padding(dimensionResource(id = R.dimen.padding_vertical))
+                )
+            }
+            Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.padding_vertical)))
+            Text(
+                text = stringResource(id = textLabelResourceId),
+                style = MaterialTheme.typography.bodyLarge
+            )
         }
     }
 }

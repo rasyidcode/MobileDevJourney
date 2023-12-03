@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="hero"
+            type="com.rasyidcode.remarsphotos_dotaheroes.network.DotaHero" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp">
+
+        <ImageView
+            android:id="@+id/hero_image"
+            android:layout_width="120dp"
+            android:layout_height="90dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@null"
+            android:scaleType="centerCrop"
+            app:imageUrl="@{hero.img}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@tools:sample/backgrounds/scenic" />
+
+        <TextView
+            android:id="@+id/hero_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:text="@{hero.localizedName}"
+            android:theme="@style/TextAppearance.AppCompat.Title"
+            app:layout_constraintStart_toEndOf="@+id/hero_image"
+            app:layout_constraintTop_toTopOf="@+id/hero_image"
+            tools:text="Anti Mage" />
+
+        <TextView
+            android:id="@+id/hero_attr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{hero.primaryAttr}"
+            android:theme="@style/TextAppearance.AppCompat.Subhead"
+            app:layout_constraintStart_toStartOf="@+id/hero_name"
+            app:layout_constraintTop_toBottomOf="@+id/hero_name"
+            tools:text="STR" />
+
+        <TextView
+            android:id="@+id/hero_roles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{hero.roles.toString()}"
+            android:theme="@style/TextAppearance.AppCompat.Body1"
+            app:layout_constraintBottom_toBottomOf="@+id/hero_image"
+            app:layout_constraintStart_toStartOf="@+id/hero_name"
+            app:layout_constraintTop_toBottomOf="@+id/hero_attr"
+            tools:text="Carry, Disabler" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

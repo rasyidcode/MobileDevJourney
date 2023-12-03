@@ -1,0 +1,72 @@
+package com.rasyidcode.remarsphotos_dotaheroes.network
+
+import com.squareup.moshi.Json
+
+data class DotaHero(
+	@Json(name="img")
+	val img: String? = null,
+	@Json(name="primary_attr")
+	val primaryAttr: String? = null,
+	@Json(name="attack_range")
+	val attackRange: Int? = null,
+	@Json(name="attack_type")
+	val attackType: String? = null,
+	@Json(name="cm_enabled")
+	val cmEnabled: Boolean? = null,
+	@Json(name="roles")
+	val roles: List<String?>? = null,
+	@Json(name="icon")
+	val icon: String? = null,
+	@Json(name="base_mana")
+	val baseMana: Int? = null,
+	@Json(name="localized_name")
+	val localizedName: String? = null,
+	@Json(name="base_health")
+	val baseHealth: Int? = null,
+	@Json(name="legs")
+	val legs: Int? = null,
+	@Json(name="id")
+	val id: Int? = null,
+	@Json(name="str_gain")
+	val strGain: Any? = null,
+	@Json(name="base_armor")
+	val baseArmor: Int? = null,
+	@Json(name="night_vision")
+	val nightVision: Int? = null,
+	@Json(name="attack_rate")
+	val attackRate: Any? = null,
+	@Json(name="base_mana_regen")
+	val baseManaRegen: Int? = null,
+	@Json(name="base_attack_max")
+	val baseAttackMax: Int? = null,
+	@Json(name="base_int")
+	val baseInt: Int? = null,
+	@Json(name="int_gain")
+	val intGain: Any? = null,
+	@Json(name="base_str")
+	val baseStr: Int? = null,
+	@Json(name="move_speed")
+	val moveSpeed: Int? = null,
+	@Json(name="agi_gain")
+	val agiGain: Any? = null,
+	@Json(name="turn_rate")
+	val turnRate: Any? = null,
+	@Json(name="attack_point")
+	val attackPoint: Any? = null,
+	@Json(name="name")
+	val name: String? = null,
+	@Json(name="base_attack_min")
+	val baseAttackMin: Int? = null,
+	@Json(name="projectile_speed")
+	val projectileSpeed: Int? = null,
+	@Json(name="base_attack_time")
+	val baseAttackTime: Int? = null,
+	@Json(name="base_agi")
+	val baseAgi: Int? = null,
+	@Json(name="day_vision")
+	val dayVision: Int? = null,
+	@Json(name="base_health_regen")
+	val baseHealthRegen: Any? = null,
+	@Json(name="base_mr")
+	val baseMr: Int? = null
+)

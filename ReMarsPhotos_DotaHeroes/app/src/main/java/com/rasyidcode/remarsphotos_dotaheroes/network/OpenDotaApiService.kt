@@ -11,7 +11,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 
-private const val BASE_URL = "https://api.opendota.com/api"
+private const val BASE_URL = "https://api.opendota.com/api/"
 
 private val moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
@@ -20,17 +20,12 @@ private val moshi = Moshi.Builder()
 private val okHttpClient = OkHttpClient.Builder()
     .addInterceptor {
         val request = it.request()
-
-        // Modify request body
-        val buffer = Buffer()
-        request.body?.writeTo(buffer)
-        val requestBodyJson = buffer.readUtf8()
+        val response = it.proceed(request)
+        val responseBodyString = response.body?.string() ?: ""
 
         val jsonMapType = Types.newParameterizedType(Map::class.java, String::class.java, Any::class.java)
         val jsonAdapter: JsonAdapter<Map<String, Any?>> = moshi.adapter(jsonMapType)
-        val responseBodyMap = jsonAdapter.fromJson(requestBodyJson)
-
-        Log.d(OpenDotaApiService::class.simpleName, "responseBodyMap: $responseBodyMap")
+        val responseBodyMap = jsonAdapter.fromJson(responseBodyString) ?: emptyMap()
 
 //        val newBody = "".toRequestBody(request.body?.contentType())
         // return@addInterceptor response (Explicit)
@@ -39,8 +34,9 @@ private val okHttpClient = OkHttpClient.Builder()
     .build()
 
 private val retrofit = Retrofit.Builder()
-    .addConverterFactory(MoshiConverterFactory.create(moshi))
     .baseUrl(BASE_URL)
+    .addConverterFactory(MoshiConverterFactory.create(moshi))
+    .client(okHttpClient)
     .build()
 
 interface OpenDotaApiService {

@@ -1,5 +1,6 @@
 package com.rasyidcode.remarsphotos_dotaheroes
 
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -12,9 +13,11 @@ import com.rasyidcode.remarsphotos_dotaheroes.herolist.OpenDotaApiStatus
 import com.rasyidcode.remarsphotos_dotaheroes.network.DotaHero
 
 @BindingAdapter("heroList")
-fun bindHeroList(recyclerView: RecyclerView, heroes: List<DotaHero>) {
+fun bindHeroList(recyclerView: RecyclerView, heroes: List<DotaHero>?) {
     val adapter = recyclerView.adapter as HeroListAdapter
-    adapter.submitList(heroes)
+    heroes?.let {
+        adapter.submitList(it)
+    }
 }
 
 @BindingAdapter("imageUrl")

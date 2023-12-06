@@ -1,5 +1,6 @@
 package com.rasyidcode.remarsphotos_dotaheroes.herolist
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,8 +18,8 @@ class HeroListViewModel : ViewModel() {
     private val _status = MutableLiveData<OpenDotaApiStatus>()
     val status: LiveData<OpenDotaApiStatus> = _status
 
-    private val _heroes = MutableLiveData<List<DotaHero>>()
-    val heroes: LiveData<List<DotaHero>> = _heroes
+    private val _heroes = MutableLiveData<List<DotaHero>?>()
+    val heroes: LiveData<List<DotaHero>?> = _heroes
 
     init {
         fetchHeroes()
@@ -29,7 +30,10 @@ class HeroListViewModel : ViewModel() {
             _status.value = OpenDotaApiStatus.LOADING
             try {
                 _status.value = OpenDotaApiStatus.DONE
-                _heroes.value = OpenDotaApi.apiService.getHeroes()
+
+                val heroes = OpenDotaApi.apiService.getHeroes()
+
+                _heroes.value = heroes
             } catch (e: Exception) {
                 _status.value = OpenDotaApiStatus.ERROR
                 _heroes.value = listOf()

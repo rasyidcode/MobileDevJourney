@@ -5,7 +5,11 @@ import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import okhttp3.CacheControl
 import okhttp3.OkHttpClient
+import okhttp3.Response
+import okhttp3.ResponseBody
+import okhttp3.ResponseBody.Companion.toResponseBody
 import okio.Buffer
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -20,16 +24,28 @@ private val moshi = Moshi.Builder()
 private val okHttpClient = OkHttpClient.Builder()
     .addInterceptor {
         val request = it.request()
-        val response = it.proceed(request)
-        val responseBodyString = response.body?.string() ?: ""
+        val response: Response = it.proceed(request)
 
-        val jsonMapType = Types.newParameterizedType(Map::class.java, String::class.java, Any::class.java)
-        val jsonAdapter: JsonAdapter<Map<String, Any?>> = moshi.adapter(jsonMapType)
-        val responseBodyMap = jsonAdapter.fromJson(responseBodyString) ?: emptyMap()
+        val jsonMapType =
+            Types.newParameterizedType(Map::class.java, String::class.java, Any::class.java)
+        val jsonAdapter: JsonAdapter<Map<String, Any?>> = moshi.adapter<Map<String, Any?>?>(jsonMapType).lenient()
+        val responseBodyMap = response.body?.string()
+            ?.let { it1 -> jsonAdapter.fromJson(it1) }
+            ?: emptyMap()
 
-//        val newBody = "".toRequestBody(request.body?.contentType())
-        // return@addInterceptor response (Explicit)
-        it.proceed(request)// (Implicit)
+        val heroList = mutableListOf<Map<String, Any?>>()
+        responseBodyMap.entries.forEach { heroMap ->
+            heroList.add(heroMap.value as Map<String, Any?>)
+        }
+
+        val listMapType =
+            Types.newParameterizedType(List::class.java, Map::class.java, String::class.java, Any::class.java)
+        val listMapAdapter: JsonAdapter<List<Map<String, Any?>>> = moshi.adapter(listMapType)
+        val heroListJsonString = listMapAdapter.toJson(heroList)
+
+        response.newBuilder()
+            .body(heroListJsonString.toResponseBody(response.body?.contentType()))
+            .build()
     }
     .build()
 

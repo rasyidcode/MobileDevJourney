@@ -19,7 +19,7 @@ class HeroListFragment : Fragment() {
     ): View? {
         val binding = FragmentHeroListBinding.inflate(inflater)
 
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
         binding.heroList.adapter = HeroListAdapter()
 

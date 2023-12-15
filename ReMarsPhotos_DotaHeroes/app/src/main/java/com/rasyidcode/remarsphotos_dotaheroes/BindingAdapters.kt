@@ -1,6 +1,5 @@
 package com.rasyidcode.remarsphotos_dotaheroes
 
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -21,7 +20,7 @@ fun bindHeroList(recyclerView: RecyclerView, heroes: List<DotaHero>?) {
 }
 
 
-private const val imageBaseURL = "https://cdn.cloudflare.steamstatic.com";
+private const val imageBaseURL = "https://cdn.cloudflare.steamstatic.com"
 @BindingAdapter("imageUrl")
 fun bindImage(imageView: ImageView, imageUrl: String?) {
     imageUrl?.let {

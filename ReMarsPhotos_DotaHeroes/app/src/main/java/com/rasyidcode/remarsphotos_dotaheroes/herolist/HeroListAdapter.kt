@@ -1,6 +1,5 @@
 package com.rasyidcode.remarsphotos_dotaheroes.herolist
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil

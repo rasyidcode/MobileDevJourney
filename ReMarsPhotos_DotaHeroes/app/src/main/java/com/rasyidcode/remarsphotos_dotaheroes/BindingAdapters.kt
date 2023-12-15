@@ -20,10 +20,12 @@ fun bindHeroList(recyclerView: RecyclerView, heroes: List<DotaHero>?) {
     }
 }
 
+
+private const val imageBaseURL = "https://cdn.cloudflare.steamstatic.com";
 @BindingAdapter("imageUrl")
 fun bindImage(imageView: ImageView, imageUrl: String?) {
     imageUrl?.let {
-        val imageUri = imageUrl.toUri().buildUpon().scheme("https").build()
+        val imageUri = "${imageBaseURL}${imageUrl}".toUri().buildUpon().scheme("https").build()
         imageView.load(imageUri) {
             placeholder(R.drawable.loading_animation)
             error(R.drawable.ic_broken_image)

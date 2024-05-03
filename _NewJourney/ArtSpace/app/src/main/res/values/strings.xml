@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Art Space</string>
+    <string name="art_1_text">Part of \"Cityscape\" painting at Jenegallery.</string>
+    <string name="art_1_by">Jene Stephaniuk</string>
+    <string name="art_1_year">2020</string>
+    <string name="art_2_text">Street Cat</string>
+    <string name="art_2_by">Fuu J</string>
+    <string name="art_2_year">2021</string>
+    <string name="art_3_text">Spaniel</string>
+    <string name="art_3_by">Europeana</string>
+    <string name="art_3_year">2020</string>
+    <string name="photo_by">Photo by %s</string>
+    <string name="year_text">(%s)</string>
+</resources>

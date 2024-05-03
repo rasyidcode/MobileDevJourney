@@ -84,4 +84,28 @@ fun main() {
     solarSystemHash.remove("Pluto")
     println(solarSystemHash.size)
     println(solarSystemHash.contains("Pluto"))
+    println()
+    println()
+    println()
+    val solarSystemMap = mutableMapOf(
+        "Mercury" to 0,
+        "Venus" to 0,
+        "Earth" to 1,
+        "Mars" to 2,
+        "Jupiter" to 79,
+        "Saturn" to 82,
+        "Uranus" to 27,
+        "Neptune" to 14,
+    )
+    println(solarSystemMap.size)
+    solarSystemMap["Pluto"] = 5
+    println(solarSystemMap.size)
+    println(solarSystemMap["Pluto"])
+    println(solarSystemMap.get("Theia"))
+    solarSystemMap.remove("Pluto")
+    println(solarSystemMap.size)
+    solarSystemMap["Jupiter"] = 78
+    solarSystemMap.put("Earth", 2)
+    println("The number of moons that planet Jupiter has is ${solarSystemMap["Jupiter"]}")
+    println("The number of moons that planet Earth has is ${solarSystemMap["Earth"]}")
 }

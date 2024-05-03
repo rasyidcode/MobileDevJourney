@@ -64,4 +64,24 @@ fun main() {
     solarSystemList2.remove("Future Moon")
     println(solarSystemList2.contains("Pluto"))
     println("Future Moon" in solarSystemList2)
+    val solarSystemHash = mutableSetOf(
+        "Mercury",
+        "Venus",
+        "Earth",
+        "Mars",
+        "Jupiter",
+        "Saturn",
+        "Uranus",
+        "Neptune",
+    )
+    println(solarSystemHash.size)
+    solarSystemHash.add("Pluto")
+    println(solarSystemHash.size)
+    println(solarSystemHash.contains("Pluto"))
+    println("Pluto" in solarSystemHash)
+    solarSystemHash.add("Pluto")
+    println(solarSystemHash.size)
+    solarSystemHash.remove("Pluto")
+    println(solarSystemHash.size)
+    println(solarSystemHash.contains("Pluto"))
 }

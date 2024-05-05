@@ -66,3 +66,19 @@ fun HelloContent() {
 fun HelloContentPreview() {
     HelloContent()
 }
+
+// State in an app is any value that can change over time.
+/**
+ * A few example of state in Android apps:
+ * - A Snackbar that shows when a network connection can't be established.
+ * - A blog post and associated comments.
+ * - Ripple animations on buttons that play when a user clicks them.
+ * - Stickers that a user can draw on top of an image.
+ */
+
+/**
+ * Key terms:
+ * - Composition -> a description of the UI built Jetpack Compose when it executes composables.
+ * - Initial composition -> creation of a Composition by running composables the first time.
+ * - Recomposition -> re-running composables to update the Composition when data changes.
+ */
